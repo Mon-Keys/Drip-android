@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/nav_graph"
+        app:startDestination="@id/mainFragment">
+
+    <fragment
+            android:id="@+id/mainFragment"
+            android:name="com.drip.dripapplication.view.MainFragment"
+            android:label="main_fragment"
+            tools:layout="@layout/main_fragment" />
+    <fragment
+            android:id="@+id/likesFragment"
+            android:name="com.drip.dripapplication.view.LikesFragment"
+            android:label="likes_fragment"
+            tools:layout="@layout/likes_fragment" />
+    <fragment
+            android:id="@+id/messagesFragment"
+            android:name="com.drip.dripapplication.view.MessagesFragment"
+            android:label="messages_fragment"
+            tools:layout="@layout/messages_fragment" />
+    <fragment
+            android:id="@+id/profileFragment"
+            android:name="com.drip.dripapplication.view.ProfileFragment"
+            android:label="profile_fragment"
+            tools:layout="@layout/profile_fragment" />
+</navigation>
