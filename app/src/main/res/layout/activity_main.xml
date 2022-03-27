@@ -28,6 +28,7 @@
             android:id="@+id/bottom_nav"
             style="@style/Widget.App.BottomNavigationView"
             app:labelVisibilityMode="unlabeled"
+            app:itemIconTint="@color/white"
             app:menu="@menu/bottom_nav_menu"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

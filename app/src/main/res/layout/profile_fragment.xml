@@ -3,11 +3,15 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".presentation.profile.ProfileFragment">
+        tools:context=".presentation.profile.ProfileFragment"
+        android:background="@drawable/gradient_background">
 
     <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="50sp"
+            android:textColor="@color/white"
             android:text="Profile" />
 
 </FrameLayout>
