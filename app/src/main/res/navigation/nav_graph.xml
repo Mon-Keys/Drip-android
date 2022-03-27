@@ -7,22 +7,22 @@
 
     <fragment
             android:id="@+id/mainFragment"
-            android:name="com.drip.dripapplication.view.MainFragment"
+            android:name="com.drip.dripapplication.presentation.feed.MainFragment"
             android:label="main_fragment"
             tools:layout="@layout/main_fragment" />
     <fragment
             android:id="@+id/likesFragment"
-            android:name="com.drip.dripapplication.view.LikesFragment"
+            android:name="com.drip.dripapplication.presentation.likes.LikesFragment"
             android:label="likes_fragment"
             tools:layout="@layout/likes_fragment" />
     <fragment
             android:id="@+id/messagesFragment"
-            android:name="com.drip.dripapplication.view.MessagesFragment"
+            android:name="com.drip.dripapplication.presentation.chats.MessagesFragment"
             android:label="messages_fragment"
             tools:layout="@layout/messages_fragment" />
     <fragment
             android:id="@+id/profileFragment"
-            android:name="com.drip.dripapplication.view.ProfileFragment"
+            android:name="com.drip.dripapplication.presentation.profile.ProfileFragment"
             android:label="profile_fragment"
             tools:layout="@layout/profile_fragment" />
 </navigation>
