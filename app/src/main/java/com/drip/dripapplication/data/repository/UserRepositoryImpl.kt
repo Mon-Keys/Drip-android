@@ -7,9 +7,8 @@ import com.drip.dripapplication.domain.repository.UserRepository
 class UserRepositoryImpl(
     private val api: DripApi
     // private val dao: UserDao
-): UserRepository {
+) : UserRepository {
     override fun getUser(): User {
         TODO("Not yet implemented")
     }
-
 }

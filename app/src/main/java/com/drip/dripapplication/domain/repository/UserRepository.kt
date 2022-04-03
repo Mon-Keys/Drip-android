@@ -4,5 +4,4 @@ import com.drip.dripapplication.domain.model.User
 
 interface UserRepository {
     fun getUser(): User
-
 }
