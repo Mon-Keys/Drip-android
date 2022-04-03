@@ -13,10 +13,12 @@ class AppContainer {
     // its dependencies as you did before
 
     private val okhttpClient = OkHttpClient.Builder()
-        .addInterceptor(HttpLoggingInterceptor{
-            Timber.tag("Network").d(it)
-        }
-            .setLevel(HttpLoggingInterceptor.Level.BODY))
+        .addInterceptor(
+            HttpLoggingInterceptor {
+                Timber.tag("Network").d(it)
+            }
+                .setLevel(HttpLoggingInterceptor.Level.BODY)
+        )
         .build()
 
     private val retrofit = Retrofit.Builder()
@@ -24,7 +26,6 @@ class AppContainer {
         .client(okhttpClient)
         .build()
         .create(DripApi::class.java)
-
 
     // userRepository is not private; it'll be exposed
     val userRepository = UserRepositoryImpl(retrofit)
