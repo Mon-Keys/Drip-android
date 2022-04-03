@@ -13,7 +13,7 @@ class AppContainer {
     // its dependencies as you did before
 
     private val okhttpClient = OkHttpClient.Builder()
-        .addInterceptor (HttpLoggingInterceptor{
+        .addInterceptor(HttpLoggingInterceptor{
             Timber.tag("Network").d(it)
         }
             .setLevel(HttpLoggingInterceptor.Level.BODY))
