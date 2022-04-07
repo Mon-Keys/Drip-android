@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".presentation.profile.SignupFragment"
+        android:background="@drawable/gradient_background">
+
+    <TextView
+            android:id="@+id/SignupText"
+            android:layout_gravity="center"
+            android:fontFamily="@font/futura_bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="50sp"
+            android:layout_marginTop="30dp"
+            android:textColor="@color/white"
+            android:text="@string/signup" />
+
+    <EditText
+            android:id="@+id/Email"
+            android:fontFamily="@font/futura_bold"
+            android:autofillHints="emailAddress"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:ems="10"
+            android:hint="@string/email"
+            android:inputType="textEmailAddress" />
+
+    <EditText
+            android:id="@+id/Password"
+            android:fontFamily="@font/futura_bold"
+            android:autofillHints="password"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:ems="10"
+            android:hint="@string/password"
+            android:inputType="numberPassword" />
+
+    <EditText
+            android:id="@+id/RepeatPassword"
+            android:fontFamily="@font/futura_bold"
+            android:autofillHints="password"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:ems="10"
+            android:hint="@string/repeat_password"
+            android:inputType="numberPassword" />
+
+    <Button
+            android:id="@+id/SignupButton"
+            android:fontFamily="@font/futura_bold"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            android:hint="@string/signup" />
+
+    <Button
+            android:id="@+id/Login"
+            android:fontFamily="@font/futura_bold"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:hint="@string/login" />
+
+</LinearLayout>

@@ -8,13 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import com.drip.dripapplication.R
 
-class ProfileFragment : Fragment() {
+class LoginFragment : Fragment() {
 
     companion object {
-        fun newInstance() = SignupFragment()
+        fun newInstance() = LoginFragment()
     }
 
-    private lateinit var viewModel: SignupViewModel
+    private lateinit var viewModel: LoginViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -25,7 +25,7 @@ class ProfileFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(SignupViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
         // TODO: Use the ViewModel
     }
 
