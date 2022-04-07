@@ -20,7 +20,7 @@ class ProfileEditFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.profileEdit_fragment, container, false)
+        return inflater.inflate(R.layout.profile_edit_fragment, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
