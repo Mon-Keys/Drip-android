@@ -25,4 +25,10 @@
             android:name="com.drip.dripapplication.presentation.profile.ProfileFragment"
             android:label="profile_fragment"
             tools:layout="@layout/profile_fragment" />
+    <fragment
+            android:id="@+id/profileEditFragment"
+            android:name="com.drip.dripapplication.presentation.profileEdit.ProfileEditFragment"
+            android:label="profileEdit_fragment"
+            tools:layout="@layout/profileEdit_fragment" />
+
 </navigation>
