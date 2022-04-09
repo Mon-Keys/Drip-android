@@ -3,19 +3,19 @@
     <item
             android:id="@id/mainFragment"
             android:icon="@drawable/selector_icon_main"
-            android:title="Main"/>
+            android:title="@string/main"/>
     <item
             android:id="@+id/likesFragment"
             android:icon="@drawable/selector_icon_like"
-            android:title="Likes"/>
+            android:title="@string/likes"/>
 
     <item
             android:id="@+id/messagesFragment"
             android:icon="@drawable/selector_icon_chat"
-            android:title="Messages"/>
+            android:title="@string/messages"/>
 
     <item
             android:id="@+id/profileFragment"
             android:icon="@drawable/selector_icon_account"
-            android:title="Profile"/>
+            android:title="@string/profile"/>
 </menu>

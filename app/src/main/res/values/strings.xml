@@ -5,4 +5,8 @@
     <string name="repeat_password">Повторите пароль</string>
     <string name="email">Почта</string>
     <string name="login">Вход</string>
+    <string name="main">Main</string>
+    <string name="likes">Likes</string>
+    <string name="messages">Messages</string>
+    <string name="profile">Profile</string>
 </resources>
