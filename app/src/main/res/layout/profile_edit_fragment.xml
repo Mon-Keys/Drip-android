@@ -11,10 +11,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp">
+                android:layout_marginTop="@dimen/lg"
+                android:layout_marginBottom="@dimen/md">
 
             <ImageButton
                     android:id="@+id/header_back"
@@ -31,21 +33,84 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:text="@string/settings"
                     android:textColor="@color/white"
                     android:textStyle="bold"
-                    android:textSize="36sp"/>
+                    android:textSize="@dimen/fs1"
+                    android:text="@string/settings_title"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
-        
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+            
+            <EditText
+                    android:id="@+id/name"
+                    android:layout_height="@dimen/input_height"
+                    style="@style/SettingsInput"
+                    android:paddingHorizontal="@dimen/md"
+                    android:textSize="@dimen/fs3"
+                    android:textStyle="bold"
+                    android:inputType="textPersonName"
+                    android:hint="@string/settings_name"/>
+            <EditText
+                    android:id="@+id/birthday"
+                    android:layout_height="@dimen/input_height"
+                    style="@style/SettingsInput"
+                    android:paddingHorizontal="@dimen/md"
+                    android:textSize="@dimen/fs3"
+                    android:textStyle="bold"
+                    android:inputType="date"
+                    android:hint="@string/settings_date"/>
+            <LinearLayout
+                    android:id="@+id/gender"
+                    android:layout_height="wrap_content"
+                    style="@style/SettingsInput"
+                    android:orientation="vertical">
+
+                <TextView
+                        android:id="@+id/gender_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/md"
+                        android:layout_marginTop="@dimen/md"
+                        style="@style/SettingsFieldHeaders"
+                        android:text="@string/settings_gender"/>
+
+                <RadioGroup
+                        android:id="@+id/gender_group"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                    <RadioButton
+                            android:id="@+id/gender_man"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/Tag"
+                            android:checked="true"
+                            android:text="@string/settings_gender_man" />
+
+                    <RadioButton
+                            android:id="@+id/gender_woman"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/Tag"
+                            android:text="@string/settings_gender_woman" />
+                </RadioGroup>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
     </LinearLayout>
 
     <Button
             android:layout_width="144dp"
             android:layout_height="36dp"
             android:layout_gravity="bottom|center"
-            android:text="@string/save"
-            android:background="@color/white"
-            android:layout_marginBottom="12dp"
-            />
+            android:layout_marginBottom="@dimen/md"
+            style="@style/SubmitButton"
+            android:text="@string/settings_save" />
 
 </FrameLayout>

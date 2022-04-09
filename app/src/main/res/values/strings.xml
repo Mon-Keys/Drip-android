@@ -1,6 +1,15 @@
 <resources>
     <string name="app_name">Drip Application</string>
 
-    <string name="save">Сохранить</string>
-    <string name="settings">Настройки</string>
+    <string name="settings_title">Настройки</string>
+    <string name="settings_name">Имя</string>
+    <string name="settings_date">дд.мм.гггг</string>
+    <string name="settings_gender">Ваш пол</string>
+    <string name="settings_gender_man">Мужчина</string>
+    <string name="settings_gender_woman">Женщина</string>
+    <string name="settings_partners_gender">Кого вы ищите</string>
+    <string name="settings_partners_gender_man">Мужчину</string>
+    <string name="settings_partners_gender_woman">Женщину</string>
+    <string name="settings_partners_gender_any">Все равно</string>
+    <string name="settings_save">Сохранить</string>
 </resources>
