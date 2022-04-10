@@ -26,8 +26,19 @@
         <item name="android:layout_width">@dimen/input_width</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:background">@drawable/field_background</item>
-        <item name="android:layout_marginTop">@dimen/md</item>
-        <item name="android:layout_marginBottom">@dimen/md</item>
+        <item name="android:layout_marginTop">@dimen/lg</item>
+        <item name="android:paddingStart">@dimen/md</item>
+        <item name="android:paddingEnd">@dimen/md</item>
+    </style>
+
+    <style name="SettingsInputHint">
+        <item name="android:layout_width">@dimen/input_width</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_marginTop">@dimen/xs</item>
+        <item name="android:paddingStart">@dimen/md</item>
+        <item name="android:paddingEnd">@dimen/md</item>
+        <item name="android:textSize">@dimen/fs4</item>
+        <item name="android:textColor">@color/red</item>
     </style>
 
     <style name="SettingsFieldHeaders">

@@ -15,8 +15,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/lg"
-                android:layout_marginBottom="@dimen/md">
+                android:layout_marginTop="@dimen/lg">
 
             <ImageButton
                     android:id="@+id/header_back"
@@ -40,22 +39,28 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ScrollView
+                android:id="@+id/scroll_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
             <LinearLayout
+                    android:id="@+id/fields"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:orientation="vertical">
-
                 <EditText
                         android:id="@+id/name"
                         android:layout_height="@dimen/input_height"
                         style="@style/SettingsInput"
-                        android:paddingHorizontal="@dimen/md"
                         android:textSize="@dimen/fs3"
                         android:textStyle="bold"
                         android:inputType="textPersonName"
                         android:hint="@string/settings_name"/>
+                <TextView
+                        android:id="@+id/name_hint"
+                        android:layout_height="wrap_content"
+                        style="@style/SettingsInputHint"
+                        android:visibility="visible"
+                        android:text="@string/settings_name_hint"/>
                 <EditText
                         android:id="@+id/birthday"
                         android:layout_height="@dimen/input_height"
@@ -65,6 +70,12 @@
                         android:textStyle="bold"
                         android:inputType="date"
                         android:hint="@string/settings_date"/>
+                <TextView
+                        android:id="@+id/date_hint"
+                        android:layout_height="wrap_content"
+                        style="@style/SettingsInputHint"
+                        android:visibility="visible"
+                        android:text="@string/settings_date_hint"/>
                 <LinearLayout
                         android:id="@+id/gender"
                         android:layout_height="wrap_content"
@@ -75,8 +86,7 @@
                             android:id="@+id/gender_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/md"
-                            android:layout_marginTop="@dimen/md"
+                            android:layout_marginTop="@dimen/sm"
                             style="@style/SettingsFieldHeaders"
                             android:text="@string/settings_gender"/>
 
@@ -86,7 +96,6 @@
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="@dimen/xs"
                             android:orientation="horizontal">
-
                         <RadioButton
                                 android:id="@+id/gender_man"
                                 android:layout_width="wrap_content"
@@ -94,14 +103,12 @@
                                 style="@style/Tag"
                                 android:checked="true"
                                 android:text="@string/settings_gender_man" />
-
                         <RadioButton
                                 android:id="@+id/gender_woman"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 style="@style/Tag"
                                 android:text="@string/settings_gender_woman" />
-
                         <androidx.constraintlayout.helper.widget.Flow
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -114,12 +121,18 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                 </LinearLayout>
+                <TextView
+                        android:id="@+id/gender_hint"
+                        android:layout_height="wrap_content"
+                        style="@style/SettingsInputHint"
+                        android:visibility="visible"
+                        android:text="@string/settings_gender_hint"/>
                 <EditText
                         android:id="@+id/description"
                         android:layout_height="@dimen/input_height_description"
                         style="@style/SettingsInput"
                         android:gravity="top"
-                        android:padding="@dimen/md"
+                        android:paddingTop="@dimen/sm"
                         android:textSize="@dimen/fs3"
                         android:textStyle="bold"
                         android:inputType="date"
@@ -134,8 +147,7 @@
                             android:id="@+id/interests_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/md"
-                            android:layout_marginTop="@dimen/md"
+                            android:layout_marginTop="@dimen/sm"
                             style="@style/SettingsFieldHeaders"
                             android:text="@string/settings_interests"/>
 
@@ -219,8 +231,7 @@
                             android:id="@+id/partners_gender_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/md"
-                            android:layout_marginTop="@dimen/md"
+                            android:layout_marginTop="@dimen/sm"
                             style="@style/SettingsFieldHeaders"
                             android:text="@string/settings_partners_gender"/>
 
@@ -262,12 +273,17 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                 </LinearLayout>
+                <TextView
+                        android:id="@+id/partners_gender_hint"
+                        android:layout_height="wrap_content"
+                        style="@style/SettingsInputHint"
+                        android:visibility="visible"
+                        android:text="@string/settings_partners_gender_hint"/>
                 <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/photo"
                         android:layout_height="wrap_content"
                         style="@style/SettingsInput"
                         android:paddingTop="@dimen/sm"
-                        android:paddingHorizontal="@dimen/md"
                         android:paddingBottom="@dimen/md">
                     <androidx.constraintlayout.widget.ConstraintLayout
                             android:id="@+id/photo_container1"
@@ -365,6 +381,12 @@
                             app:constraint_referenced_ids="photo_container1,photo_container2,photo_container3,photo_container4,photo_add"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
+                <TextView
+                        android:id="@+id/photo_hint"
+                        android:layout_height="wrap_content"
+                        style="@style/SettingsInputHint"
+                        android:visibility="visible"
+                        android:text="@string/settings_photo_hint"/>
                 <View
                         android:layout_width="match_parent"
                         android:layout_height="60dp"/>
