@@ -103,13 +103,6 @@ class ProfileFragment : Fragment() {
 
     }
 
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(SignupViewModel::class.java)
-        // TODO: Use the ViewModel
-    }
-
     private fun initViewPager(){
         viewPager.adapter = adapter
 
@@ -182,7 +175,7 @@ class ProfileFragment : Fragment() {
         }
     }
 
-    private fun generateTextView(context: Context, tag: String): View{
+    private fun generateTextView(context: Context, tag: String): View {
         return TextView(context).apply {
             textSize = 14f
             text = tag
@@ -190,11 +183,12 @@ class ProfileFragment : Fragment() {
                 convertDpToPixels(7).toInt(),
                 0,
                 convertDpToPixels(7).toInt(),
-                convertDpToPixels(3).toInt())
+                convertDpToPixels(3).toInt()
+            )
             setTextColor(Color.WHITE)
-            val typeFace = ResourcesCompat.getFont(context,R.font.futura_bold)
+            val typeFace = ResourcesCompat.getFont(context, R.font.futura_bold)
             typeface = typeFace
             setBackgroundResource(R.drawable.tags_form)
         }
-
+    }
 }
