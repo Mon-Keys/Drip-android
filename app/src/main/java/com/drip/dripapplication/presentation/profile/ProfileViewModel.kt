@@ -17,7 +17,7 @@ class ProfileViewModel(private val useCase: GetUserInfoUseCase) : ViewModel() {
     private val _loadingState = MutableLiveData<Boolean>()
     val loadingState: LiveData<Boolean> = _loadingState
 
-    fun getUserInfo(){
+    init {
         viewModelScope.launch {
             useCase.invoke().collect {
                 when (it){
@@ -37,4 +37,5 @@ class ProfileViewModel(private val useCase: GetUserInfoUseCase) : ViewModel() {
             }
         }
     }
+
 }
