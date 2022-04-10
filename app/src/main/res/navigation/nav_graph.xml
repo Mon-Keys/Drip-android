@@ -9,7 +9,11 @@
             android:id="@+id/mainFragment"
             android:name="com.drip.dripapplication.presentation.feed.MainFragment"
             android:label="main_fragment"
-            tools:layout="@layout/main_fragment" />
+            tools:layout="@layout/main_fragment" >
+        <action
+                android:id="@+id/action_mainFragment_to_messagesFragment"
+                app:destination="@id/messagesFragment" />
+    </fragment>
     <fragment
             android:id="@+id/likesFragment"
             android:name="com.drip.dripapplication.presentation.likes.LikesFragment"
