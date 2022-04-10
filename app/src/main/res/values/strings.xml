@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Drip Application</string>
+
     <string name="signup">Регистрация</string>
     <string name="password">Пароль</string>
     <string name="repeat_password">Повторите пароль</string>
@@ -9,4 +10,32 @@
     <string name="likes">Likes</string>
     <string name="messages">Messages</string>
     <string name="profile">Profile</string>
+
+
+    <string name="settings_title">Настройки</string>
+    <string name="settings_name">Имя</string>
+    <string name="settings_name_hint">Введите свое настоящее имя</string>
+    <string name="settings_date">дд.мм.гггг</string>
+    <string name="settings_date_hint">Вы должны быть старше 18 лет</string>
+    <string name="settings_gender">Ваш пол</string>
+    <string name="settings_gender_man">Мужчина</string>
+    <string name="settings_gender_woman">Женщина</string>
+    <string name="settings_gender_hint">Укажите свой пол</string>
+    <string name="settings_description">Расскажите о себе</string>
+    <string name="settings_interests">Интересы</string>
+    <string name="settings_interests_rock">рок</string>
+    <string name="settings_interests_anime">аниме</string>
+    <string name="settings_interests_comedy">комедии</string>
+    <string name="settings_interests_sport">спорт</string>
+    <string name="settings_interests_science">наука</string>
+    <string name="settings_interests_football">футбол</string>
+    <string name="settings_interests_rap">рэп</string>
+    <string name="settings_interests_games">игры</string>
+    <string name="settings_partners_gender">Кого вы ищите</string>
+    <string name="settings_partners_gender_man">Мужчину</string>
+    <string name="settings_partners_gender_woman">Женщину</string>
+    <string name="settings_partners_gender_any">Все равно</string>
+    <string name="settings_partners_gender_hint">Укажите свои предпочтения</string>
+    <string name="settings_photo_hint">Добавьте хотя бы 1 фотографию</string>
+    <string name="settings_save">Сохранить</string>
 </resources>

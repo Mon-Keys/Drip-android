@@ -9,7 +9,11 @@
             android:id="@+id/mainFragment"
             android:name="com.drip.dripapplication.presentation.feed.MainFragment"
             android:label="main_fragment"
-            tools:layout="@layout/main_fragment" />
+            tools:layout="@layout/main_fragment" >
+        <action
+                android:id="@+id/action_mainFragment_to_messagesFragment"
+                app:destination="@id/messagesFragment" />
+    </fragment>
     <fragment
             android:id="@+id/likesFragment"
             android:name="com.drip.dripapplication.presentation.likes.LikesFragment"
@@ -25,4 +29,10 @@
             android:name="com.drip.dripapplication.presentation.profile.SignupFragment"
             android:label="profile_fragment"
             tools:layout="@layout/profile_fragment" />
+    <fragment
+            android:id="@+id/profileEditFragment"
+            android:name="com.drip.dripapplication.presentation.profileEdit.ProfileEditFragment"
+            android:label="profileEdit_fragment"
+            tools:layout="@layout/profileEdit_fragment" />
+
 </navigation>

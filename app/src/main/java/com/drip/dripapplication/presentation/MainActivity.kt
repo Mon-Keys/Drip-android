@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import com.drip.dripapplication.App
 import com.drip.dripapplication.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
