@@ -18,6 +18,10 @@ class ProfileViewModel(private val useCase: GetUserInfoUseCase) : ViewModel() {
     val loadingState: LiveData<Boolean> = _loadingState
 
     init {
+        getUserInfo()
+    }
+
+    fun getUserInfo(){
         viewModelScope.launch {
             useCase.invoke().collect {
                 when (it){

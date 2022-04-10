@@ -2,6 +2,7 @@ package com.drip.dripapplication.presentation.profile
 
 import android.content.Context
 import android.graphics.Color
+import android.graphics.Color.blue
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.graphics.fonts.Font
@@ -12,6 +13,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.core.view.isVisible
 import androidx.core.view.setPadding
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.viewpager2.widget.ViewPager2
 import com.drip.dripapplication.App
 import com.drip.dripapplication.R
@@ -54,6 +56,7 @@ class ProfileFragment : Fragment() {
 
         viewModel = ProfileViewModel(GetUserInfoUseCase(appContainer.userRepository))
 
+
         adapter = PhotoRecycleAdapter()
 
         viewPager = binding.photo
@@ -71,6 +74,15 @@ class ProfileFragment : Fragment() {
 
         binding.buttonPrev.setOnClickListener{
             if (viewPager.currentItem > 0) viewPager.setCurrentItem(viewPager.currentItem - 1, true)
+        }
+
+
+        //Refresh
+        binding.refreshLayout.setColorSchemeResources(R.color.purple_700);
+        binding.refreshLayout.setOnRefreshListener {
+            viewModel.getUserInfo()
+            binding.tagsLayout.removeAllViewsInLayout()
+            binding.refreshLayout.isRefreshing = false
         }
 
     }

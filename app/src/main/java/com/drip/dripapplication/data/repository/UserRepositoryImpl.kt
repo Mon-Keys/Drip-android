@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
+import timber.log.Timber
 
 class UserRepositoryImpl(
     private val api: DripApi
@@ -21,14 +22,16 @@ class UserRepositoryImpl(
         delay(1000)
         try {
             val response = api.getUserInfo()
+            Timber.d("$response")
             if (response.isSuccessful && response.body()!=null){
-                val userDto = response.body()
-                val userDomain = userDto?.toDomainModel()
+                Timber.d("UserDto=${response.body()}")
+                val userDto = response.body()!!.body
+                val userDomain = userDto.toDomainModel()
                 emit(ResultWrapper.Success(userDomain))
             }else{
                 TODO("Берем данные из кэша")
             }
-//
+
 //            emit(ResultWrapper.Success(User(
 //                "Алиса",
 //                24,
