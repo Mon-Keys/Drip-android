@@ -1,6 +1,17 @@
 <resources>
     <string name="app_name">Drip Application</string>
 
+    <string name="signup">Регистрация</string>
+    <string name="password">Пароль</string>
+    <string name="repeat_password">Повторите пароль</string>
+    <string name="email">Почта</string>
+    <string name="login">Вход</string>
+    <string name="main">Main</string>
+    <string name="likes">Likes</string>
+    <string name="messages">Messages</string>
+    <string name="profile">Profile</string>
+
+
     <string name="settings_title">Настройки</string>
     <string name="settings_name">Имя</string>
     <string name="settings_name_hint">Введите свое настоящее имя</string>

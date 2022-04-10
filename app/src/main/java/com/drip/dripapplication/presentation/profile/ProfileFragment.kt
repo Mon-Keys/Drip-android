@@ -30,8 +30,9 @@ class ProfileFragment : Fragment() {
     private val binding get() = _binding!!
 
     companion object {
-        fun newInstance() = ProfileFragment()
+        fun newInstance() = SignupFragment()
     }
+
 
     //ViewModel
     private lateinit var viewModel: ProfileViewModel
@@ -100,6 +101,13 @@ class ProfileFragment : Fragment() {
         val marginInPx = convertDpToPixels(horizontalMargin)
         return (parentWidth - marginInPx - (sliderGap*(itemsCount-1)))/itemsCount
 
+    }
+
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        viewModel = ViewModelProvider(this).get(SignupViewModel::class.java)
+        // TODO: Use the ViewModel
     }
 
     private fun initViewPager(){
@@ -188,7 +196,5 @@ class ProfileFragment : Fragment() {
             typeface = typeFace
             setBackgroundResource(R.drawable.tags_form)
         }
-
-    }
 
 }

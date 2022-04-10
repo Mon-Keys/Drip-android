@@ -26,7 +26,7 @@
             tools:layout="@layout/messages_fragment" />
     <fragment
             android:id="@+id/profileFragment"
-            android:name="com.drip.dripapplication.presentation.profile.ProfileFragment"
+            android:name="com.drip.dripapplication.presentation.profile.SignupFragment"
             android:label="profile_fragment"
             tools:layout="@layout/profile_fragment" />
     <fragment

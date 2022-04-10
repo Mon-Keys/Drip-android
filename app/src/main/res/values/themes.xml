@@ -22,6 +22,11 @@
         <item name="colorOnPrimary">@color/white</item>
     </style>
 
+
+    <style name="Button.White" parent="ThemeOverlay.AppCompat">
+        <item name="colorAccent">@android:color/white</item>
+    </style>
+
     <style name="SettingsInput">
         <item name="android:layout_width">@dimen/input_width</item>
         <item name="android:layout_gravity">center</item>
@@ -67,3 +72,4 @@
         <item name="android:textAllCaps">false</item>
     </style>
 </resources>
+
