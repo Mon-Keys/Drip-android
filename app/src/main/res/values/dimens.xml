@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="fs1">36sp</dimen>
+    <dimen name="fs2">24sp</dimen>
+    <dimen name="fs3">18sp</dimen>
+    <dimen name="fs4">12sp</dimen>
+    <dimen name="fs5">8sp</dimen>
+
+    <dimen name="xs">3dp</dimen>
+    <dimen name="sm">6dp</dimen>
+    <dimen name="md">12dp</dimen>
+    <dimen name="lg">18dp</dimen>
+    <dimen name="xl">24dp</dimen>
+
+    <!--    Settings-->
+    <dimen name="input_height">36dp</dimen>
+    <dimen name="input_width">300dp</dimen>
+
+    <dimen name="input_height_description">144dp</dimen>
+
+    <dimen name="settings_photo_container">84dp</dimen>
+    <dimen name="settings_photo">72dp</dimen>
+    <dimen name="settings_photo_delete">24dp</dimen>
+    <dimen name="settings_photo_add">42dp</dimen>
+</resources>
