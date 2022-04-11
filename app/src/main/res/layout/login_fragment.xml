@@ -5,7 +5,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context=".presentation.profile.SignupFragment"
+        tools:context=".presentation.login.LoginFragment"
         android:background="@drawable/gradient_background">
 
     <TextView
@@ -32,7 +32,7 @@
             android:inputType="textEmailAddress"
             android:paddingHorizontal="20dp"
             android:paddingVertical="4dp"
-            android:background="@drawable/drip_input_trans"/>
+            android:background="@drawable/field_background"/>
 
     <EditText
             android:id="@+id/Password"
@@ -47,14 +47,14 @@
             android:inputType="numberPassword"
             android:paddingHorizontal="20dp"
             android:paddingVertical="4dp"
-            android:background="@drawable/drip_input_trans" />
+            android:background="@drawable/field_background" />
 
     <Button
             android:id="@+id/Login"
             android:layout_gravity="center"
             android:fontFamily="@font/futura_bold"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_marginTop="80dp"
             android:text="@string/login"
             android:textColor="@color/black"
@@ -66,8 +66,8 @@
             android:layout_gravity="center"
             android:fontFamily="@font/futura_bold"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="40dp"
             android:text="@string/signup"
             android:textColor="@color/white"
             app:backgroundTint="@color/black"

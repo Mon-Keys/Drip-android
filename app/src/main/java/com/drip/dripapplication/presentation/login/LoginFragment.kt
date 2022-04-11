@@ -1,4 +1,4 @@
-package com.drip.dripapplication.presentation.profile
+package com.drip.dripapplication.presentation.login
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -20,7 +20,7 @@ class LoginFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.profile_fragment, container, false)
+        return inflater.inflate(R.layout.login_fragment, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

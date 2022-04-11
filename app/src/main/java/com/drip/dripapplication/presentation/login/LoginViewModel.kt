@@ -1,4 +1,4 @@
-package com.drip.dripapplication.presentation.profile
+package com.drip.dripapplication.presentation.login
 
 import androidx.lifecycle.ViewModel
 
