@@ -19,35 +19,63 @@
             android:textColor="@color/white"
             android:text="@string/login" />
 
-    <EditText
-            android:id="@+id/Email"
-            android:fontFamily="@font/futura_bold"
-            android:autofillHints="emailAddress"
+    <LinearLayout
+            android:layout_width="240dp"
+            android:layout_height="35dp"
+            android:orientation="horizontal"
             android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            android:ems="10"
-            android:hint="@string/email"
-            android:inputType="textEmailAddress"
-            android:paddingHorizontal="20dp"
-            android:paddingVertical="4dp"
-            android:background="@drawable/field_background"/>
+            android:background="@drawable/field_background"
+            android:layout_marginTop="50dp" >
 
-    <EditText
-            android:id="@+id/Password"
-            android:fontFamily="@font/futura_bold"
-            android:autofillHints="password"
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_icon_email"
+                android:contentDescription="@string/email"
+                android:layout_gravity="center"
+                android:paddingHorizontal="10dp"/>
+
+        <EditText
+                android:id="@+id/Email"
+                android:fontFamily="@font/futura_bold"
+                android:autofillHints="emailAddress"
+                android:layout_gravity="center"
+                android:background="@null"
+                android:inputType="textEmailAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="8"
+                android:hint="@string/email"/>
+    </LinearLayout>
+
+    <LinearLayout
+            android:layout_width="240dp"
+            android:layout_height="35dp"
+            android:orientation="horizontal"
             android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            android:ems="10"
-            android:hint="@string/password"
-            android:inputType="numberPassword"
-            android:paddingHorizontal="20dp"
-            android:paddingVertical="4dp"
-            android:background="@drawable/field_background" />
+            android:background="@drawable/field_background"
+            android:layout_marginTop="50dp" >
+
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_icon_key"
+                android:contentDescription="@string/email"
+                android:layout_gravity="center"
+                android:paddingHorizontal="10dp"/>
+
+        <EditText
+                android:id="@+id/Password"
+                android:fontFamily="@font/futura_bold"
+                android:autofillHints="password"
+                android:layout_gravity="center"
+                android:background="@null"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="8"
+                android:hint="@string/password"
+                android:inputType="textPassword"/>
+    </LinearLayout>
 
     <Button
             android:id="@+id/Login"
