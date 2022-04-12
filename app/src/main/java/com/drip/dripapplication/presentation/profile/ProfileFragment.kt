@@ -30,7 +30,7 @@ class ProfileFragment : Fragment() {
     private val binding get() = _binding!!
 
     companion object {
-        fun newInstance() = SignupFragment()
+        fun newInstance() = ProfileFragment()
     }
 
 
