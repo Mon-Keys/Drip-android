@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ConstraintSet android:id="@+id/start">
+        <Constraint android:id="@+id/profileCard"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:rotation="0"/>
+        <Constraint android:id="@+id/swipeLike"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginEnd="30dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:alpha="0"
+            android:scaleX="0.2"
+            android:scaleY="0.2"/>
+        <Constraint android:id="@+id/swipePass"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="30dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:alpha="0"
+            android:scaleX="0.2"
+            android:scaleY="0.2"/>
+    </ConstraintSet>
+
+    <ConstraintSet android:id="@+id/toLike"
+        app:deriveConstraintsFrom="@+id/start">
+        <Constraint android:id="@+id/profileCard"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="200dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.9"
+            android:rotation="45"/>
+        <Constraint android:id="@+id/swipeLike"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginEnd="30dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:alpha="0"
+            android:scaleX="1"
+            android:scaleY="1"/>
+    </ConstraintSet>
+
+    <ConstraintSet android:id="@+id/toPass"
+        app:deriveConstraintsFrom="@+id/start">
+        <Constraint android:id="@+id/profileCard"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="200dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.9"
+            android:rotation="-45"/>
+        <Constraint android:id="@+id/swipePass"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="30dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:alpha="0"
+            android:scaleX="1"
+            android:scaleY="1"/>
+    </ConstraintSet>
+
+    <Transition
+        app:constraintSetEnd="@id/toLike"
+        app:constraintSetStart="@+id/start"
+        app:duration="1000">
+        <OnSwipe app:touchRegionId="@id/bottomPanel"
+            app:dragDirection="dragRight"
+            app:onTouchUp="autoComplete"/>
+        <KeyFrameSet>
+            <KeyAttribute app:motionTarget="@+id/swipeLike"
+                android:alpha="1"
+                app:framePosition="85"/>
+        </KeyFrameSet>
+    </Transition>
+
+    <Transition
+        app:constraintSetEnd="@id/toPass"
+        app:constraintSetStart="@+id/start"
+        app:duration="1000">
+        <OnSwipe app:touchRegionId="@id/bottomPanel"
+            app:dragDirection="dragLeft"
+            app:onTouchUp="autoComplete"/>
+        <KeyFrameSet>
+            <KeyAttribute app:motionTarget="@+id/swipePass"
+                android:alpha="1"
+                app:framePosition="85"/>
+        </KeyFrameSet>
+    </Transition>
+</MotionScene>
