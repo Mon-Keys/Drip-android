@@ -22,6 +22,7 @@ import com.drip.dripapplication.domain.model.User
 import com.drip.dripapplication.domain.use_case.GetUserInfoUseCase
 import com.google.android.flexbox.FlexboxLayout
 import com.google.android.flexbox.FlexboxLayoutManager
+import timber.log.Timber
 
 class ProfileFragment : Fragment() {
 
@@ -85,6 +86,11 @@ class ProfileFragment : Fragment() {
             binding.refreshLayout.isRefreshing = false
         }
 
+//        //MaxWidth
+//        binding.description.maxHeight = binding.descrAndTags.height/2
+//        Timber.d("layoutHeight = ${binding.descrAndTags.height}, " +
+//                "heightText = ${binding.description.maxHeight}")
+
     }
 
     override fun onDestroyView() {
@@ -138,7 +144,6 @@ class ProfileFragment : Fragment() {
 
                 insertDataIntoTextView(it)
 
-
             }
         })
     }
@@ -164,6 +169,8 @@ class ProfileFragment : Fragment() {
         val nameWithComma = "${user.name},"
         binding.name.text = nameWithComma
 
+
+
         binding.age.text = user.age.toString()
         binding.description.text = user.description
 
@@ -172,6 +179,7 @@ class ProfileFragment : Fragment() {
             val view = generateTextView(binding.root.context, i)
             binding.tagsLayout.addView(view)
         }
+
     }
 
     private fun generateTextView(context: Context, tag: String): View{
