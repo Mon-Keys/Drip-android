@@ -131,13 +131,13 @@ class ProfileFragment : Fragment() {
     }
 
     private fun initObservers(){
-        viewModel.loadingState.observe(viewLifecycleOwner,{
+        viewModel.loadingState.observe(viewLifecycleOwner) {
             binding.loading.isVisible = it
             binding.profileCard.isVisible = !it
-        })
+        }
 
-        viewModel.userInfo.observe(viewLifecycleOwner,{
-            if (it !=null) {
+        viewModel.userInfo.observe(viewLifecycleOwner) {
+            if (it != null) {
 
                 adapter.userPhoto = it.images
 
@@ -146,7 +146,7 @@ class ProfileFragment : Fragment() {
                 insertDataIntoTextView(it)
 
             }
-        })
+        }
     }
 
     private fun setupSlider(numberOfItems: Int, viewPagerWidth: Int){

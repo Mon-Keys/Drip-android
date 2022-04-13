@@ -19,9 +19,12 @@ import androidx.core.view.isVisible
 import androidx.viewpager2.widget.ViewPager2
 import com.drip.dripapplication.R
 import com.drip.dripapplication.databinding.FeedFragmentBinding
+import com.drip.dripapplication.databinding.PhotoItemBinding
 import com.drip.dripapplication.databinding.ProfileFragmentBinding
 import com.drip.dripapplication.domain.model.User
 import com.drip.dripapplication.presentation.profile.PhotoRecycleAdapter
+import kotlinx.coroutines.NonDisposableHandle.parent
+import timber.log.Timber
 
 class FeedFragment : Fragment() {
 
@@ -72,6 +75,8 @@ class FeedFragment : Fragment() {
 
         viewPager = binding.photo
 
+        viewModel = FeedViewModel()
+
         binding.viewPagerIndicator.setupWithViewPager(viewPager)
 
         initViewPager()
@@ -89,12 +94,15 @@ class FeedFragment : Fragment() {
 
         //Animations
         binding.mainLayout.setTransitionListener(object : TransitionAdapter(){
-            override fun onTransitionCompleted(motionLayout: MotionLayout?, currentId: Int) {
+            override fun onTransitionCompleted(motionLayout: MotionLayout, currentId: Int) {
                 when (currentId) {
                     R.id.toPass,
                     R.id.toLike -> {
-                        insertDataIntoTextView(user)
+                        motionLayout.progress = 0f
+                        motionLayout.transitionToStart()
                         viewPager.setCurrentItem(0, false)
+                        viewModel.swipe()
+
                     }
                 }
             }
@@ -149,6 +157,7 @@ class FeedFragment : Fragment() {
             if (progress == 1f) reverse()
             else start()
         }
+
     }
 
     //Converter dp to pixels
@@ -183,7 +192,14 @@ class FeedFragment : Fragment() {
     }
 
     private fun initObservers(){
-        insertDataIntoTextView(user)
+        viewModel.userInfo.observe(viewLifecycleOwner) {
+            if (it!=null) {
+                adapter.userPhoto = it.images
+
+                insertDataIntoTextView(it)
+            }
+        }
+
     }
 
     private fun setupSlider(numberOfItems: Int, viewPagerWidth: Int){

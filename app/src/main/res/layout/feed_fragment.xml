@@ -32,7 +32,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:motionDebug="SHOW_ALL">
+            app:motionDebug="SHOW_ALL"
+            android:background="@drawable/mate_background">
 
         <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/photo"
@@ -124,7 +125,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/name"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintBottom_toTopOf="@+id/bottomButtons"
                     android:alpha="0">
 
                 <LinearLayout

@@ -54,4 +54,9 @@ class UserRepositoryImpl(
         }
     }
         .flowOn(Dispatchers.IO)
+
+    override fun getFeed(): Flow<ResultWrapper<List<User>>> = flow{
+        emit(ResultWrapper.Loading)
+        delay(1000)
+    }
 }

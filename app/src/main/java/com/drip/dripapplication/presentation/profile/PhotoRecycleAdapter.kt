@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.CenterInside
+import com.bumptech.glide.load.resource.bitmap.FitCenter
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.drip.dripapplication.databinding.PhotoItemBinding
 
@@ -25,10 +27,8 @@ class PhotoRecycleAdapter : RecyclerView.Adapter<PhotoRecycleAdapter.ViewHolder>
     inner class ViewHolder(private val itemBinding: PhotoItemBinding) : RecyclerView.ViewHolder(itemBinding.root){
         fun bind(photo: String){
             //Glide
-            println(photo)
             Glide.with(itemView)
                 .load(photo)
-                .transform(CenterCrop(), RoundedCorners(90))
                 .into(itemBinding.profilePhoto)
         }
     }
@@ -42,7 +42,6 @@ class PhotoRecycleAdapter : RecyclerView.Adapter<PhotoRecycleAdapter.ViewHolder>
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        println("onBindViewHolder")
         val photo = userPhoto[position]
         holder.bind(photo)
     }

@@ -2,13 +2,6 @@
 <MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:motion="http://schemas.android.com/tools">
-<!--    <Transition-->
-<!--        app:constraintSetEnd="@layout/motion_profile_end"-->
-<!--        app:constraintSetStart="@layout/motion_profile_start"-->
-<!--        app:duration="4000">-->
-<!--        <OnClick app:clickAction="jumpToEnd"-->
-<!--            app:targetId="@+id/razvernut"/>-->
-<!--    </Transition>-->
 
     <ConstraintSet android:id="@+id/start">
         <Constraint android:id="@+id/bottomPanel"
@@ -17,7 +10,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintHeight_percent="0.25" />
+            app:layout_constraintHeight_percent="0.25">
+        </Constraint>
         <Constraint android:id="@+id/photo"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -49,9 +43,6 @@
         app:constraintSetStart="@id/start"
         app:constraintSetEnd="@id/end"
         app:duration="1000">
-
-<!--        <OnClick app:targetId="@+id/razvernut"-->
-<!--            app:clickAction="transitionToEnd"/>-->
 
     </Transition>
 </MotionScene>
