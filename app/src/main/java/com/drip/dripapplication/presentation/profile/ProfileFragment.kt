@@ -117,10 +117,24 @@ class ProfileFragment : Fragment() {
 
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
-                when (position) {
-                    0 -> binding.buttonPrev.visibility = View.INVISIBLE
-                    adapter.itemCount - 1 -> binding.buttonNext.visibility = View.INVISIBLE
+                Timber.d("position = $position")
+                when  {
+                    adapter.itemCount == 1 -> {
+                        Timber.d("itemCount == 1")
+                        binding.buttonPrev.visibility = View.INVISIBLE
+                        binding.buttonNext.visibility = View.INVISIBLE
+                    }
+                    position == 0 -> {
+                        Timber.d("postion == 0")
+                        binding.buttonPrev.visibility = View.INVISIBLE
+                        binding.buttonNext.visibility = View.VISIBLE
+                    }
+                    position == adapter.itemCount - 1 ->{
+                        binding.buttonPrev.visibility = View.VISIBLE
+                        binding.buttonNext.visibility = View.INVISIBLE
+                    }
                     else -> {
+                        Timber.d("Почему-то здесь")
                         binding.buttonNext.visibility = View.VISIBLE
                         binding.buttonPrev.visibility = View.VISIBLE
                     }
@@ -144,6 +158,8 @@ class ProfileFragment : Fragment() {
                 setupSlider(adapter.itemCount, viewPager.width)
 
                 insertDataIntoTextView(it)
+
+                viewPager.setCurrentItem(0,false)
 
             }
         }
