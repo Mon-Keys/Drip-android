@@ -3,87 +3,78 @@ package com.drip.dripapplication.presentation.feed
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.drip.dripapplication.data.utils.ResultWrapper
 import com.drip.dripapplication.domain.model.User
+import com.drip.dripapplication.domain.use_case.GetFeedUseCase
+import com.drip.dripapplication.domain.use_case.SetReactionUseCase
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
+import timber.log.Timber
 
-class FeedViewModel : ViewModel() {
-    private val _userInfo = MutableLiveData<User?>()
-    val userInfo: LiveData<User?> = _userInfo
+class FeedViewModel(
+    private val useCaseFeed: GetFeedUseCase,
+    private val useCaseReaction: SetReactionUseCase
+) : ViewModel() {
+    private val _userInfo = MutableLiveData<User>()
+    val userInfo: LiveData<User> = _userInfo
 
-    private val users = listOf(
-        User(
-        "Алиса",
-        24,
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ",
-        listOf(
-            "https://www.gstatic.com/webp/gallery/1.webp",
-            "https://t3.ftcdn.net/jpg/04/64/39/50/240_F_464395072_dodQ5vK3ynIPDbD9nG82clMWJL4zUfMa.jpg",
-            "https://t4.ftcdn.net/jpg/04/72/09/53/240_F_472095328_nNAedzTl57kxTyzs0wGrkvu3R2MQlvSq.jpg",
-            "https://t3.ftcdn.net/jpg/04/64/85/42/240_F_464854295_GCNWjI5hPGj8hkWk7Ix8lO0xCSeo2jMc.jpg",
-            "https://t3.ftcdn.net/jpg/04/64/62/34/240_F_464623498_GteYUp2YtOWCBBoIdUuEBe44Cu4HHZSN.jpg",
-            "https://t3.ftcdn.net/jpg/04/64/52/06/240_F_464520694_HsFdx2BWUrKRFOdxyM1ATk5wvbqeHttR.jpg",
-            "https://t4.ftcdn.net/jpg/04/65/40/27/240_F_465402775_ltrRik2AqHgmHz4JgIAHTFFJqWnlRN5F.jpg",
-            "https://t4.ftcdn.net/jpg/04/69/33/37/240_F_469333729_ohdQnuuAehaGlhWQD1zh4i3MNQb9QMFz.jpg"
-        ),
-        listOf("Учеба","Работа", "Отдых","Друзья","Кино","Путешествия","Книги")
-    ),
-        User(
-            "Вера",
-            20,
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ",
-            listOf(
-                "https://t3.ftcdn.net/jpg/04/64/39/50/240_F_464395072_dodQ5vK3ynIPDbD9nG82clMWJL4zUfMa.jpg",
-                "https://t4.ftcdn.net/jpg/04/72/09/53/240_F_472095328_nNAedzTl57kxTyzs0wGrkvu3R2MQlvSq.jpg",
-                "https://t3.ftcdn.net/jpg/04/64/85/42/240_F_464854295_GCNWjI5hPGj8hkWk7Ix8lO0xCSeo2jMc.jpg",
-                "https://t3.ftcdn.net/jpg/04/64/62/34/240_F_464623498_GteYUp2YtOWCBBoIdUuEBe44Cu4HHZSN.jpg",
-                "https://t3.ftcdn.net/jpg/04/64/52/06/240_F_464520694_HsFdx2BWUrKRFOdxyM1ATk5wvbqeHttR.jpg",
-                "https://t4.ftcdn.net/jpg/04/65/40/27/240_F_465402775_ltrRik2AqHgmHz4JgIAHTFFJqWnlRN5F.jpg",
-                "https://t4.ftcdn.net/jpg/04/69/33/37/240_F_469333729_ohdQnuuAehaGlhWQD1zh4i3MNQb9QMFz.jpg"
-            ),
-            listOf("Учеба","Работа", "Отдых","Друзья","Кино","Путешествия","Книги")
-        ),
-        User(
-            "Саша",
-            19,
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ",
-            listOf(
-                "https://t3.ftcdn.net/jpg/04/64/39/50/240_F_464395072_dodQ5vK3ynIPDbD9nG82clMWJL4zUfMa.jpg",
-                "https://t4.ftcdn.net/jpg/04/72/09/53/240_F_472095328_nNAedzTl57kxTyzs0wGrkvu3R2MQlvSq.jpg",
-                "https://t3.ftcdn.net/jpg/04/64/85/42/240_F_464854295_GCNWjI5hPGj8hkWk7Ix8lO0xCSeo2jMc.jpg",
-                "https://t3.ftcdn.net/jpg/04/64/62/34/240_F_464623498_GteYUp2YtOWCBBoIdUuEBe44Cu4HHZSN.jpg",
-                "https://t3.ftcdn.net/jpg/04/64/52/06/240_F_464520694_HsFdx2BWUrKRFOdxyM1ATk5wvbqeHttR.jpg",
-                "https://t4.ftcdn.net/jpg/04/65/40/27/240_F_465402775_ltrRik2AqHgmHz4JgIAHTFFJqWnlRN5F.jpg",
-                "https://t4.ftcdn.net/jpg/04/69/33/37/240_F_469333729_ohdQnuuAehaGlhWQD1zh4i3MNQb9QMFz.jpg"
-            ),
-            listOf("Учеба","Работа", "Отдых","Друзья","Кино","Путешествия","Книги")
-        ),
-        User(
-            "Катя",
-            32,
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ",
-            listOf(
-                "https://t3.ftcdn.net/jpg/04/64/39/50/240_F_464395072_dodQ5vK3ynIPDbD9nG82clMWJL4zUfMa.jpg",
-                "https://t4.ftcdn.net/jpg/04/72/09/53/240_F_472095328_nNAedzTl57kxTyzs0wGrkvu3R2MQlvSq.jpg",
-                "https://t3.ftcdn.net/jpg/04/64/85/42/240_F_464854295_GCNWjI5hPGj8hkWk7Ix8lO0xCSeo2jMc.jpg",
-                "https://t3.ftcdn.net/jpg/04/64/62/34/240_F_464623498_GteYUp2YtOWCBBoIdUuEBe44Cu4HHZSN.jpg",
-                "https://t3.ftcdn.net/jpg/04/64/52/06/240_F_464520694_HsFdx2BWUrKRFOdxyM1ATk5wvbqeHttR.jpg",
-                "https://t4.ftcdn.net/jpg/04/65/40/27/240_F_465402775_ltrRik2AqHgmHz4JgIAHTFFJqWnlRN5F.jpg",
-                "https://t4.ftcdn.net/jpg/04/69/33/37/240_F_469333729_ohdQnuuAehaGlhWQD1zh4i3MNQb9QMFz.jpg"
-            ),
-            listOf("Учеба","Работа", "Отдых","Друзья","Кино","Путешествия","Книги")
-        )
-    )
     private var currentIndex = 0
 
+    private val users = mutableListOf<User>()
+
     init {
-        getUserInfo()
+        getUsers()
     }
 
-    fun getUserInfo(){
-        _userInfo.value = users[currentIndex]
+    private fun getUsers(){
+        viewModelScope.launch {
+            useCaseFeed.execute().collect {
+                when (it){
+                    is ResultWrapper.Loading -> {
+                        Timber.d("Идет загрузка")
+                    }
+                    is ResultWrapper.Error -> {
+                        println(it.exception)
+                    }
+                    is ResultWrapper.Success -> {
+                        Timber.d("Дошли сюда")
+                        if (it.data == null){
+                            TODO("Дошли до конца списка, нужно выполнить снова запрос к api," +
+                                    "если не получится, то сделать перерыв")
+                        }else{
+                            users.addAll(it.data)
+                            getOneUser()
+                        }
+                    }
+                }
+            }
+        }
     }
 
-    fun swipe(){
-        println(currentIndex)
+    private fun getOneUser(){
+        Timber.d("lastindex = ${users.lastIndex}, currentIndex = $currentIndex")
+        if (users.isEmpty()){
+            getUsers()
+        }else if (users.isNotEmpty() && currentIndex == users.lastIndex){
+            getUsers()
+            currentIndex += 1
+        }else{
+            _userInfo.value = users[currentIndex]
+        }
+    }
+
+    fun swipe(userId: Long, reaction:Int){
         currentIndex += 1
+        viewModelScope.launch {
+            useCaseReaction.execute(userId, reaction)
+        }
+        getOneUser()
+
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        Timber.d("onCleared")
     }
 }

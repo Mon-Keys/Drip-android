@@ -31,8 +31,6 @@ class PhotoRecycleAdapter : RecyclerView.Adapter<PhotoRecycleAdapter.ViewHolder>
             //Glide
             Glide.with(itemView)
                 .load("https://drip.monkeys.team/$photo")
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .skipMemoryCache(true)
                 .into(itemBinding.profilePhoto)
         }
     }

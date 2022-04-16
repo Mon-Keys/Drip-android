@@ -1,6 +1,7 @@
 package com.drip.dripapplication
 
 import com.drip.dripapplication.data.remote.DripApi
+import com.drip.dripapplication.data.repository.LikeRepositoryImpl
 import com.drip.dripapplication.data.repository.UserRepositoryImpl
 import com.drip.dripapplication.data.utils.AddTokenHeaderInterceptor
 import okhttp3.OkHttpClient
@@ -33,5 +34,6 @@ class AppContainer {
 
     // userRepository is not private; it'll be exposed
     val userRepository = UserRepositoryImpl(retrofit)
+    val likeRepository = LikeRepositoryImpl(retrofit)
 
 }

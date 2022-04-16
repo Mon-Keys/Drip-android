@@ -16,36 +16,27 @@ import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.constraintlayout.motion.widget.TransitionAdapter
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
+import com.drip.dripapplication.App
 import com.drip.dripapplication.R
 import com.drip.dripapplication.databinding.FeedFragmentBinding
 import com.drip.dripapplication.databinding.PhotoItemBinding
 import com.drip.dripapplication.databinding.ProfileFragmentBinding
 import com.drip.dripapplication.domain.model.User
+import com.drip.dripapplication.domain.use_case.GetFeedUseCase
+import com.drip.dripapplication.domain.use_case.GetUserInfoUseCase
+import com.drip.dripapplication.domain.use_case.SetReactionUseCase
 import com.drip.dripapplication.presentation.profile.PhotoRecycleAdapter
+import com.drip.dripapplication.presentation.profile.ProfileViewModel
 import kotlinx.coroutines.NonDisposableHandle.parent
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 class FeedFragment : Fragment() {
 
     companion object {
         fun newInstance() = FeedFragment()
-        val user = User(
-        "Алиса",
-        24,
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. "+
-        "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum",
-        listOf(
-        "https://t3.ftcdn.net/jpg/04/64/39/50/240_F_464395072_dodQ5vK3ynIPDbD9nG82clMWJL4zUfMa.jpg",
-        "https://t4.ftcdn.net/jpg/04/72/09/53/240_F_472095328_nNAedzTl57kxTyzs0wGrkvu3R2MQlvSq.jpg",
-        "https://t3.ftcdn.net/jpg/04/64/85/42/240_F_464854295_GCNWjI5hPGj8hkWk7Ix8lO0xCSeo2jMc.jpg",
-        "https://t3.ftcdn.net/jpg/04/64/62/34/240_F_464623498_GteYUp2YtOWCBBoIdUuEBe44Cu4HHZSN.jpg",
-        "https://t3.ftcdn.net/jpg/04/64/52/06/240_F_464520694_HsFdx2BWUrKRFOdxyM1ATk5wvbqeHttR.jpg",
-        "https://t4.ftcdn.net/jpg/04/65/40/27/240_F_465402775_ltrRik2AqHgmHz4JgIAHTFFJqWnlRN5F.jpg",
-        "https://t4.ftcdn.net/jpg/04/69/33/37/240_F_469333729_ohdQnuuAehaGlhWQD1zh4i3MNQb9QMFz.jpg"
-        ),
-        listOf("Учеба","Работа", "Отдых","Друзья","Кино","Путешествия","Книги","Сериалы","Учеба","Работа", "Отдых","Друзья","Кино","Путешествия","Книги","Сериалы","Учеба","Работа", "Отдых","Друзья","Кино","Путешествия","Книги","Сериалы","Учеба","Работа", "Отдых","Друзья","Кино","Путешествия","Книги","Сериалы")
-        )
     }
 
     //ViewBinding
@@ -75,7 +66,9 @@ class FeedFragment : Fragment() {
 
         viewPager = binding.photo
 
-        viewModel = FeedViewModel()
+        val appContainer = (activity?.application as App).appContainer
+
+        viewModel = FeedViewModel(GetFeedUseCase(appContainer.userRepository), SetReactionUseCase(appContainer.likeRepository))
 
         binding.viewPagerIndicator.setupWithViewPager(viewPager)
 
@@ -96,13 +89,15 @@ class FeedFragment : Fragment() {
         binding.mainLayout.setTransitionListener(object : TransitionAdapter(){
             override fun onTransitionCompleted(motionLayout: MotionLayout, currentId: Int) {
                 when (currentId) {
-                    R.id.toPass,
+                    R.id.toPass-> {
+                        motionLayout.progress = 0f
+                        motionLayout.transitionToStart()
+                        viewModel.userInfo.value?.let { viewModel.swipe(it.id, 0) }
+                    }
                     R.id.toLike -> {
                         motionLayout.progress = 0f
                         motionLayout.transitionToStart()
-                        viewPager.setCurrentItem(0, false)
-                        viewModel.swipe()
-
+                        viewModel.userInfo.value?.let { viewModel.swipe(it.id, 1) }
                     }
                 }
             }
@@ -175,9 +170,9 @@ class FeedFragment : Fragment() {
 
         //ViewPager page listener
         viewPager.registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback() {
-
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
+                Timber.d("onPageSelected = $position")
                 when (position) {
                     0 -> binding.buttonPrev.visibility = View.INVISIBLE
                     adapter.itemCount - 1 -> binding.buttonNext.visibility = View.INVISIBLE
@@ -187,16 +182,31 @@ class FeedFragment : Fragment() {
                     }
                 }
             }
+
+
         })
 
     }
 
+
     private fun initObservers(){
         viewModel.userInfo.observe(viewLifecycleOwner) {
             if (it!=null) {
+                Timber.d("user=$it")
+                binding.tagsLayout.removeAllViewsInLayout()
+
                 adapter.userPhoto = it.images
 
+                setupSlider(adapter.itemCount, viewPager.width)
+
                 insertDataIntoTextView(it)
+
+                viewPager.setCurrentItem(0, false)
+
+                Timber.d("initobservers = ${viewPager.currentItem}")
+
+
+                //viewPager.postDelayed({ viewPager.setCurrentItem(0, false) }, 100)
             }
         }
 
@@ -233,6 +243,7 @@ class FeedFragment : Fragment() {
             val view = generateTextView(binding.root.context, i)
             binding.tagsLayout.addView(view)
         }
+
 
     }
 

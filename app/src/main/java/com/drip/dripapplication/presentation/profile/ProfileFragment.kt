@@ -54,6 +54,7 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         val appContainer = (activity?.application as App).appContainer
 
         viewModel = ProfileViewModel(GetUserInfoUseCase(appContainer.userRepository))
@@ -117,15 +118,12 @@ class ProfileFragment : Fragment() {
 
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
-                Timber.d("position = $position")
                 when  {
                     adapter.itemCount == 1 -> {
-                        Timber.d("itemCount == 1")
                         binding.buttonPrev.visibility = View.INVISIBLE
                         binding.buttonNext.visibility = View.INVISIBLE
                     }
                     position == 0 -> {
-                        Timber.d("postion == 0")
                         binding.buttonPrev.visibility = View.INVISIBLE
                         binding.buttonNext.visibility = View.VISIBLE
                     }
@@ -134,7 +132,6 @@ class ProfileFragment : Fragment() {
                         binding.buttonNext.visibility = View.INVISIBLE
                     }
                     else -> {
-                        Timber.d("Почему-то здесь")
                         binding.buttonNext.visibility = View.VISIBLE
                         binding.buttonPrev.visibility = View.VISIBLE
                     }
@@ -152,7 +149,7 @@ class ProfileFragment : Fragment() {
 
         viewModel.userInfo.observe(viewLifecycleOwner) {
             if (it != null) {
-
+                Timber.d("user=$it")
                 adapter.userPhoto = it.images
 
                 setupSlider(adapter.itemCount, viewPager.width)
@@ -192,10 +189,13 @@ class ProfileFragment : Fragment() {
         binding.description.text = user.description
 
         //Tags
-        for (i in user.tags) {
-            val view = generateTextView(binding.root.context, i)
-            binding.tagsLayout.addView(view)
+        if (user.tags != null){
+            for (i in user.tags) {
+                val view = generateTextView(binding.root.context, i)
+                binding.tagsLayout.addView(view)
+            }
         }
+
 
     }
 

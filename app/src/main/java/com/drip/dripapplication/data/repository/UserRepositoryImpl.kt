@@ -26,7 +26,7 @@ class UserRepositoryImpl(
             if (response.isSuccessful && response.body()!=null){
                 Timber.d("UserDto=${response.body()}")
                 val userDto = response.body()!!.body
-                val userDomain = userDto.toDomainModel()
+                val userDomain = userDto?.toDomainModel()
                 emit(ResultWrapper.Success(userDomain))
             }else{
                 TODO("Берем данные из кэша")
@@ -55,8 +55,23 @@ class UserRepositoryImpl(
     }
         .flowOn(Dispatchers.IO)
 
-    override fun getFeed(): Flow<ResultWrapper<List<User>>> = flow{
+    override fun getFeed(): Flow<ResultWrapper<List<User>?>> = flow{
         emit(ResultWrapper.Loading)
         delay(1000)
-    }
+        try {
+            val response = api.getUsers()
+            if (response.status == 200 && response.body != null){
+                val usersDto = response.body.Users
+                val userDomain = usersDto?.map{
+                    it.toDomainModel()
+                }
+                Timber.d("users = ${userDomain}")
+                emit(ResultWrapper.Success(userDomain))
+            }else{
+                TODO("Берем данные из кэша")
+            }
+        }catch (e: Exception){
+            emit(ResultWrapper.Error(e))
+        }
+    }.flowOn(Dispatchers.IO)
 }

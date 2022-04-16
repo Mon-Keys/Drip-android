@@ -10,10 +10,10 @@ data class UserDto(
     val id: Long,
     val name: String,
     val age: Int,
-    val description: String,
+    val description: String?,
     @Json(name = "imgs")
     val images: List<String>,
-    val tags: List<String>
+    val tags: List<String>?
 ){
-    fun toDomainModel() = User(name, age, description, images, tags)
+    fun toDomainModel() = User(id, name, age, description ?: "", images, tags ?: emptyList())
 }
