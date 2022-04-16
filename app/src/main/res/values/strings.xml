@@ -38,4 +38,5 @@
     <string name="settings_partners_gender_hint">Укажите свои предпочтения</string>
     <string name="settings_photo_hint">Добавьте хотя бы 1 фотографию</string>
     <string name="settings_save">Сохранить</string>
+    <string name="example_email">Введите почту в формате example@drip.com</string>
 </resources>

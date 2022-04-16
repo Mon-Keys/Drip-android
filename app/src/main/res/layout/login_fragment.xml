@@ -48,6 +48,14 @@
                 android:hint="@string/email"/>
     </LinearLayout>
 
+    <TextView
+            android:id="@+id/EmailHint"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            style="@style/SettingsInputHint"
+            android:visibility="visible"
+            android:text="@string/example_email" />
+
     <LinearLayout
             android:layout_width="240dp"
             android:layout_height="35dp"

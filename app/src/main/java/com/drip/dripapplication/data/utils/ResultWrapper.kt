@@ -1,6 +1,5 @@
 package com.drip.dripapplication.data.utils
 
-import com.drip.dripapplication.domain.model.User
 import java.lang.Exception
 
 sealed class ResultWrapper<out T>{

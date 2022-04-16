@@ -26,9 +26,9 @@
             tools:layout="@layout/messages_fragment" />
     <fragment
             android:id="@+id/profileFragment"
-            android:name="com.drip.dripapplication.presentation.signup.SignupFragment"
+            android:name="com.drip.dripapplication.presentation.login.LoginFragment"
             android:label="profile_fragment"
-            tools:layout="@layout/profile_fragment" />
+            tools:layout="@layout/login_fragment" />
     <fragment
             android:id="@+id/profileEditFragment"
             android:name="com.drip.dripapplication.presentation.profileEdit.ProfileEditFragment"
