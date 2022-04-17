@@ -6,11 +6,10 @@
     <ConstraintSet android:id="@+id/start">
         <Constraint android:id="@+id/bottomPanel"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintHeight_percent="0.25">
+            app:layout_constraintRight_toRightOf="parent">
         </Constraint>
         <Constraint android:id="@+id/photo"
             android:layout_width="0dp"

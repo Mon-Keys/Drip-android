@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.drip.dripapplication.R
 import com.drip.dripapplication.data.utils.ResultWrapper
 import com.drip.dripapplication.domain.model.User
 import com.drip.dripapplication.domain.use_case.GetFeedUseCase
@@ -18,6 +19,10 @@ class FeedViewModel(
 ) : ViewModel() {
     private val _userInfo = MutableLiveData<User>()
     val userInfo: LiveData<User> = _userInfo
+
+    private val _errorMessage = MutableLiveData<Int>()
+    val errorMessage: LiveData<Int> = _errorMessage
+
 
     private var currentIndex = 0
 
@@ -35,7 +40,7 @@ class FeedViewModel(
                         Timber.d("Идет загрузка")
                     }
                     is ResultWrapper.Error -> {
-                        println(it.exception)
+                        _errorMessage.value = R.string.error_from_repository
                     }
                     is ResultWrapper.Success -> {
                         Timber.d("Дошли сюда")

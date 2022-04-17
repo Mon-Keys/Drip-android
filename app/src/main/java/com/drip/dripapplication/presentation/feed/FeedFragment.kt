@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.view.animation.LinearInterpolator
 import android.widget.ImageButton
 import android.widget.TextView
+import android.widget.Toast
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.constraintlayout.motion.widget.TransitionAdapter
 import androidx.core.content.res.ResourcesCompat
@@ -32,6 +33,7 @@ import com.drip.dripapplication.presentation.profile.ProfileViewModel
 import kotlinx.coroutines.NonDisposableHandle.parent
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.time.Duration
 
 class FeedFragment : Fragment() {
 
@@ -172,10 +174,19 @@ class FeedFragment : Fragment() {
         viewPager.registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
-                Timber.d("onPageSelected = $position")
-                when (position) {
-                    0 -> binding.buttonPrev.visibility = View.INVISIBLE
-                    adapter.itemCount - 1 -> binding.buttonNext.visibility = View.INVISIBLE
+                when  {
+                    adapter.itemCount == 1 -> {
+                        binding.buttonPrev.visibility = View.INVISIBLE
+                        binding.buttonNext.visibility = View.INVISIBLE
+                    }
+                    position == 0 -> {
+                        binding.buttonPrev.visibility = View.INVISIBLE
+                        binding.buttonNext.visibility = View.VISIBLE
+                    }
+                    position == adapter.itemCount - 1 ->{
+                        binding.buttonPrev.visibility = View.VISIBLE
+                        binding.buttonNext.visibility = View.INVISIBLE
+                    }
                     else -> {
                         binding.buttonNext.visibility = View.VISIBLE
                         binding.buttonPrev.visibility = View.VISIBLE
@@ -207,7 +218,12 @@ class FeedFragment : Fragment() {
 
 
                 //viewPager.postDelayed({ viewPager.setCurrentItem(0, false) }, 100)
+
             }
+        }
+
+        viewModel.errorMessage.observe(viewLifecycleOwner){
+            Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
         }
 
     }
@@ -232,8 +248,6 @@ class FeedFragment : Fragment() {
     private fun insertDataIntoTextView(user: User){
         val nameWithComma = "${user.name},"
         binding.name.text = nameWithComma
-
-
 
         binding.age.text = user.age.toString()
         binding.description.text = user.description

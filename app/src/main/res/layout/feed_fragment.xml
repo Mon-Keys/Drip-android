@@ -82,41 +82,50 @@
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/bottomPanel"
                 android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:background="@drawable/mate_backgroung_bottom_corners"
                 android:gravity="center"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintHeight_percent="0.25"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent">
 
-            <TextView
-                    android:id="@+id/name"
+            <LinearLayout
+                    android:id="@+id/nameAndAge"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="13dp"
-                    android:layout_marginTop="10dp"
-                    android:fontFamily="@font/futura_bold"
-                    android:text="Ангелина,"
-                    android:textColor="@color/white"
-                    android:textSize="28sp"
-                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:text="Ангелина," />
+                    app:layout_constraintBottom_toTopOf="@id/bottomButtons"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginHorizontal="13dp"
+                    app:layout_constraintVertical_chainStyle="spread_inside">
 
-            <TextView
-                    android:id="@+id/age"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="3dp"
-                    android:layout_marginTop="10dp"
-                    android:fontFamily="@font/futura_bold"
-                    android:text="25"
-                    android:textColor="@color/white"
-                    android:textSize="28sp"
-                    app:layout_constraintLeft_toRightOf="@id/name"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="25" />
+                <TextView
+                        android:id="@+id/name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/futura_bold"
+                        android:textColor="@color/white"
+                        android:textSize="28sp"
+                        tools:text="Ангелина," />
+
+                <TextView
+                        android:id="@+id/age"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="3dp"
+
+                        android:fontFamily="@font/futura_bold"
+                        android:textColor="@color/white"
+                        android:textSize="28sp"
+                        app:layout_constraintLeft_toRightOf="@id/name"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="25" />
+            </LinearLayout>
+
 
             <androidx.core.widget.NestedScrollView
                     android:id="@+id/descrAndTags"
@@ -124,15 +133,15 @@
                     android:layout_height="0dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/name"
+                    app:layout_constraintTop_toBottomOf="@id/nameAndAge"
                     app:layout_constraintBottom_toTopOf="@+id/bottomButtons"
                     android:alpha="0">
 
                 <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        >
+                        android:orientation="vertical">
+
                     <TextView
                             android:id="@+id/description"
                             android:layout_width="match_parent"
@@ -143,8 +152,7 @@
                             android:lineSpacingExtra="10sp"
                             android:textColor="@color/white"
                             android:textSize="18sp"
-                            tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sed placerat dolor. Orci varius natoque penatibus et"/>
-
+                            tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sed placerat dolor. Orci varius natoque penatibus et" />
 
 
                     <com.google.android.flexbox.FlexboxLayout
@@ -155,8 +163,7 @@
                             android:layout_marginHorizontal="13dp"
                             app:flexWrap="wrap"
                             app:showDivider="middle"
-                            app:dividerDrawable="@drawable/tags_divider"
-                            />
+                            app:dividerDrawable="@drawable/tags_divider" />
 
                 </LinearLayout>
 
@@ -168,10 +175,12 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
-                    android:orientation="horizontal"
+                    android:layout_marginHorizontal="70dp"
+                    android:layout_marginTop="5dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent">
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/nameAndAge">
 
                 <ImageButton
                         android:id="@+id/dislike"
@@ -182,9 +191,9 @@
                         android:src="@drawable/icon_baseline_clear"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/expand"
-                        app:layout_constraintHorizontal_chainStyle="spread"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintHorizontal_chainStyle="spread_inside" />
 
                 <ImageButton
                         android:id="@+id/expand"
