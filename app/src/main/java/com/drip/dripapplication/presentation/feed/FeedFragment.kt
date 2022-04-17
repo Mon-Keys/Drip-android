@@ -5,6 +5,7 @@ import android.content.Context
 import android.graphics.Color
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +16,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.constraintlayout.motion.widget.TransitionAdapter
+import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
@@ -30,6 +32,7 @@ import com.drip.dripapplication.domain.use_case.GetUserInfoUseCase
 import com.drip.dripapplication.domain.use_case.SetReactionUseCase
 import com.drip.dripapplication.presentation.profile.PhotoRecycleAdapter
 import com.drip.dripapplication.presentation.profile.ProfileViewModel
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.NonDisposableHandle.parent
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -135,6 +138,7 @@ class FeedFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        Timber.d("onDestroyView")
     }
 
     //Animations
@@ -223,7 +227,12 @@ class FeedFragment : Fragment() {
         }
 
         viewModel.errorMessage.observe(viewLifecycleOwner){
-            Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+            Snackbar
+                .make(binding.root, it, Snackbar.LENGTH_LONG)
+                .setBackgroundTint(ContextCompat.getColor(binding.root.context,R.color.red))
+                .setAnchorView(R.id.bottom_nav)
+                .show()
+
         }
 
     }
@@ -277,5 +286,21 @@ class FeedFragment : Fragment() {
             setBackgroundResource(R.drawable.tags_form)
         }
     }
+
+    override fun onPause() {
+        super.onPause()
+        Timber.d("onPause")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Timber.d("onStop")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Timber.d("onResume")
+    }
+
 
 }

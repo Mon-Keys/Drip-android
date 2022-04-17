@@ -9,6 +9,7 @@ import android.graphics.fonts.Font
 import android.os.Bundle
 import android.view.*
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.core.view.isVisible
@@ -22,6 +23,7 @@ import com.drip.dripapplication.domain.model.User
 import com.drip.dripapplication.domain.use_case.GetUserInfoUseCase
 import com.google.android.flexbox.FlexboxLayout
 import com.google.android.flexbox.FlexboxLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import timber.log.Timber
 
 class ProfileFragment : Fragment() {
@@ -160,6 +162,15 @@ class ProfileFragment : Fragment() {
 
             }
         }
+
+        viewModel.errorMessage.observe(viewLifecycleOwner){
+            Snackbar
+                .make(binding.root, it, Snackbar.LENGTH_LONG)
+                .setBackgroundTint(ContextCompat.getColor(binding.root.context,R.color.red))
+                .setAnchorView(R.id.bottom_nav)
+                .show()
+
+        }
     }
 
     private fun setupSlider(numberOfItems: Int, viewPagerWidth: Int){
@@ -189,11 +200,9 @@ class ProfileFragment : Fragment() {
         binding.description.text = user.description
 
         //Tags
-        if (user.tags != null){
-            for (i in user.tags) {
-                val view = generateTextView(binding.root.context, i)
-                binding.tagsLayout.addView(view)
-            }
+        for (i in user.tags) {
+            val view = generateTextView(binding.root.context, i)
+            binding.tagsLayout.addView(view)
         }
 
 
