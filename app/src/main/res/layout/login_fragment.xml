@@ -117,7 +117,7 @@
             android:text="@string/authError" />
 
     <Button
-            android:id="@+id/Login"
+            android:id="@+id/LoginButton"
             android:layout_gravity="center"
             android:fontFamily="@font/futura_bold"
             android:layout_width="wrap_content"

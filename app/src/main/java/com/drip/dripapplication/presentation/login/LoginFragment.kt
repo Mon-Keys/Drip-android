@@ -51,7 +51,7 @@ class LoginFragment : Fragment() {
         binding.AuthError.isVisible = false
 
         //ViewPager buttons
-        binding.Login.setOnClickListener {
+        binding.LoginButton.setOnClickListener {
             val isValidEmail: Boolean = Pattern.matches(
                 "^[a-zA-Z0-9.!#\$%&'*+=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*\$",
                 binding.Email.getText().toString()
@@ -74,14 +74,12 @@ class LoginFragment : Fragment() {
         }
 
         binding.SignupButton.setOnClickListener {
+            // TODO: redirect to signup view
         }
 
         binding.Email.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(p0: Editable?) {
-            }
-
-            override fun beforeTextChanged(p0: CharSequence?, s: Int, start: Int, count: Int) {
-            }
+            override fun afterTextChanged(p0: Editable?) {}
+            override fun beforeTextChanged(p0: CharSequence?, s: Int, start: Int, count: Int) {}
 
             override fun onTextChanged(
                 string: CharSequence, start: Int, before: Int, count: Int
@@ -95,11 +93,8 @@ class LoginFragment : Fragment() {
         })
 
         binding.Password.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(p0: Editable?) {
-            }
-
-            override fun beforeTextChanged(p0: CharSequence?, s: Int, start: Int, count: Int) {
-            }
+            override fun afterTextChanged(p0: Editable?) {}
+            override fun beforeTextChanged(p0: CharSequence?, s: Int, start: Int, count: Int) {}
 
             override fun onTextChanged(
                 string: CharSequence, start: Int, before: Int, count: Int

@@ -42,4 +42,6 @@
     <string name="password_hint">Пароль должен состоять из A–Z, a–z и 0–9</string>
     <string name="authError">Неверная почта или пароль</string>
     <string name="password_hint2">(не менее 8 символов)</string>
+    <string name="repeat_password_hint">Пароли не совпадают</string>
+    <string name="signupError">Пользователь уже существует</string>
 </resources>

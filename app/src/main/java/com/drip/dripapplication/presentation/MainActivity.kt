@@ -7,7 +7,6 @@ import androidx.navigation.ui.setupWithNavController
 import com.drip.dripapplication.App
 import com.drip.dripapplication.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import java.lang.IllegalStateException
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,10 +18,5 @@ class MainActivity : AppCompatActivity() {
         val navController = navHostFragment.navController
         findViewById<BottomNavigationView>(R.id.bottom_nav)
             .setupWithNavController(navController)
-    }
-
-    private fun isSignedIn(): Boolean {
-        val sign = intent.getBooleanExtra("sign", false)
-        return sign
     }
 }
