@@ -8,13 +8,9 @@ class AddTokenHeaderInterceptor : Interceptor {
         val token = "52df637b000746e5aceeff75394cf68a"
         val originalRequest = chain.request()
 
-        val request = if (token != null) {
-            originalRequest.newBuilder()
-                .header("Cookie", "sessionId=$token")
-                .build()
-        } else {
-            originalRequest
-        }
+        val request = originalRequest.newBuilder()
+            .header("Cookie", "sessionId=$token")
+            .build()
 
         return chain.proceed(request)
     }

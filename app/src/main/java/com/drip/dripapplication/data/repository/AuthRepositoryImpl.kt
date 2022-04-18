@@ -1,8 +1,6 @@
 package com.drip.dripapplication.data.repository
 
 import com.drip.dripapplication.data.remote.DripApi
-import com.drip.dripapplication.data.remote.model.CridentialDto
-import com.drip.dripapplication.data.remote.model.UserDto
 import com.drip.dripapplication.data.utils.ResultWrapper
 import com.drip.dripapplication.domain.model.Cridential
 import com.drip.dripapplication.domain.model.User
@@ -12,7 +10,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.map
 import timber.log.Timber
 
 class AuthRepositoryImpl(
@@ -22,8 +19,6 @@ class AuthRepositoryImpl(
         emit(ResultWrapper.Loading)
         delay(1000)
         try {
-            Timber.i(cridential.login)
-            Timber.i(cridential.password)
             val response = api.login(cridential.toRepModel())
             Timber.i("$response")
             if (response.isSuccessful && response.body() != null) {

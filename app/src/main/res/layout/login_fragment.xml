@@ -25,7 +25,7 @@
             android:orientation="horizontal"
             android:layout_gravity="center"
             android:background="@drawable/field_background"
-            android:layout_marginTop="50dp" >
+            android:layout_marginTop="50dp">
 
         <ImageView
                 android:layout_width="wrap_content"
@@ -33,7 +33,7 @@
                 android:src="@drawable/ic_icon_email"
                 android:contentDescription="@string/email"
                 android:layout_gravity="center"
-                android:paddingHorizontal="10dp"/>
+                android:paddingHorizontal="10dp" />
 
         <EditText
                 android:id="@+id/Email"
@@ -45,7 +45,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="8"
-                android:hint="@string/email"/>
+                android:hint="@string/email" />
     </LinearLayout>
 
     <TextView
@@ -62,7 +62,7 @@
             android:orientation="horizontal"
             android:layout_gravity="center"
             android:background="@drawable/field_background"
-            android:layout_marginTop="50dp" >
+            android:layout_marginTop="50dp">
 
         <ImageView
                 android:layout_width="wrap_content"
@@ -70,7 +70,7 @@
                 android:src="@drawable/ic_icon_key"
                 android:contentDescription="@string/email"
                 android:layout_gravity="center"
-                android:paddingHorizontal="10dp"/>
+                android:paddingHorizontal="10dp" />
 
         <EditText
                 android:id="@+id/Password"
@@ -82,16 +82,30 @@
                 android:layout_height="wrap_content"
                 android:ems="8"
                 android:hint="@string/password"
-                android:inputType="textPassword"/>
+                android:inputType="textPassword" />
     </LinearLayout>
 
-    <TextView
-            android:id="@+id/PasswordHint"
-            android:layout_height="wrap_content"
+    <LinearLayout
             android:layout_width="wrap_content"
-            style="@style/SettingsInputHint"
-            android:visibility="visible"
-            android:text="@string/password_hint" />
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:id="@+id/PasswordHint">
+
+        <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                style="@style/SettingsInputHint"
+                android:visibility="visible"
+                android:text="@string/password_hint" />
+
+        <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                style="@style/SettingsInputHint"
+                android:visibility="visible"
+                android:text="@string/password_hint2" />
+    </LinearLayout>
 
     <TextView
             android:id="@+id/AuthError"
@@ -112,7 +126,7 @@
             android:text="@string/login"
             android:textColor="@color/black"
             app:backgroundTint="@color/white"
-            android:background="@drawable/drip_button"/>
+            android:background="@drawable/drip_button" />
 
     <Button
             android:id="@+id/SignupButton"
@@ -124,6 +138,6 @@
             android:text="@string/signup"
             android:textColor="@color/white"
             app:backgroundTint="@color/black"
-            android:background="@drawable/drip_button"/>
+            android:background="@drawable/drip_button" />
 
 </LinearLayout>
