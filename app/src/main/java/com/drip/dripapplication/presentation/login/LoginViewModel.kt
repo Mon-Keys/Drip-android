@@ -11,17 +11,20 @@ import com.drip.dripapplication.domain.model.Cridential
 import com.drip.dripapplication.domain.use_case.LoginUseCase
 import kotlinx.coroutines.launch
 
-class LoginViewModel (private val useCase: LoginUseCase) : ViewModel() {
+class LoginViewModel(private val useCase: LoginUseCase) : ViewModel() {
     private val _userInfo = MutableLiveData<User?>()
     val userInfo: LiveData<User?> = _userInfo
 
     private val _loadingState = MutableLiveData<Boolean>()
     val loadingState: LiveData<Boolean> = _loadingState
 
-    fun login(cridential: Cridential){
+    private val _status = MutableLiveData<Int>()
+    val status: LiveData<Int> = _status
+
+    fun login(cridential: Cridential) {
         viewModelScope.launch {
             useCase.invoke(cridential).collect {
-                when (it){
+                when (it) {
                     is ResultWrapper.Loading -> {
                         println("Идет загрузка")
                         _loadingState.value = true
@@ -33,6 +36,7 @@ class LoginViewModel (private val useCase: LoginUseCase) : ViewModel() {
                     is ResultWrapper.Success -> {
                         _loadingState.value = false
                         _userInfo.value = it.data
+                        _status.value = it.status
                     }
                 }
             }

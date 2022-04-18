@@ -38,5 +38,7 @@
     <string name="settings_partners_gender_hint">Укажите свои предпочтения</string>
     <string name="settings_photo_hint">Добавьте хотя бы 1 фотографию</string>
     <string name="settings_save">Сохранить</string>
-    <string name="example_email">Введите почту в формате example@drip.com</string>
+    <string name="email_hint">Введите почту в формате example@drip.com</string>
+    <string name="password_hint">Пароль должен состоять из A–Z, a–z и 0–9 (не менее 8 символов)</string>
+    <string name="authError">Неверная почта или пароль</string>
 </resources>

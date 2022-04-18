@@ -41,10 +41,15 @@ class LoginFragment : Fragment() {
         viewModel = LoginViewModel(LoginUseCase(appContainer.authRepository))
 
         binding.EmailHint.visibility = View.INVISIBLE
+        binding.PasswordHint.visibility = View.INVISIBLE
+        binding.AuthError.visibility = View.INVISIBLE
 
         //ViewPager buttons
         binding.Login.setOnClickListener{
-//            viewModel.login(Cridential(binding.Email.toString(), binding.Password.toString()))
+            viewModel.login(Cridential(binding.Email.getText().toString(), binding.Password.getText().toString()))
+            if (viewModel.status.value != 200) {
+                binding.AuthError.visibility = View.VISIBLE
+            }
         }
 
         binding.SignupButton.setOnClickListener{
@@ -56,14 +61,4 @@ class LoginFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
-    //Converter dp to pixels
-    private fun convertDpToPixels(dp: Int) = dp * resources.displayMetrics.density
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
-        // TODO: Use the ViewModel
-    }
-
 }
