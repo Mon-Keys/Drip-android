@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.drip.dripapplication.R
 import com.drip.dripapplication.data.utils.ResultWrapper
 import com.drip.dripapplication.domain.model.User
 import com.drip.dripapplication.domain.use_case.GetUserInfoUseCase
@@ -17,6 +18,9 @@ class ProfileViewModel(private val useCase: GetUserInfoUseCase) : ViewModel() {
     private val _loadingState = MutableLiveData<Boolean>()
     val loadingState: LiveData<Boolean> = _loadingState
 
+    private val _errorMessage = MutableLiveData<Int>()
+    val errorMessage: LiveData<Int> = _errorMessage
+
     init {
         getUserInfo()
     }
@@ -26,11 +30,10 @@ class ProfileViewModel(private val useCase: GetUserInfoUseCase) : ViewModel() {
             useCase.invoke().collect {
                 when (it){
                     is ResultWrapper.Loading -> {
-                        println("Идет загрузка")
                         _loadingState.value = true
                     }
                     is ResultWrapper.Error -> {
-                        println(it.exception)
+                        _errorMessage.value = R.string.error_from_repository
                         _loadingState.value = false
                     }
                     is ResultWrapper.Success -> {

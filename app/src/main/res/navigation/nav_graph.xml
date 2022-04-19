@@ -6,11 +6,10 @@
         app:startDestination="@id/loginFragment">
 
     <fragment
-            android:id="@+id/mainFragment"
-            android:name="com.drip.dripapplication.presentation.feed.MainFragment"
-            android:label="main_fragment"
-            tools:layout="@layout/main_fragment" >
-    </fragment>
+            android:id="@+id/feedFragment"
+            android:name="com.drip.dripapplication.presentation.feed.FeedFragment"
+            android:label="feed_fragment"
+            tools:layout="@layout/feed_fragment" />
     <fragment
             android:id="@+id/likesFragment"
             android:name="com.drip.dripapplication.presentation.likes.LikesFragment"

@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/mainLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/gradient_background"
+        app:layoutDescription="@xml/motion_swipe"
+        android:clipChildren="true">
+
+    <ImageView
+            android:id="@+id/swipeLike"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/icon_baseline_favorite" />
+    <ImageView
+            android:id="@+id/swipePass"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/icon_baseline_clear" />
+
+    <androidx.constraintlayout.motion.widget.MotionLayout
+            android:id="@+id/profileCard"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="20dp"
+            app:layoutDescription="@xml/motion_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:motionDebug="SHOW_ALL"
+            android:background="@drawable/mate_background">
+
+        <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/photo"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        <com.zhpan.indicator.IndicatorView
+                android:id="@+id/viewPagerIndicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                app:layout_constraintEnd_toEndOf="@id/photo"
+                app:layout_constraintStart_toStartOf="@id/photo"
+                app:layout_constraintTop_toTopOf="parent"
+                app:vpi_slide_mode="smooth"
+                app:vpi_slider_checked_color="#FFFFFF"
+                app:vpi_slider_normal_color="#B3D1D1D1"
+                app:vpi_style="round_rect" />
+
+        <ImageButton
+                android:id="@+id/buttonPrev"
+                android:layout_width="40dp"
+                android:layout_height="0dp"
+                android:background="#0000"
+                android:scaleType="fitCenter"
+                android:src="@drawable/icon_baseline_navigate_before"
+                app:layout_constraintBottom_toBottomOf="@id/photo"
+                app:layout_constraintLeft_toLeftOf="@id/photo"
+                app:layout_constraintTop_toTopOf="@id/photo" />
+
+        <ImageButton
+                android:id="@+id/buttonNext"
+                android:layout_width="40dp"
+                android:layout_height="0dp"
+                android:background="#0000"
+                android:scaleType="fitCenter"
+                android:src="@drawable/icon_baseline_navigate_next"
+                app:layout_constraintBottom_toBottomOf="@id/photo"
+                app:layout_constraintRight_toRightOf="@id/photo"
+                app:layout_constraintTop_toTopOf="@id/photo" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/bottomPanel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/mate_backgroung_bottom_corners"
+                android:gravity="center"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent">
+
+            <LinearLayout
+                    android:id="@+id/nameAndAge"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/bottomButtons"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginHorizontal="13dp"
+                    app:layout_constraintVertical_chainStyle="spread_inside">
+
+                <TextView
+                        android:id="@+id/name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/futura_bold"
+                        android:textColor="@color/white"
+                        android:textSize="28sp"
+                        tools:text="Ангелина," />
+
+                <TextView
+                        android:id="@+id/age"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="3dp"
+
+                        android:fontFamily="@font/futura_bold"
+                        android:textColor="@color/white"
+                        android:textSize="28sp"
+                        app:layout_constraintLeft_toRightOf="@id/name"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="25" />
+            </LinearLayout>
+
+
+            <androidx.core.widget.NestedScrollView
+                    android:id="@+id/descrAndTags"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/nameAndAge"
+                    app:layout_constraintBottom_toTopOf="@+id/bottomButtons"
+                    android:alpha="0">
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                    <TextView
+                            android:id="@+id/description"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="13dp"
+                            android:layout_marginTop="10dp"
+                            android:fontFamily="@font/futura_bold"
+                            android:lineSpacingExtra="10sp"
+                            android:textColor="@color/white"
+                            android:textSize="18sp"
+                            tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sed placerat dolor. Orci varius natoque penatibus et" />
+
+
+                    <com.google.android.flexbox.FlexboxLayout
+                            android:id="@+id/tagsLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginHorizontal="13dp"
+                            app:flexWrap="wrap"
+                            app:showDivider="middle"
+                            app:dividerDrawable="@drawable/tags_divider" />
+
+                </LinearLayout>
+
+            </androidx.core.widget.NestedScrollView>
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/bottomButtons"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginHorizontal="70dp"
+                    android:layout_marginTop="5dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/nameAndAge">
+
+                <ImageButton
+                        android:id="@+id/dislike"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:background="?android:selectableItemBackgroundBorderless"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/icon_baseline_clear"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/expand"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintHorizontal_chainStyle="spread_inside" />
+
+                <ImageButton
+                        android:id="@+id/expand"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:background="?android:selectableItemBackgroundBorderless"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/icon_baseline_keyboard_arrow_down"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/like"
+                        app:layout_constraintStart_toEndOf="@+id/dislike"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageButton
+                        android:id="@+id/like"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:background="?android:selectableItemBackgroundBorderless"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/icon_baseline_favorite"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/expand"
+                        app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.constraintlayout.motion.widget.MotionLayout>
+
+</androidx.constraintlayout.motion.widget.MotionLayout>

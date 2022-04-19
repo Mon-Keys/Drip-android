@@ -44,4 +44,5 @@
     <string name="password_hint2">(не менее 8 символов)</string>
     <string name="repeat_password_hint">Пароли не совпадают</string>
     <string name="signupError">Пользователь уже существует</string>
+    <string name="error_from_repository">Error response from api, try again later</string>
 </resources>

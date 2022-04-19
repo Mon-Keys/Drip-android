@@ -1,44 +1,55 @@
-package com.drip.dripapplication.presentation.profile
+package com.drip.dripapplication.presentation.feed
 
+import android.animation.ObjectAnimator
 import android.content.Context
 import android.graphics.Color
-import android.graphics.Color.blue
-import android.graphics.Typeface
-import android.graphics.drawable.Drawable
-import android.graphics.fonts.Font
+import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import android.view.*
+import android.view.Gravity
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.view.animation.LinearInterpolator
+import android.widget.ImageButton
 import android.widget.TextView
+import android.widget.Toast
+import androidx.constraintlayout.motion.widget.MotionLayout
+import androidx.constraintlayout.motion.widget.TransitionAdapter
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
-import androidx.fragment.app.Fragment
 import androidx.core.view.isVisible
-import androidx.core.view.setPadding
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
 import com.drip.dripapplication.App
 import com.drip.dripapplication.R
+import com.drip.dripapplication.databinding.FeedFragmentBinding
+import com.drip.dripapplication.databinding.PhotoItemBinding
 import com.drip.dripapplication.databinding.ProfileFragmentBinding
 import com.drip.dripapplication.domain.model.User
+import com.drip.dripapplication.domain.use_case.GetFeedUseCase
 import com.drip.dripapplication.domain.use_case.GetUserInfoUseCase
-import com.google.android.flexbox.FlexboxLayout
-import com.google.android.flexbox.FlexboxLayoutManager
+import com.drip.dripapplication.domain.use_case.SetReactionUseCase
+import com.drip.dripapplication.presentation.profile.PhotoRecycleAdapter
+import com.drip.dripapplication.presentation.profile.ProfileViewModel
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.NonDisposableHandle.parent
+import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.time.Duration
 
-class ProfileFragment : Fragment() {
-
-    //ViewBinding
-    private var _binding: ProfileFragmentBinding? = null
-    private val binding get() = _binding!!
+class FeedFragment : Fragment() {
 
     companion object {
-        fun newInstance() = ProfileFragment()
+        fun newInstance() = FeedFragment()
     }
 
+    //ViewBinding
+    private var _binding: FeedFragmentBinding? = null
+    private val binding get() = _binding!!
 
     //ViewModel
-    private lateinit var viewModel: ProfileViewModel
+    private lateinit var viewModel: FeedViewModel
 
     //ViewPager
     private lateinit var viewPager: ViewPager2
@@ -50,21 +61,19 @@ class ProfileFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = ProfileFragmentBinding.inflate(inflater, container, false)
+        _binding = FeedFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val appContainer = (activity?.application as App).appContainer
-
-        viewModel = ProfileViewModel(GetUserInfoUseCase(appContainer.userRepository))
-
-
         adapter = PhotoRecycleAdapter()
 
         viewPager = binding.photo
+
+        val appContainer = (activity?.application as App).appContainer
+
+        viewModel = FeedViewModel(GetFeedUseCase(appContainer.userRepository), SetReactionUseCase(appContainer.likeRepository))
 
         binding.viewPagerIndicator.setupWithViewPager(viewPager)
 
@@ -81,25 +90,75 @@ class ProfileFragment : Fragment() {
             if (viewPager.currentItem > 0) viewPager.setCurrentItem(viewPager.currentItem - 1, true)
         }
 
+        //Animations
+        binding.mainLayout.setTransitionListener(object : TransitionAdapter(){
+            override fun onTransitionCompleted(motionLayout: MotionLayout, currentId: Int) {
+                when (currentId) {
+                    R.id.toPass-> {
+                        motionLayout.progress = 0f
+                        motionLayout.transitionToStart()
+                        viewModel.userInfo.value?.let { viewModel.swipe(it.id, 0) }
+                    }
+                    R.id.toLike -> {
+                        motionLayout.progress = 0f
+                        motionLayout.transitionToStart()
+                        viewModel.userInfo.value?.let { viewModel.swipe(it.id, 1) }
+                    }
+                }
+            }
+        })
 
-        //Refresh
-        binding.refreshLayout.setColorSchemeResources(R.color.purple_700);
-        binding.refreshLayout.setOnRefreshListener {
-            viewModel.getUserInfo()
-            binding.tagsLayout.removeAllViewsInLayout()
-            binding.refreshLayout.isRefreshing = false
+        binding.like.setOnClickListener {
+            binding.mainLayout.transitionToState(R.id.toLike)
         }
 
-//        //MaxWidth
-//        binding.description.maxHeight = binding.descrAndTags.height/2
-//        Timber.d("layoutHeight = ${binding.descrAndTags.height}, " +
-//                "heightText = ${binding.description.maxHeight}")
+        binding.dislike.setOnClickListener {
+            binding.mainLayout.transitionToState(R.id.toPass)
+        }
 
+        binding.expand.setOnClickListener {
+
+            val progress = binding.profileCard.progress
+
+            if (progress == 0.0f) {
+                binding.profileCard.transitionToState(R.id.end)
+                animationDescription(binding.descrAndTags, progress)
+            }
+            if (progress == 1.0f) {
+                binding.profileCard.transitionToState(R.id.start)
+                animationDescription(binding.descrAndTags, progress)
+            }
+
+            animationButton(binding.expand, progress)
+
+
+        }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        Timber.d("onDestroyView")
+    }
+
+    //Animations
+    private fun animationButton(view: ImageButton, progress: Float){
+        if (progress==0f || progress == 1f){
+            view.animate()
+                .rotationBy(180f)
+                .setDuration(1000)
+                .setInterpolator(LinearInterpolator())
+                .start()
+        }
+    }
+
+    private fun animationDescription(view: View, progress: Float){
+        ObjectAnimator.ofFloat(view, "alpha", 0f, 1f).apply {
+            duration = 1000
+            if (progress == 1f) reverse()
+            else start()
+        }
+
     }
 
     //Converter dp to pixels
@@ -117,7 +176,6 @@ class ProfileFragment : Fragment() {
 
         //ViewPager page listener
         viewPager.registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback() {
-
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
                 when  {
@@ -139,26 +197,31 @@ class ProfileFragment : Fragment() {
                     }
                 }
             }
+
+
         })
 
     }
 
-    private fun initObservers(){
-        viewModel.loadingState.observe(viewLifecycleOwner) {
-            binding.loading.isVisible = it
-            binding.profileCard.isVisible = !it
-        }
 
+    private fun initObservers(){
         viewModel.userInfo.observe(viewLifecycleOwner) {
-            if (it != null) {
+            if (it!=null) {
                 Timber.d("user=$it")
+                binding.tagsLayout.removeAllViewsInLayout()
+
                 adapter.userPhoto = it.images
 
                 setupSlider(adapter.itemCount, viewPager.width)
 
                 insertDataIntoTextView(it)
 
-                viewPager.setCurrentItem(0,false)
+                viewPager.setCurrentItem(0, false)
+
+                Timber.d("initobservers = ${viewPager.currentItem}")
+
+
+                //viewPager.postDelayed({ viewPager.setCurrentItem(0, false) }, 100)
 
             }
         }
@@ -171,6 +234,7 @@ class ProfileFragment : Fragment() {
                 .show()
 
         }
+
     }
 
     private fun setupSlider(numberOfItems: Int, viewPagerWidth: Int){
@@ -193,8 +257,6 @@ class ProfileFragment : Fragment() {
     private fun insertDataIntoTextView(user: User){
         val nameWithComma = "${user.name},"
         binding.name.text = nameWithComma
-
-
 
         binding.age.text = user.age.toString()
         binding.description.text = user.description
@@ -224,4 +286,21 @@ class ProfileFragment : Fragment() {
             setBackgroundResource(R.drawable.tags_form)
         }
     }
+
+    override fun onPause() {
+        super.onPause()
+        Timber.d("onPause")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Timber.d("onStop")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Timber.d("onResume")
+    }
+
+
 }
