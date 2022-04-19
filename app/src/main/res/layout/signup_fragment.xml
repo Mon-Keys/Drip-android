@@ -20,12 +20,12 @@
             android:text="@string/signup" />
 
     <LinearLayout
-            android:layout_width="240dp"
+            android:layout_width="255dp"
             android:layout_height="35dp"
             android:orientation="horizontal"
             android:layout_gravity="center"
             android:background="@drawable/field_background"
-            android:layout_marginTop="50dp" >
+            android:layout_marginTop="40dp" >
 
         <ImageView
                 android:layout_width="wrap_content"
@@ -46,6 +46,14 @@
                 android:layout_height="wrap_content"
                 android:ems="8"
                 android:hint="@string/email"/>
+
+        <ImageView
+                android:id="@+id/EmailCorrect"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_correct"
+                android:contentDescription="@string/email"
+                android:layout_gravity="center_vertical"/>
     </LinearLayout>
 
     <TextView
@@ -57,7 +65,7 @@
             android:text="@string/email_hint" />
 
     <LinearLayout
-            android:layout_width="240dp"
+            android:layout_width="255dp"
             android:layout_height="35dp"
             android:orientation="horizontal"
             android:layout_gravity="center"
@@ -83,6 +91,14 @@
                 android:ems="8"
                 android:hint="@string/password"
                 android:inputType="textPassword"/>
+
+        <ImageView
+                android:id="@+id/PasswordCorrect"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_correct"
+                android:contentDescription="@string/email"
+                android:layout_gravity="center_vertical"/>
     </LinearLayout>
 
     <LinearLayout
@@ -93,6 +109,7 @@
             android:id="@+id/PasswordHint">
 
         <TextView
+                android:id="@+id/PasswordHint1"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 style="@style/SettingsInputHint"
@@ -100,6 +117,7 @@
                 android:text="@string/password_hint" />
 
         <TextView
+                android:id="@+id/PasswordHint2"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 style="@style/SettingsInputHint"
@@ -108,7 +126,7 @@
     </LinearLayout>
 
     <LinearLayout
-            android:layout_width="240dp"
+            android:layout_width="255dp"
             android:layout_height="35dp"
             android:orientation="horizontal"
             android:layout_gravity="center"
@@ -134,6 +152,14 @@
                 android:ems="8"
                 android:hint="@string/repeat_password"
                 android:inputType="textPassword"/>
+
+        <ImageView
+                android:id="@+id/RepeatPasswordCorrect"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_correct"
+                android:contentDescription="@string/email"
+                android:layout_gravity="center_vertical"/>
     </LinearLayout>
 
     <TextView
