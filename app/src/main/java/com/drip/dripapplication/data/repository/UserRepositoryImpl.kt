@@ -29,9 +29,9 @@ class UserRepositoryImpl(
                 val userDto = response.body()!!.body
                 val userDomain = userDto?.toDomainModel()
 
-               // emit(ResultWrapper.Success(status, userDomain))
+                emit(ResultWrapper.Success(status, userDomain))
 
-                emit(ResultWrapper.Success(userDomain))
+                //emit(ResultWrapper.Success(userDomain))
 
             }else{
                 TODO("Берем данные из кэша")
@@ -71,7 +71,7 @@ class UserRepositoryImpl(
                     it.toDomainModel()
                 }
                 Timber.d("users = ${userDomain}")
-                emit(ResultWrapper.Success(userDomain))
+                emit(ResultWrapper.Success(200,userDomain))
             }else{
                 TODO("Берем данные из кэша")
             }

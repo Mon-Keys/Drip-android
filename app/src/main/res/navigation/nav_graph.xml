@@ -40,7 +40,7 @@
                 app:destination="@id/signupFragment" />
         <action
                 android:id="@+id/action_loginFragment_to_mainFragment"
-                app:destination="@id/mainFragment" />
+                app:destination="@id/feedFragment" />
     </fragment>
     <fragment
             android:id="@+id/signupFragment"
