@@ -24,12 +24,20 @@
             android:id="@+id/profileFragment"
             android:name="com.drip.dripapplication.presentation.profile.ProfileFragment"
             android:label="profile_fragment"
-            tools:layout="@layout/profile_fragment" />
+            tools:layout="@layout/profile_fragment" >
+        <action
+                android:id="@+id/action_profileFragment_to_profileEditFragment"
+                app:destination="@id/profileEditFragment" />
+    </fragment>
     <fragment
             android:id="@+id/profileEditFragment"
             android:name="com.drip.dripapplication.presentation.profileEdit.ProfileEditFragment"
             android:label="profileEdit_fragment"
-            tools:layout="@layout/profile_edit_fragment" />
+            tools:layout="@layout/profile_edit_fragment" >
+        <action
+                android:id="@+id/action_profileEditFragment_to_profileFragment"
+                app:destination="@id/profileFragment" />
+    </fragment>
     <fragment
             android:id="@+id/loginFragment"
             android:name="com.drip.dripapplication.presentation.login.LoginFragment"

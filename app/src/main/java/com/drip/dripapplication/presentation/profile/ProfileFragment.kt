@@ -14,6 +14,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.core.view.isVisible
 import androidx.core.view.setPadding
+import androidx.navigation.fragment.findNavController
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.viewpager2.widget.ViewPager2
 import com.drip.dripapplication.App
@@ -95,6 +96,9 @@ class ProfileFragment : Fragment() {
 //        Timber.d("layoutHeight = ${binding.descrAndTags.height}, " +
 //                "heightText = ${binding.description.maxHeight}")
 
+        binding.settings.setOnClickListener{
+            findNavController().navigate(R.id.action_profileFragment_to_profileEditFragment)
+        }
     }
 
     override fun onDestroyView() {
