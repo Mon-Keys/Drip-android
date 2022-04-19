@@ -3,17 +3,13 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/nav_graph"
-        app:startDestination="@id/mainFragment">
+        app:startDestination="@id/feedFragment">
 
     <fragment
-            android:id="@+id/mainFragment"
-            android:name="com.drip.dripapplication.presentation.feed.MainFragment"
-            android:label="main_fragment"
-            tools:layout="@layout/main_fragment" >
-        <action
-                android:id="@+id/action_mainFragment_to_messagesFragment"
-                app:destination="@id/messagesFragment" />
-    </fragment>
+            android:id="@+id/feedFragment"
+            android:name="com.drip.dripapplication.presentation.feed.FeedFragment"
+            android:label="feed_fragment"
+            tools:layout="@layout/feed_fragment" />
     <fragment
             android:id="@+id/likesFragment"
             android:name="com.drip.dripapplication.presentation.likes.LikesFragment"
@@ -26,7 +22,7 @@
             tools:layout="@layout/messages_fragment" />
     <fragment
             android:id="@+id/profileFragment"
-            android:name="com.drip.dripapplication.presentation.profile.SignupFragment"
+            android:name="com.drip.dripapplication.presentation.profile.ProfileFragment"
             android:label="profile_fragment"
             tools:layout="@layout/profile_fragment" />
     <fragment
