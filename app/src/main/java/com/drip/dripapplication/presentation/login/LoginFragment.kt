@@ -8,13 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import android.content.Intent
+import androidx.navigation.fragment.findNavController
 import java.util.regex.Pattern
 import com.drip.dripapplication.App
+import com.drip.dripapplication.R
 import com.drip.dripapplication.databinding.LoginFragmentBinding
 import com.drip.dripapplication.domain.model.Cridential
 import com.drip.dripapplication.domain.use_case.LoginUseCase
-import com.drip.dripapplication.presentation.MainActivity
 
 
 class LoginFragment : Fragment() {
@@ -74,7 +74,7 @@ class LoginFragment : Fragment() {
         }
 
         binding.SignupButton.setOnClickListener {
-            // TODO: redirect to signup view
+             findNavController().navigate(R.id.action_loginFragment_to_signupFragment)
         }
 
         binding.Email.addTextChangedListener(object : TextWatcher {
@@ -118,15 +118,8 @@ class LoginFragment : Fragment() {
         viewModel.status.observe(viewLifecycleOwner) {
             binding.AuthError.isVisible = it in 300..500
             if (it in 200..299) {
-                val intent = Intent(
-                    requireContext(),
-                    MainActivity::class.java
-                )
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                intent.putExtra("Username",true)
-                startActivity(intent)
+                findNavController().navigate(R.id.action_loginFragment_to_mainFragment)
             }
         }
-
     }
 }

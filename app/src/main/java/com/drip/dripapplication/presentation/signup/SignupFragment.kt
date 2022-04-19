@@ -1,7 +1,5 @@
 package com.drip.dripapplication.presentation.signup
 
-import android.content.Intent
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -10,14 +8,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.navigation.fragment.findNavController
 import com.drip.dripapplication.App
 import com.drip.dripapplication.R
-import com.drip.dripapplication.databinding.LoginFragmentBinding
 import com.drip.dripapplication.databinding.SignupFragmentBinding
 import com.drip.dripapplication.domain.model.Cridential
-import com.drip.dripapplication.domain.use_case.LoginUseCase
-import com.drip.dripapplication.presentation.MainActivity
-import com.drip.dripapplication.presentation.login.LoginViewModel
+import com.drip.dripapplication.domain.use_case.SignupUseCase
 import java.util.regex.Pattern
 
 class SignupFragment : Fragment() {
@@ -43,7 +39,7 @@ class SignupFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val appContainer = (activity?.application as App).appContainer
 
-        viewModel = SignupViewModel()
+        viewModel = SignupViewModel(SignupUseCase(appContainer.authRepository))
 
         initObservers()
 
@@ -72,11 +68,16 @@ class SignupFragment : Fragment() {
                 return@setOnClickListener
             }
 
-            // TODO: signup
+            viewModel.signup(
+                Cridential(
+                    binding.Email.getText().toString(),
+                    binding.Password.getText().toString()
+                )
+            )
         }
 
         binding.LoginButton.setOnClickListener {
-            // TODO: refirect to login view
+            findNavController().navigate(R.id.action_signupFragment_to_loginFragment)
         }
 
         binding.Email.addTextChangedListener(object : TextWatcher {
@@ -128,6 +129,14 @@ class SignupFragment : Fragment() {
     }
 
     private fun initObservers() {
-        // TODO: ovserve response from signup usecase
+        viewModel.loadingState.observe(viewLifecycleOwner) {
+        }
+
+        viewModel.status.observe(viewLifecycleOwner) {
+            binding.SignUpError.isVisible = (it == 1001)
+            if (it in 200..299) {
+                findNavController().navigate(R.id.action_signupFragment_to_profileEditFragment)
+            }
+        }
     }
 }

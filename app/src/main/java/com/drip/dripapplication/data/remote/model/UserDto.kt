@@ -3,7 +3,6 @@ package com.drip.dripapplication.data.remote.model
 import com.drip.dripapplication.domain.model.User
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
-import okhttp3.FormBody
 
 @JsonClass(generateAdapter = true)
 data class UserDto(
