@@ -1,14 +1,27 @@
-package com.drip.dripapplication.presentation.profile
+package com.drip.dripapplication.presentation.login
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import java.util.regex.Pattern
+import com.drip.dripapplication.App
 import com.drip.dripapplication.R
+import com.drip.dripapplication.databinding.LoginFragmentBinding
+import com.drip.dripapplication.domain.model.Cridential
+import com.drip.dripapplication.domain.use_case.LoginUseCase
+
 
 class LoginFragment : Fragment() {
+
+    //ViewBinding
+    private var _binding: LoginFragmentBinding? = null
+    private val binding get() = _binding!!
 
     companion object {
         fun newInstance() = LoginFragment()
@@ -19,14 +32,94 @@ class LoginFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.profile_fragment, container, false)
+    ): View {
+        _binding = LoginFragmentBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
-        // TODO: Use the ViewModel
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val appContainer = (activity?.application as App).appContainer
+
+        viewModel = LoginViewModel(LoginUseCase(appContainer.authRepository))
+
+        initObservers()
+
+        binding.EmailHint.isVisible = false
+        binding.PasswordHint.isVisible = false
+        binding.AuthError.isVisible = false
+
+        //ViewPager buttons
+        binding.LoginButton.setOnClickListener {
+            val isValidEmail: Boolean = Pattern.matches(
+                "^[a-zA-Z0-9.!#\$%&'*+=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*\$",
+                binding.Email.getText().toString()
+            )
+            val isValidPassword: Boolean =
+                Pattern.matches("^[a-zA-z\\d]{8,20}\$", binding.Password.getText().toString())
+
+            if (!isValidEmail || !isValidPassword) {
+                binding.EmailHint.isVisible = !isValidEmail
+                binding.PasswordHint.isVisible = !isValidPassword
+                return@setOnClickListener
+            }
+
+            viewModel.login(
+                Cridential(
+                    binding.Email.getText().toString(),
+                    binding.Password.getText().toString()
+                )
+            )
+        }
+
+        binding.SignupButton.setOnClickListener {
+             findNavController().navigate(R.id.action_loginFragment_to_signupFragment)
+        }
+
+        binding.Email.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {}
+            override fun beforeTextChanged(p0: CharSequence?, s: Int, start: Int, count: Int) {}
+
+            override fun onTextChanged(
+                string: CharSequence, start: Int, before: Int, count: Int
+            ) {
+                val isValidEmail: Boolean = Pattern.matches(
+                    "^[a-zA-Z0-9.!#\$%&'*+=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*\$",
+                    string
+                )
+                binding.EmailHint.isVisible = !isValidEmail
+            }
+        })
+
+        binding.Password.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {}
+            override fun beforeTextChanged(p0: CharSequence?, s: Int, start: Int, count: Int) {}
+
+            override fun onTextChanged(
+                string: CharSequence, start: Int, before: Int, count: Int
+            ) {
+                val isValidPassword: Boolean =
+                    Pattern.matches("^[a-zA-z\\d]{8,20}\$", string)
+                binding.PasswordHint.isVisible = !isValidPassword
+            }
+        })
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    private fun initObservers() {
+        viewModel.loadingState.observe(viewLifecycleOwner) {
+        }
+
+        viewModel.status.observe(viewLifecycleOwner) {
+            binding.AuthError.isVisible = it in 300..500
+            if (it in 200..299) {
+                findNavController().navigate(R.id.action_loginFragment_to_mainFragment)
+            }
+        }
+    }
 }

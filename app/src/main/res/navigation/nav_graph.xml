@@ -3,7 +3,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/nav_graph"
-        app:startDestination="@id/feedFragment">
+        app:startDestination="@id/loginFragment">
 
     <fragment
             android:id="@+id/feedFragment"
@@ -29,6 +29,30 @@
             android:id="@+id/profileEditFragment"
             android:name="com.drip.dripapplication.presentation.profileEdit.ProfileEditFragment"
             android:label="profileEdit_fragment"
-            tools:layout="@layout/profileEdit_fragment" />
+            tools:layout="@layout/profile_edit_fragment" />
+    <fragment
+            android:id="@+id/loginFragment"
+            android:name="com.drip.dripapplication.presentation.login.LoginFragment"
+            android:label="login_fragment"
+            tools:layout="@layout/login_fragment" >
+        <action
+                android:id="@+id/action_loginFragment_to_signupFragment"
+                app:destination="@id/signupFragment" />
+        <action
+                android:id="@+id/action_loginFragment_to_mainFragment"
+                app:destination="@id/mainFragment" />
+    </fragment>
+    <fragment
+            android:id="@+id/signupFragment"
+            android:name="com.drip.dripapplication.presentation.signup.SignupFragment"
+            android:label="signup_fragment"
+            tools:layout="@layout/signup_fragment" >
+        <action
+                android:id="@+id/action_signupFragment_to_loginFragment"
+                app:destination="@id/loginFragment" />
+        <action
+                android:id="@+id/action_signupFragment_to_profileEditFragment"
+                app:destination="@id/profileEditFragment" />
+    </fragment>
 
 </navigation>
