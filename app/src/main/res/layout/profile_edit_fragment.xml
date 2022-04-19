@@ -12,18 +12,21 @@
             android:orientation="vertical">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
+                android:layout_width="@dimen/input_width"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/lg">
 
             <ImageButton
                     android:id="@+id/back_button"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     app:layout_constraintTop_toTopOf="@id/header_title"
                     app:layout_constraintBottom_toBottomOf="@id/header_title"
                     app:layout_constraintStart_toStartOf="parent"
-                    android:src="@drawable/back"/>
+                    android:background="@null"
+                    android:padding="@dimen/sm"
+                    android:src="@drawable/back_button"/>
             <TextView
                     android:id="@+id/header_title"
                     android:layout_width="wrap_content"
@@ -301,7 +304,7 @@
                                 android:layout_height="@dimen/settings_photo_delete"
                                 app:layout_constraintTop_toTopOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
-                                android:src="@drawable/selector_icon_like"/>
+                                android:src="@drawable/delete_img"/>
                     </androidx.constraintlayout.widget.ConstraintLayout>
                     <androidx.constraintlayout.widget.ConstraintLayout
                             android:id="@+id/photo_container2"
@@ -320,7 +323,7 @@
                                 android:layout_height="@dimen/settings_photo_delete"
                                 app:layout_constraintTop_toTopOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
-                                android:src="@drawable/selector_icon_like"/>
+                                android:src="@drawable/delete_img"/>
                     </androidx.constraintlayout.widget.ConstraintLayout>
                     <androidx.constraintlayout.widget.ConstraintLayout
                             android:id="@+id/photo_container3"
@@ -339,7 +342,7 @@
                                 android:layout_height="@dimen/settings_photo_delete"
                                 app:layout_constraintTop_toTopOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
-                                android:src="@drawable/selector_icon_like"/>
+                                android:src="@drawable/delete_img"/>
                     </androidx.constraintlayout.widget.ConstraintLayout>
                     <androidx.constraintlayout.widget.ConstraintLayout
                             android:id="@+id/photo_container4"
@@ -358,13 +361,15 @@
                                 android:layout_height="@dimen/settings_photo_delete"
                                 app:layout_constraintTop_toTopOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
-                                android:src="@drawable/selector_icon_like"/>
+                                android:src="@drawable/delete_img"/>
                     </androidx.constraintlayout.widget.ConstraintLayout>
                     <ImageButton
                             android:id="@+id/photo_add"
                             android:layout_width="@dimen/settings_photo_add"
                             android:layout_height="@dimen/settings_photo_add"
-                            android:src="@drawable/selector_icon_account" />
+                            android:background="@null"
+                            android:src="@drawable/add_new_photo" />
+
                     <androidx.constraintlayout.helper.widget.Flow
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -377,7 +382,8 @@
                             app:flow_horizontalStyle="packed"
                             app:flow_horizontalGap="@dimen/sm"
                             app:flow_verticalGap="@dimen/sm"
-                            app:constraint_referenced_ids="photo_container1,photo_container2,photo_container3,photo_container4,photo_add"/>
+                            app:constraint_referenced_ids="photo_container1,photo_container2,photo_container3,photo_container4,photo_add"
+                            app:layout_constraintVertical_bias="0.473" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
                 <TextView
