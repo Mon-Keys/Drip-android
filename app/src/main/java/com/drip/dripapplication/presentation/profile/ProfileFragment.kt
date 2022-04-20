@@ -82,6 +82,10 @@ class ProfileFragment : Fragment() {
             if (viewPager.currentItem > 0) viewPager.setCurrentItem(viewPager.currentItem - 1, true)
         }
 
+        binding.settings.setOnClickListener{
+            findNavController().navigate(R.id.profileEditFragment)
+        }
+
 
         //Refresh
         binding.refreshLayout.setColorSchemeResources(R.color.purple_700);

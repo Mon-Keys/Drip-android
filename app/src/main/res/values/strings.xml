@@ -45,4 +45,7 @@
     <string name="repeat_password_hint">Пароли не совпадают</string>
     <string name="signupError">Пользователь уже существует</string>
     <string name="error_from_repository">Error response from api, try again later</string>
+    <string name="day_hint">дд</string>
+    <string name="month_hint">мм</string>
+    <string name="year_hint">гггг</string>
 </resources>
