@@ -1,5 +1,6 @@
 package com.drip.dripapplication.presentation.login
 
+import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -49,6 +50,8 @@ class LoginFragment : Fragment() {
         binding.EmailHint.isVisible = false
         binding.PasswordHint.isVisible = false
         binding.AuthError.isVisible = false
+        binding.EmailCorrect.visibility = View.INVISIBLE
+        binding.PasswordCorrect.visibility = View.INVISIBLE
 
         //ViewPager buttons
         binding.LoginButton.setOnClickListener {
@@ -60,6 +63,9 @@ class LoginFragment : Fragment() {
                 Pattern.matches("^[a-zA-z\\d]{8,20}\$", binding.Password.getText().toString())
 
             if (!isValidEmail || !isValidPassword) {
+                binding.EmailHint.setTextColor(Color.RED)
+                binding.PasswordHint1.setTextColor(Color.RED)
+                binding.PasswordHint2.setTextColor(Color.RED)
                 binding.EmailHint.isVisible = !isValidEmail
                 binding.PasswordHint.isVisible = !isValidPassword
                 return@setOnClickListener
@@ -74,34 +80,56 @@ class LoginFragment : Fragment() {
         }
 
         binding.SignupButton.setOnClickListener {
-             findNavController().navigate(R.id.action_loginFragment_to_signupFragment)
+            findNavController().navigate(R.id.action_loginFragment_to_signupFragment)
         }
 
         binding.Email.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {}
-            override fun beforeTextChanged(p0: CharSequence?, s: Int, start: Int, count: Int) {}
+
+            override fun beforeTextChanged(p0: CharSequence?, s: Int, start: Int, count: Int) {
+                binding.PasswordHint1.setTextColor(Color.RED)
+                binding.PasswordHint2.setTextColor(Color.RED)
+            }
 
             override fun onTextChanged(
                 string: CharSequence, start: Int, before: Int, count: Int
             ) {
+                binding.AuthError.isVisible = false
                 val isValidEmail: Boolean = Pattern.matches(
                     "^[a-zA-Z0-9.!#\$%&'*+=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*\$",
                     string
                 )
+                binding.EmailHint.setTextColor(Color.GRAY)
                 binding.EmailHint.isVisible = !isValidEmail
+                if (isValidEmail) {
+                    binding.EmailCorrect.visibility = View.VISIBLE
+                } else {
+                    binding.EmailCorrect.visibility = View.INVISIBLE
+                }
             }
         })
 
         binding.Password.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {}
-            override fun beforeTextChanged(p0: CharSequence?, s: Int, start: Int, count: Int) {}
+
+            override fun beforeTextChanged(p0: CharSequence?, s: Int, start: Int, count: Int) {
+                binding.EmailHint.setTextColor(Color.RED)
+            }
 
             override fun onTextChanged(
                 string: CharSequence, start: Int, before: Int, count: Int
             ) {
+                binding.AuthError.isVisible = false
                 val isValidPassword: Boolean =
                     Pattern.matches("^[a-zA-z\\d]{8,20}\$", string)
+                binding.PasswordHint1.setTextColor(Color.GRAY)
+                binding.PasswordHint2.setTextColor(Color.GRAY)
                 binding.PasswordHint.isVisible = !isValidPassword
+                if (isValidPassword) {
+                    binding.PasswordCorrect.visibility = View.VISIBLE
+                } else {
+                    binding.PasswordCorrect.visibility = View.INVISIBLE
+                }
             }
         })
     }
