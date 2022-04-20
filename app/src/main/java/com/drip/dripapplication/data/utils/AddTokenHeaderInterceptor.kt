@@ -5,7 +5,7 @@ import okhttp3.Response
 
 class AddTokenHeaderInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
-        val token = "6cc6256f19af89acaedeb6ebf4f107be"
+        val token = "d02373669908c9603320f4880e27a347"
         val csfr = "98d3f70e-0bd0-4054-4391-a2914c8414f2"
         val originalRequest = chain.request()
 

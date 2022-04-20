@@ -24,7 +24,14 @@
             android:id="@+id/profileFragment"
             android:name="com.drip.dripapplication.presentation.profile.ProfileFragment"
             android:label="profile_fragment"
-            tools:layout="@layout/profile_fragment" />
+            tools:layout="@layout/profile_fragment" >
+        <action
+                android:id="@+id/action_profileFragment_to_profileEditFragment"
+                app:destination="@id/profileEditFragment" />
+        <action
+                android:id="@+id/action_profileFragment_to_loginFragment"
+                app:destination="@id/loginFragment" />
+    </fragment>
     <fragment
             android:id="@+id/profileEditFragment"
             android:name="com.drip.dripapplication.presentation.profileEdit.ProfileEditFragment"
@@ -40,7 +47,9 @@
                 app:destination="@id/signupFragment" />
         <action
                 android:id="@+id/action_loginFragment_to_mainFragment"
-                app:destination="@id/feedFragment" />
+                app:destination="@id/feedFragment"
+                app:popUpToInclusive="true"
+                app:popUpTo="@id/nav_graph" />
     </fragment>
     <fragment
             android:id="@+id/signupFragment"
