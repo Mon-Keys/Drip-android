@@ -92,8 +92,7 @@
                             android:background="@null"
                             android:layout_gravity="center_vertical"
                             android:paddingHorizontal="10dp"
-                            android:inputType="number"
-                            android:maxLength="2"/>
+                            android:inputType="number"/>
 
                     <EditText
                             android:id="@+id/month"
@@ -105,8 +104,7 @@
                             android:background="@null"
                             android:layout_gravity="center_vertical"
                             android:paddingHorizontal="10dp"
-                            android:inputType="number"
-                            android:maxLength="2"/>
+                            android:inputType="number"/>
 
                     <EditText
                             android:id="@+id/year"
@@ -119,7 +117,7 @@
                             android:layout_gravity="center_vertical"
                             android:paddingHorizontal="10dp"
                             android:inputType="number"
-                            android:maxLength="4"/>
+                            android:autoSizeMaxTextSize="@dimen/fs4"/>
                 </LinearLayout>
 
                 <TextView
