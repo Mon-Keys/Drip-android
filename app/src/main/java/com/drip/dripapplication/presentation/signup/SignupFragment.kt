@@ -85,7 +85,7 @@ class SignupFragment : Fragment() {
         }
 
         binding.LoginButton.setOnClickListener {
-            findNavController().navigate(R.id.action_signupFragment_to_loginFragment)
+            findNavController().popBackStack()
         }
 
         binding.Email.addTextChangedListener(object : TextWatcher {
@@ -176,7 +176,7 @@ class SignupFragment : Fragment() {
         viewModel.status.observe(viewLifecycleOwner) {
             binding.SignUpError.isVisible = (it == 1001)
             if (it in 200..299) {
-                findNavController().navigate(R.id.action_signupFragment_to_profileEditFragment)
+                findNavController().navigate(R.id.action_signupFragment_to_profileEditFragmentFromSignUp)
             }
         }
     }

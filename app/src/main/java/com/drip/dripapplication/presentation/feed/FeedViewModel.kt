@@ -63,7 +63,7 @@ class FeedViewModel(
             getUsers()
         }else if (users.isNotEmpty() && currentIndex == users.lastIndex){
             getUsers()
-            currentIndex += 1
+            //currentIndex += 1
         }else{
             _userInfo.value = users[currentIndex]
         }

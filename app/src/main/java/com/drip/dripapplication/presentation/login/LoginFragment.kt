@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.navOptions
 import java.util.regex.Pattern
 import com.drip.dripapplication.App
 import com.drip.dripapplication.R
@@ -145,7 +146,7 @@ class LoginFragment : Fragment() {
         viewModel.status.observe(viewLifecycleOwner) {
             binding.AuthError.isVisible = it in 300..500
             if (it in 200..299) {
-                findNavController().navigate(R.id.action_loginFragment_to_mainFragment)
+                findNavController().navigate(R.id.action_loginFragment_to_tabsFragment)
             }
         }
     }

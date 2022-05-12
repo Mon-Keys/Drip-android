@@ -119,7 +119,7 @@ class ProfileEditFragment : Fragment() {
         })
 
         binding.backButton.setOnClickListener {
-            findNavController().navigate(R.id.action_profileEditFragment_to_profileFragment)
+            findNavController().popBackStack()
         }
         binding.saveButton.setOnClickListener {
             val isValidName: Boolean = Pattern.matches(
@@ -167,7 +167,7 @@ class ProfileEditFragment : Fragment() {
             Timber.i("AAAAAAAAAa")
             if (it in 200..299) {
                 Timber.i("EEEEEEEEEEEEEEEE")
-                findNavController().navigate(R.id.action_profileEditFragment_to_profileFragment)
+                //findNavController().navigate()
             }
         }
     }

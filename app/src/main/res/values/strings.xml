@@ -48,4 +48,11 @@
     <string name="day_hint">дд</string>
     <string name="month_hint">мм</string>
     <string name="year_hint">гггг</string>
+    <string name="alert_dialog_logout_title">Logout</string>
+    <string name="alert_dialog_logout_text">Do you really want to exit, all local application data will be deleted</string>
+    <string name="alert_dialog_logout_positive_button">Accept</string>
+    <string name="alert_dialog_logout_negative_button">Decline</string>
+    <string name="alert_dialog_logout_neutral_button">Cancel</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
