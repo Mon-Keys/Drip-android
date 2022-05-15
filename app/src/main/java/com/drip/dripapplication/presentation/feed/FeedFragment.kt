@@ -3,9 +3,7 @@ package com.drip.dripapplication.presentation.feed
 import android.animation.ObjectAnimator
 import android.content.Context
 import android.graphics.Color
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -13,40 +11,25 @@ import android.view.ViewGroup
 import android.view.animation.LinearInterpolator
 import android.widget.ImageButton
 import android.widget.TextView
-import android.widget.Toast
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.constraintlayout.motion.widget.TransitionAdapter
-import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.view.isVisible
-import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
 import com.drip.dripapplication.App
 import com.drip.dripapplication.R
 import com.drip.dripapplication.databinding.FeedFragmentBinding
-import com.drip.dripapplication.databinding.PhotoItemBinding
-import com.drip.dripapplication.databinding.ProfileFragmentBinding
 import com.drip.dripapplication.domain.model.User
 import com.drip.dripapplication.domain.use_case.GetFeedUseCase
-import com.drip.dripapplication.domain.use_case.GetUserInfoUseCase
 import com.drip.dripapplication.domain.use_case.SetReactionUseCase
 import com.drip.dripapplication.presentation.profile.PhotoRecycleAdapter
-import com.drip.dripapplication.presentation.profile.ProfileViewModel
-import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.NonDisposableHandle.parent
-import kotlinx.coroutines.launch
 import timber.log.Timber
-import java.time.Duration
 
 class FeedFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = FeedFragment()
-    }
-
     //ViewBinding
     private var _binding: FeedFragmentBinding? = null
-    private val binding get() = _binding!!
+    private val binding
+        get() = _binding!!
 
     //ViewModel
     private lateinit var viewModel: FeedViewModel
@@ -67,28 +50,15 @@ class FeedFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        adapter = PhotoRecycleAdapter()
-
-        viewPager = binding.photo
-
         val appContainer = (activity?.application as App).appContainer
 
         viewModel = FeedViewModel(GetFeedUseCase(appContainer.userRepository), SetReactionUseCase(appContainer.likeRepository))
 
         binding.viewPagerIndicator.setupWithViewPager(viewPager)
 
-        initViewPager()
+        setupViewPager()
 
         initObservers()
-
-        //ViewPager buttons
-        binding.buttonNext.setOnClickListener{
-            if (viewPager.currentItem < adapter.itemCount) viewPager.setCurrentItem(viewPager.currentItem + 1, true)
-        }
-
-        binding.buttonPrev.setOnClickListener{
-            if (viewPager.currentItem > 0) viewPager.setCurrentItem(viewPager.currentItem - 1, true)
-        }
 
         //Animations
         binding.mainLayout.setTransitionListener(object : TransitionAdapter(){
@@ -171,8 +141,14 @@ class FeedFragment : Fragment() {
 
     }
 
-    private fun initViewPager(){
+    private fun setupViewPager(){
+        viewPager = binding.photo
+
+        adapter = PhotoRecycleAdapter()
+
         viewPager.adapter = adapter
+
+        viewPager.isUserInputEnabled = false
 
         //ViewPager page listener
         viewPager.registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback() {
@@ -201,6 +177,15 @@ class FeedFragment : Fragment() {
 
         })
 
+        //ViewPager buttons
+        binding.buttonNext.setOnClickListener{
+            if (viewPager.currentItem < adapter.itemCount) viewPager.setCurrentItem(viewPager.currentItem + 1, true)
+        }
+
+        binding.buttonPrev.setOnClickListener{
+            if (viewPager.currentItem > 0) viewPager.setCurrentItem(viewPager.currentItem - 1, true)
+        }
+
     }
 
 
@@ -226,14 +211,6 @@ class FeedFragment : Fragment() {
             }
         }
 
-        viewModel.errorMessage.observe(viewLifecycleOwner){
-            Snackbar
-                .make(binding.root, it, Snackbar.LENGTH_LONG)
-                .setBackgroundTint(ContextCompat.getColor(binding.root.context,R.color.red))
-                .setAnchorView(R.id.bottom_nav)
-                .show()
-
-        }
 
     }
 

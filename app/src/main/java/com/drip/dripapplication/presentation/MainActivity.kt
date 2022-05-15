@@ -12,13 +12,16 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.drip.dripapplication.App
+import com.drip.dripapplication.NetworkStateUtils
 import com.drip.dripapplication.R
 import com.drip.dripapplication.TabsFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -28,20 +31,29 @@ private val Context.preferencesDataStore: DataStore<Preferences> by preferencesD
 
 class MainActivity : AppCompatActivity() {
 
+    //Network Utils
+    private var networkStateUtils: NetworkStateUtils? = null
+
     // Должны хранить ссылку на текущий navController, так как есть корневой контроллер (для main_graph)
     // и контроллер вкладок (для tabs_graph)
     private var navController: NavController? = null
 
     private val topLevelDestinations = setOf(getTabsDestination(), getLoginDestination())
 
+    //Snackbar
+    private var snackbar: Snackbar? = null
+
     // fragment listener is sued for tracking current nav controller
     private val fragmentListener = object : FragmentManager.FragmentLifecycleCallbacks() {
         override fun onFragmentViewCreated(fm: FragmentManager, f: Fragment, v: View, savedInstanceState: Bundle?) {
             super.onFragmentViewCreated(fm, f, v, savedInstanceState)
-            if (f is TabsFragment || f is NavHostFragment) return
+            if (f is TabsFragment || f is NavHostFragment){
+                snackbar?.setAnchorView(R.id.bottom_nav)
+            }
             onNavControllerActivated(f.findNavController())
         }
     }
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,7 +66,18 @@ class MainActivity : AppCompatActivity() {
         prepareRootNavController(true, navController)
         onNavControllerActivated(navController)
 
+
+
         supportFragmentManager.registerFragmentLifecycleCallbacks(fragmentListener, true)
+
+        snackbar = Snackbar.make(findViewById(R.id.coordinatorLayout), R.string.error_from_repository, Snackbar.LENGTH_LONG)
+
+        networkStateUtils = NetworkStateUtils(this.applicationContext, snackbar)
+
+
+
+
+
 
     }
 
@@ -73,8 +96,15 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onPause() {
-        super.onPause()
+
+    override fun onStart() {
+        super.onStart()
+        networkStateUtils?.registerNetworkCallback()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        networkStateUtils?.unRegisterNetworkCallback()
     }
 
 
