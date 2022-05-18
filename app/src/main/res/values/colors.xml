@@ -11,4 +11,5 @@
     <color name="blue">#9099D7EB</color>
     <color name="red">#f25f5c</color>
     <color name="red2">#ba67cc</color>
+    <color name="gradient_first">#008EEE</color>
 </resources>

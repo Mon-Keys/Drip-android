@@ -1,6 +1,7 @@
 package com.drip.dripapplication.presentation.profile
 
 import android.content.Context
+import android.content.DialogInterface
 import android.graphics.Color
 import android.graphics.Color.blue
 import android.graphics.Typeface
@@ -22,8 +23,10 @@ import com.drip.dripapplication.R
 import com.drip.dripapplication.databinding.ProfileFragmentBinding
 import com.drip.dripapplication.domain.model.User
 import com.drip.dripapplication.domain.use_case.GetUserInfoUseCase
+import com.drip.dripapplication.presentation.findTopNavController
 import com.google.android.flexbox.FlexboxLayout
 import com.google.android.flexbox.FlexboxLayoutManager
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import timber.log.Timber
 
@@ -67,6 +70,8 @@ class ProfileFragment : Fragment() {
 
         viewPager = binding.photo
 
+        Timber.d("viewPagerWidth = ${viewPager.width}")
+
         binding.viewPagerIndicator.setupWithViewPager(viewPager)
 
         initViewPager()
@@ -83,7 +88,7 @@ class ProfileFragment : Fragment() {
         }
 
         binding.settings.setOnClickListener{
-            findNavController().navigate(R.id.profileEditFragment)
+            findTopNavController().navigate(R.id.profileEditFragment)
         }
 
 
@@ -100,8 +105,16 @@ class ProfileFragment : Fragment() {
 //        Timber.d("layoutHeight = ${binding.descrAndTags.height}, " +
 //                "heightText = ${binding.description.maxHeight}")
 
-        binding.settings.setOnClickListener{
-            findNavController().navigate(R.id.action_profileFragment_to_profileEditFragment)
+
+        binding.logOut.setOnClickListener {
+            MaterialAlertDialogBuilder(it.context)
+                .setTitle(getString(R.string.alert_dialog_logout_title))
+                .setMessage(getString(R.string.alert_dialog_logout_text))
+                .setPositiveButton(getString(R.string.alert_dialog_logout_positive_button)
+                ) { dialog, which -> TODO() }
+                .setNeutralButton(getString(R.string.alert_dialog_logout_neutral_button)
+                ){ dialog, which -> TODO()}
+                .show()
         }
     }
 
@@ -182,6 +195,7 @@ class ProfileFragment : Fragment() {
     }
 
     private fun setupSlider(numberOfItems: Int, viewPagerWidth: Int){
+        Timber.d("numberOfItems = $numberOfItems, width = $viewPagerWidth")
         val sliderGap = convertDpToPixels(7)
         val sliderWidth = calculateSliderWidth(
             numberOfItems,

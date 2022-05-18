@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/main_graph"
+        app:startDestination="@id/loginFragment">
+
+    <fragment
+            android:id="@+id/loginFragment"
+            android:name="com.drip.dripapplication.presentation.login.LoginFragment"
+            android:label="login_fragment"
+            tools:layout="@layout/login_fragment" >
+        <action
+                android:id="@+id/action_loginFragment_to_signupFragment"
+                app:destination="@id/signupFragment" />
+        <action
+                android:id="@+id/action_loginFragment_to_tabsFragment"
+                app:destination="@id/tabsFragment"
+                app:popUpTo="@id/loginFragment"
+                app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+            android:id="@+id/signupFragment"
+            android:name="com.drip.dripapplication.presentation.signup.SignupFragment"
+            android:label="signup_fragment"
+            tools:layout="@layout/signup_fragment" >
+        <action
+                android:id="@+id/action_signupFragment_to_profileEditFragmentFromSignUp"
+                app:destination="@id/profileEditFragment" />
+    </fragment>
+    <fragment
+            android:id="@+id/tabsFragment"
+            android:name="com.drip.dripapplication.presentation.TabsFragment"
+            android:label="fragment_tabs"
+            tools:layout="@layout/fragment_tabs" >
+        <action
+                android:id="@+id/action_tabsFragment_to_profileEditFragment"
+                app:destination="@id/profileEditFragment" />
+    </fragment>
+    <fragment
+            android:id="@+id/profileEditFragment"
+            android:name="com.drip.dripapplication.presentation.profileEdit.ProfileEditFragment"
+            android:label="ProfileEditFragment" />
+</navigation>

@@ -10,9 +10,11 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.navOptions
 import java.util.regex.Pattern
 import com.drip.dripapplication.App
 import com.drip.dripapplication.R
+import com.drip.dripapplication.data.utils.SharedPrefs
 import com.drip.dripapplication.databinding.LoginFragmentBinding
 import com.drip.dripapplication.domain.model.Cridential
 import com.drip.dripapplication.domain.use_case.LoginUseCase
@@ -145,7 +147,9 @@ class LoginFragment : Fragment() {
         viewModel.status.observe(viewLifecycleOwner) {
             binding.AuthError.isVisible = it in 300..500
             if (it in 200..299) {
-                findNavController().navigate(R.id.action_loginFragment_to_mainFragment)
+                //TODO: ("Сделать так, чтобы токен сохранялся в Shared pref, пока захардкодил.")
+                SharedPrefs.authToken = ""
+                findNavController().navigate(R.id.action_loginFragment_to_tabsFragment)
             }
         }
     }
