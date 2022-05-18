@@ -18,6 +18,22 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
+        <Constraint
+                android:id="@+id/buttonPrev"
+                android:layout_width="40dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="@id/photo"
+                app:layout_constraintLeft_toLeftOf="@id/photo"
+                app:layout_constraintTop_toTopOf="@id/photo"
+                app:visibilityMode="ignore"/>
+        <Constraint
+                android:id="@+id/buttonNext"
+                android:layout_width="40dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="@id/photo"
+                app:layout_constraintRight_toRightOf="@id/photo"
+                app:layout_constraintTop_toTopOf="@id/photo"
+                app:visibilityMode="ignore"/>
     </ConstraintSet>
 
     <ConstraintSet android:id="@+id/end">

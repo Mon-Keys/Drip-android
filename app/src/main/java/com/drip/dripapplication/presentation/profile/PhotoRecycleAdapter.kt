@@ -16,7 +16,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.drip.dripapplication.databinding.PhotoItemBinding
 import timber.log.Timber
 
-class PhotoRecycleAdapter : RecyclerView.Adapter<PhotoRecycleAdapter.ViewHolder>() {
+class PhotoRecycleAdapter() : RecyclerView.Adapter<PhotoRecycleAdapter.ViewHolder>() {
 
     var userPhoto: List<String> = emptyList()
         set(value) {

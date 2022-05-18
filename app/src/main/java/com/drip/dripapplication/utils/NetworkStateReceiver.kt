@@ -1,13 +1,10 @@
-package com.drip.dripapplication
+package com.drip.dripapplication.utils
 
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
-import android.view.View
-import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getSystemService
 import com.google.android.material.snackbar.Snackbar
 import timber.log.Timber

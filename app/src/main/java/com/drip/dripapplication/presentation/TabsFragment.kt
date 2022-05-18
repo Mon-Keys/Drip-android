@@ -1,13 +1,11 @@
-package com.drip.dripapplication
+package com.drip.dripapplication.presentation
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
+import com.drip.dripapplication.R
 import com.drip.dripapplication.databinding.FragmentTabsBinding
 
 class TabsFragment : Fragment(R.layout.fragment_tabs) {

@@ -168,6 +168,7 @@ class ProfileEditFragment : Fragment() {
             if (it in 200..299) {
                 Timber.i("EEEEEEEEEEEEEEEE")
                 //findNavController().navigate()
+                findNavController().popBackStack()
             }
         }
     }

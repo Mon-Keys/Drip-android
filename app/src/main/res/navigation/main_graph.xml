@@ -30,7 +30,7 @@
     </fragment>
     <fragment
             android:id="@+id/tabsFragment"
-            android:name="com.drip.dripapplication.TabsFragment"
+            android:name="com.drip.dripapplication.presentation.TabsFragment"
             android:label="fragment_tabs"
             tools:layout="@layout/fragment_tabs" >
         <action

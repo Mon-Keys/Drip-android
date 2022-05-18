@@ -92,7 +92,7 @@
         app:constraintSetEnd="@id/toLike"
         app:constraintSetStart="@+id/start"
         app:duration="1000">
-        <OnSwipe app:touchRegionId="@id/bottomPanel"
+        <OnSwipe app:touchRegionId="@id/profileCard"
             app:dragDirection="dragRight"
             app:onTouchUp="autoComplete"/>
         <KeyFrameSet>
@@ -106,7 +106,7 @@
         app:constraintSetEnd="@id/toPass"
         app:constraintSetStart="@+id/start"
         app:duration="1000">
-        <OnSwipe app:touchRegionId="@id/bottomPanel"
+        <OnSwipe app:touchRegionId="@id/profileCard"
             app:dragDirection="dragLeft"
             app:onTouchUp="autoComplete"/>
         <KeyFrameSet>

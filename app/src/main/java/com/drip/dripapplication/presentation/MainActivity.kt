@@ -10,24 +10,19 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.setupWithNavController
-import com.drip.dripapplication.App
-import com.drip.dripapplication.NetworkStateUtils
+import com.drip.dripapplication.utils.NetworkStateUtils
 import com.drip.dripapplication.R
-import com.drip.dripapplication.TabsFragment
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.drip.dripapplication.data.repository.PreferencesRepositoryImpl
+import com.drip.dripapplication.data.utils.SharedPrefs
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import timber.log.Timber
+import kotlinx.coroutines.flow.collect
 
-private val Context.preferencesDataStore: DataStore<Preferences> by preferencesDataStore(name = "DATA_STORE_NAME")
+private val Context.preferencesDataStore: DataStore<Preferences> by preferencesDataStore(name = PreferencesRepositoryImpl.DATASTORE_NAME)
 
 class MainActivity : AppCompatActivity() {
 
@@ -47,8 +42,11 @@ class MainActivity : AppCompatActivity() {
     private val fragmentListener = object : FragmentManager.FragmentLifecycleCallbacks() {
         override fun onFragmentViewCreated(fm: FragmentManager, f: Fragment, v: View, savedInstanceState: Bundle?) {
             super.onFragmentViewCreated(fm, f, v, savedInstanceState)
+
+            // TODO (Сделать нормально!)
+            if (f is TabsFragment) snackbar?.setAnchorView(R.id.bottom_nav)
             if (f is TabsFragment || f is NavHostFragment){
-                snackbar?.setAnchorView(R.id.bottom_nav)
+                return
             }
             onNavControllerActivated(f.findNavController())
         }
@@ -61,22 +59,22 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+
+        //SharedPrefs TODO(Сделать datastore через внедрение зависимостей)
+        val isSigned = !SharedPrefs.authToken.isNullOrEmpty()
+
         // preparing root nav controller
         val navController = getRootNavController()
-        prepareRootNavController(true, navController)
+        prepareRootNavController(isSigned, navController)
         onNavControllerActivated(navController)
-
 
 
         supportFragmentManager.registerFragmentLifecycleCallbacks(fragmentListener, true)
 
+        // TODO (Поставить нормальную подпись на Snackbar)
         snackbar = Snackbar.make(findViewById(R.id.coordinatorLayout), R.string.error_from_repository, Snackbar.LENGTH_LONG)
 
         networkStateUtils = NetworkStateUtils(this.applicationContext, snackbar)
-
-
-
-
 
 
     }
@@ -85,7 +83,6 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.unregisterFragmentLifecycleCallbacks(fragmentListener)
         navController = null
         super.onDestroy()
-        Timber.d("isFinishing = $isFinishing")
     }
 
     override fun onBackPressed() {
