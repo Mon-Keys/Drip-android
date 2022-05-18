@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.text.InputFilter
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.navOptions
 import com.drip.dripapplication.App
 import com.drip.dripapplication.R
 import com.drip.dripapplication.databinding.ProfileEditFragmentBinding
@@ -17,6 +18,7 @@ import com.drip.dripapplication.domain.use_case.EditProfileUseCase
 import com.drip.dripapplication.domain.use_case.GetProfileEditUseCase
 import com.drip.dripapplication.domain.model.User
 import com.drip.dripapplication.domain.model.UserRequest
+import com.drip.dripapplication.presentation.findTopNavController
 import timber.log.Timber
 import java.util.regex.Pattern
 
@@ -167,8 +169,23 @@ class ProfileEditFragment : Fragment() {
             Timber.i("AAAAAAAAAa")
             if (it in 200..299) {
                 Timber.i("EEEEEEEEEEEEEEEE")
-                //findNavController().navigate()
-                findNavController().popBackStack()
+
+                //Navigation
+                val parent = findNavController().previousBackStackEntry?.destination?.id
+                if (parent!=null) {
+                    if (parent == R.id.tabsFragment) {
+                        Timber.d("from profile")
+                        findNavController().popBackStack()
+                    }
+                    else if (parent == R.id.signupFragment) {
+                        Timber.d("from signup")
+                        findNavController().navigate(R.id.tabsFragment,null, navOptions{
+                            popUpTo(R.id.signupFragment){
+                                inclusive = true
+                            }
+                        })
+                    }
+                }
             }
         }
     }
