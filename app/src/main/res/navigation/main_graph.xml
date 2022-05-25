@@ -36,9 +36,20 @@
         <action
                 android:id="@+id/action_tabsFragment_to_profileEditFragment"
                 app:destination="@id/profileEditFragment" />
+        <action
+                android:id="@+id/action_tabsFragment_to_matchFragment"
+                app:destination="@id/matchFragment" />
     </fragment>
     <fragment
             android:id="@+id/profileEditFragment"
             android:name="com.drip.dripapplication.presentation.profileEdit.ProfileEditFragment"
             android:label="ProfileEditFragment" />
+    <fragment
+            android:id="@+id/matchFragment"
+            android:name="com.drip.dripapplication.presentation.match.MatchFragment"
+            android:label="MatchFragment" >
+        <argument
+                android:name="matchUser"
+                app:argType="com.drip.dripapplication.presentation.match.MatchUserParcelable" />
+    </fragment>
 </navigation>

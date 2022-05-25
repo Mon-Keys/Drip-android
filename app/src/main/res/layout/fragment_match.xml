@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/gradient_background">
+
+    <TextView
+            android:id="@+id/itsMatch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/it_s_match"
+            android:textSize="30sp"
+            android:textColor="@color/white"
+            android:fontFamily="@font/futura_bold"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/matchPhoto"/>
+
+    <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/matchPhoto"
+            android:layout_width="350dp"
+            android:layout_height="350dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/itsMatch"
+            app:layout_constraintBottom_toTopOf="@id/matchTextView"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent"
+            tools:background="@drawable/icon_baseline_account" />
+
+
+    <TextView
+            android:id="@+id/matchTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/match_with_name"
+            android:textSize="30sp"
+            android:gravity="center"
+            android:layout_marginHorizontal="30dp"
+            android:textColor="@color/white"
+            android:fontFamily="@font/futura_bold"
+            app:layout_constraintTop_toBottomOf="@id/matchPhoto"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/buttonOk"/>
+
+    <Button
+            android:id="@+id/buttonOk"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="OK"
+            android:textColor="@color/black"
+            app:layout_constraintTop_toBottomOf="@id/matchTextView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:backgroundTint="@color/white"
+            android:background="@drawable/drip_button"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
