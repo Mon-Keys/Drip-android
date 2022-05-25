@@ -1,7 +1,6 @@
 package com.drip.dripapplication.presentation.feed
 
 import android.animation.ObjectAnimator
-import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -15,7 +14,10 @@ import android.widget.TextView
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.constraintlayout.motion.widget.TransitionAdapter
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
 import com.drip.dripapplication.App
@@ -24,6 +26,7 @@ import com.drip.dripapplication.databinding.FeedFragmentBinding
 import com.drip.dripapplication.domain.model.User
 import com.drip.dripapplication.domain.use_case.GetFeedUseCase
 import com.drip.dripapplication.domain.use_case.SetReactionUseCase
+import com.drip.dripapplication.presentation.findTopNavController
 import com.drip.dripapplication.presentation.profile.PhotoRecycleAdapter
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -48,6 +51,7 @@ class FeedFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        Timber.d("onCreateView")
         _binding = FeedFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -56,32 +60,44 @@ class FeedFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val appContainer = (activity?.application as App).appContainer
 
-        viewModel = FeedViewModel(GetFeedUseCase(appContainer.userRepository), SetReactionUseCase(appContainer.likeRepository))
+        Timber.d("_binding = $_binding")
+
+        viewModel = ViewModelProvider(this ,ViewModelsFactory(GetFeedUseCase(appContainer.userRepository), SetReactionUseCase(appContainer.likeRepository)))[FeedViewModel::class.java]
+        //viewModel = FeedViewModel by viewModels{ViewModelsFactory(GetFeedUseCase(appContainer.userRepository), SetReactionUseCase(appContainer.likeRepository))}
 
         setupViewPager()
 
-        binding.feedMotionLayout.profileCard.viewPagerIndicator.setupWithViewPager(viewPager)
+        setupReactions()
 
-        initObservers()
+        setupExpandAnimations()
 
-        //Animations
+
+        //viewModel.getCurrentUser()
+
+        initObserverUiState()
+
+
+
+    }
+
+    //Animations
+    private fun setupReactions(){
+
+        //Transition listener
         binding.feedMotionLayout.mainLayout.setTransitionListener(object : TransitionAdapter(){
             override fun onTransitionCompleted(motionLayout: MotionLayout, currentId: Int) {
                 when (currentId) {
                     R.id.toPass-> {
-                        motionLayout.progress = 0f
-                        motionLayout.transitionToStart()
                         viewModel.swipe(viewModel.uiState.value.userCard?.id ?: -1, 0)
                     }
                     R.id.toLike -> {
-                        motionLayout.progress = 0f
-                        motionLayout.transitionToStart()
                         viewModel.swipe(viewModel.uiState.value.userCard?.id ?: -1, 1)
                     }
                 }
             }
         })
 
+        //Buttons listeners
         binding.feedMotionLayout.profileCard.like.setOnClickListener {
             binding.feedMotionLayout.mainLayout.transitionToState(R.id.toLike)
         }
@@ -89,7 +105,9 @@ class FeedFragment : Fragment() {
         binding.feedMotionLayout.profileCard.dislike.setOnClickListener {
             binding.feedMotionLayout.mainLayout.transitionToState(R.id.toPass)
         }
+    }
 
+    private fun setupExpandAnimations(){
         binding.feedMotionLayout.profileCard.expand.setOnClickListener {
 
             val progress = binding.feedMotionLayout.profileCard.root.progress
@@ -105,19 +123,11 @@ class FeedFragment : Fragment() {
 
             animationButton(binding.feedMotionLayout.profileCard.expand, progress)
 
-
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-        Timber.d("onDestroyView")
-    }
-
-    //Animations
     private fun animationButton(view: ImageButton, progress: Float){
-        if (progress==0f || progress == 1f){
+        if (progress == 0f || progress == 1f){
             view.animate()
                 .rotationBy(180f)
                 .setDuration(1000)
@@ -160,6 +170,9 @@ class FeedFragment : Fragment() {
             }
         })
 
+        //ViewPager indicator (slider)
+        binding.feedMotionLayout.profileCard.viewPagerIndicator.setupWithViewPager(viewPager)
+
         //ViewPager buttons
         binding.feedMotionLayout.profileCard.buttonNext.setOnClickListener{
             viewPager.setCurrentItem(viewPager.currentItem + 1, true)
@@ -173,10 +186,19 @@ class FeedFragment : Fragment() {
     }
 
 
-    private fun initObservers(){
-        viewLifecycleOwner.lifecycleScope.launchWhenResumed {
+    private fun initObserverUiState(){
+        viewLifecycleOwner.lifecycleScope.launch {
             viewModel.uiState.collect {
+                Timber.d("uiState = $it")
                 binding.loading.isVisible = it.isLoading
+
+                if (it.match != null){
+                    val bundle = bundleOf("matchUser" to it.match)
+                    findTopNavController().navigate(R.id.action_tabsFragment_to_matchFragment, bundle)
+                }else{
+                    binding.feedMotionLayout.root.progress = 0f
+                    binding.feedMotionLayout.root.transitionToStart()
+                }
 
                 if (it.userCard != null){
                     val user = it.userCard
@@ -184,18 +206,13 @@ class FeedFragment : Fragment() {
 
                     adapter.userPhoto = user.images
 
-                    Timber.d("viewPagerWidth = ${viewPager.width}")
-
-                    viewPager.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
-                        override fun onGlobalLayout() {
-                            setupSlider(adapter.itemCount, viewPager.width)
-                            viewPager.viewTreeObserver.removeOnGlobalLayoutListener(this)
-                        }
-
-                    })
-
-
-
+//                    viewPager.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+//                        override fun onGlobalLayout() {
+//                            setupSlider(adapter.itemCount, viewPager.width)
+//                            viewPager.viewTreeObserver.removeOnGlobalLayoutListener(this)
+//                        }
+//
+//                    })
 
                     insertDataIntoTextView(user)
 
@@ -277,6 +294,11 @@ class FeedFragment : Fragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        Timber.d("onResume")
+    }
+
     override fun onPause() {
         super.onPause()
         Timber.d("onPause")
@@ -287,9 +309,10 @@ class FeedFragment : Fragment() {
         Timber.d("onStop")
     }
 
-    override fun onResume() {
-        super.onResume()
-        Timber.d("onResume")
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+        Timber.d("onDestroyView")
     }
 
 

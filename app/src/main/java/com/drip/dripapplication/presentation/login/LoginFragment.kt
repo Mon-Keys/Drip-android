@@ -148,7 +148,7 @@ class LoginFragment : Fragment() {
             binding.AuthError.isVisible = it in 300..500
             if (it in 200..299) {
                 //TODO: ("Сделать так, чтобы токен сохранялся в Shared pref, пока захардкодил.")
-                SharedPrefs.authToken = ""
+                SharedPrefs.authToken = "d1ed78962260b12b4cd88812562fa7a7"
                 findNavController().navigate(R.id.action_loginFragment_to_tabsFragment)
             }
         }
