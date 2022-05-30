@@ -16,6 +16,13 @@
             android:id="@+id/feedMotionLayout"
             android:visibility="visible"/>
 
+    <include layout="@layout/error_feed_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/errorFeedLayout"
+            android:visibility="invisible"/>
+
+
     <ProgressBar
             android:id="@+id/loading"
             android:layout_width="100dp"

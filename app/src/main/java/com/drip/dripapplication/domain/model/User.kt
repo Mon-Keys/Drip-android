@@ -1,6 +1,7 @@
 package com.drip.dripapplication.domain.model
 
 import com.drip.dripapplication.data.remote.model.UserDto
+import com.drip.dripapplication.utils.UserPhoto
 
 data class User(
     val id: Long,
@@ -11,4 +12,5 @@ data class User(
     val tags: List<String>
 ){
     fun toRepModel() = UserDto(id, name, age, description ?: "", images, tags ?: emptyList())
+
 }

@@ -1,4 +1,4 @@
-package com.drip.dripapplication.presentation.feed
+package com.drip.dripapplication.presentation.feed.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

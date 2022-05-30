@@ -30,7 +30,8 @@
             app:vpi_slide_mode="smooth"
             app:vpi_slider_checked_color="#FFFFFF"
             app:vpi_slider_normal_color="#B3D1D1D1"
-            app:vpi_style="round_rect" />
+            app:vpi_style="round_rect"
+            android:visibility="visible"/>
 
     <ImageButton
             android:id="@+id/buttonPrev"

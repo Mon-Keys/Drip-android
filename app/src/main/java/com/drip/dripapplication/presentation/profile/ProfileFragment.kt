@@ -1,12 +1,7 @@
 package com.drip.dripapplication.presentation.profile
 
 import android.content.Context
-import android.content.DialogInterface
 import android.graphics.Color
-import android.graphics.Color.blue
-import android.graphics.Typeface
-import android.graphics.drawable.Drawable
-import android.graphics.fonts.Font
 import android.os.Bundle
 import android.view.*
 import android.widget.TextView
@@ -14,18 +9,16 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.core.view.isVisible
-import androidx.core.view.setPadding
-import androidx.navigation.fragment.findNavController
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.viewpager2.widget.ViewPager2
 import com.drip.dripapplication.App
 import com.drip.dripapplication.R
+import com.drip.dripapplication.data.utils.SharedPrefs
 import com.drip.dripapplication.databinding.ProfileFragmentBinding
 import com.drip.dripapplication.domain.model.User
 import com.drip.dripapplication.domain.use_case.GetUserInfoUseCase
+import com.drip.dripapplication.presentation.feed.adapter.PhotoRecycleAdapterWithDiffUtil
 import com.drip.dripapplication.presentation.findTopNavController
-import com.google.android.flexbox.FlexboxLayout
-import com.google.android.flexbox.FlexboxLayoutManager
+import com.drip.dripapplication.presentation.profile.viewModel.ProfileViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import timber.log.Timber
@@ -36,11 +29,6 @@ class ProfileFragment : Fragment() {
     private var _binding: ProfileFragmentBinding? = null
     private val binding get() = _binding!!
 
-    companion object {
-        fun newInstance() = ProfileFragment()
-    }
-
-
     //ViewModel
     private lateinit var viewModel: ProfileViewModel
 
@@ -48,7 +36,7 @@ class ProfileFragment : Fragment() {
     private lateinit var viewPager: ViewPager2
 
     //Adapter
-    private lateinit var adapter: PhotoRecycleAdapter
+    private lateinit var adapterWithDiffUtil: PhotoRecycleAdapterWithDiffUtil
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -66,7 +54,7 @@ class ProfileFragment : Fragment() {
         viewModel = ProfileViewModel(GetUserInfoUseCase(appContainer.userRepository))
 
 
-        adapter = PhotoRecycleAdapter()
+        adapterWithDiffUtil = PhotoRecycleAdapterWithDiffUtil()
 
         viewPager = binding.photo
 
@@ -80,7 +68,7 @@ class ProfileFragment : Fragment() {
 
         //ViewPager buttons
         binding.buttonNext.setOnClickListener{
-            if (viewPager.currentItem < adapter.itemCount) viewPager.setCurrentItem(viewPager.currentItem + 1, true)
+            if (viewPager.currentItem < adapterWithDiffUtil.itemCount) viewPager.setCurrentItem(viewPager.currentItem + 1, true)
         }
 
         binding.buttonPrev.setOnClickListener{
@@ -100,20 +88,19 @@ class ProfileFragment : Fragment() {
             binding.refreshLayout.isRefreshing = false
         }
 
-//        //MaxWidth
-//        binding.description.maxHeight = binding.descrAndTags.height/2
-//        Timber.d("layoutHeight = ${binding.descrAndTags.height}, " +
-//                "heightText = ${binding.description.maxHeight}")
-
-
         binding.logOut.setOnClickListener {
             MaterialAlertDialogBuilder(it.context)
                 .setTitle(getString(R.string.alert_dialog_logout_title))
                 .setMessage(getString(R.string.alert_dialog_logout_text))
                 .setPositiveButton(getString(R.string.alert_dialog_logout_positive_button)
-                ) { dialog, which -> TODO() }
+                ) { dialog, which ->
+                    SharedPrefs.authToken = ""
+                    findTopNavController().navigate(R.id.loginFragment)
+                }
                 .setNeutralButton(getString(R.string.alert_dialog_logout_neutral_button)
-                ){ dialog, which -> TODO()}
+                ){ dialog, _ ->
+                    dialog.dismiss()
+                }
                 .show()
         }
     }
@@ -134,7 +121,7 @@ class ProfileFragment : Fragment() {
     }
 
     private fun initViewPager(){
-        viewPager.adapter = adapter
+        viewPager.adapter = adapterWithDiffUtil
 
         //ViewPager page listener
         viewPager.registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback() {
@@ -142,7 +129,7 @@ class ProfileFragment : Fragment() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
                 when  {
-                    adapter.itemCount == 1 -> {
+                    adapterWithDiffUtil.itemCount == 1 -> {
                         binding.buttonPrev.visibility = View.INVISIBLE
                         binding.buttonNext.visibility = View.INVISIBLE
                     }
@@ -150,7 +137,7 @@ class ProfileFragment : Fragment() {
                         binding.buttonPrev.visibility = View.INVISIBLE
                         binding.buttonNext.visibility = View.VISIBLE
                     }
-                    position == adapter.itemCount - 1 ->{
+                    position == adapterWithDiffUtil.itemCount - 1 ->{
                         binding.buttonPrev.visibility = View.VISIBLE
                         binding.buttonNext.visibility = View.INVISIBLE
                     }
@@ -173,9 +160,9 @@ class ProfileFragment : Fragment() {
         viewModel.userInfo.observe(viewLifecycleOwner) {
             if (it != null) {
                 Timber.d("user=$it")
-                adapter.userPhoto = it.images
+                //adapterWithDiffUtil.userPhoto = it.images
 
-                setupSlider(adapter.itemCount, viewPager.width)
+                setupSlider(adapterWithDiffUtil.itemCount, viewPager.width)
 
                 insertDataIntoTextView(it)
 
@@ -187,7 +174,6 @@ class ProfileFragment : Fragment() {
         viewModel.errorMessage.observe(viewLifecycleOwner){
             Snackbar
                 .make(binding.root, it, Snackbar.LENGTH_LONG)
-                .setBackgroundTint(ContextCompat.getColor(binding.root.context,R.color.red))
                 .setAnchorView(R.id.bottom_nav)
                 .show()
 

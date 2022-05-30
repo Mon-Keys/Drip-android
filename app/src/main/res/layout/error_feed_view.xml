@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/gradient_background"
+        android:id="@+id/errorFeedLayout">
+
+    <ImageView
+            android:id="@+id/logo"
+            android:layout_width="0dp"
+            android:layout_height="300dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/BottomTextView"
+            android:src="@drawable/icon_round_warning"
+            />
+
+    <TextView
+            android:id="@+id/BottomTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="An error occurred while loading the feed. Check your internet connection and try again later."
+            android:fontFamily="@font/futura_bold"
+            android:textColor="@color/white"
+            android:textSize="25sp"
+            android:layout_marginHorizontal="20dp"
+            android:gravity="center"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/buttonTry"
+            app:layout_constraintTop_toBottomOf="@id/logo"/>
+
+    <Button
+            android:id="@+id/buttonTry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Try again"
+            android:textColor="@color/black"
+            app:layout_constraintTop_toBottomOf="@id/BottomTextView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:backgroundTint="@color/white"
+            android:background="@drawable/drip_button"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

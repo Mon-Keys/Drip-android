@@ -9,7 +9,7 @@ import androidx.core.content.ContextCompat.getSystemService
 import com.google.android.material.snackbar.Snackbar
 import timber.log.Timber
 
-class NetworkStateUtils(context: Context, snackbar: Snackbar?) {
+class NetworkStateUtil(context: Context, snackbar: Snackbar?) {
     private val connectivityManager = getSystemService(context, ConnectivityManager::class.java) as ConnectivityManager
 
     private val networkRequest = NetworkRequest.Builder()
@@ -21,8 +21,6 @@ class NetworkStateUtils(context: Context, snackbar: Snackbar?) {
     private val networkCallback = object : ConnectivityManager.NetworkCallback() {
         override fun onLost(network: Network) {
             super.onLost(network)
-            //Toast.makeText(context, "Connection lost", Toast.LENGTH_SHORT).show()
-            Timber.d("${snackbar?.anchorView}")
             snackbar?.show()
         }
     }

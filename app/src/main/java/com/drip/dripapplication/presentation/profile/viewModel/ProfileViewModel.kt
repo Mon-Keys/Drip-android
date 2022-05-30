@@ -1,4 +1,4 @@
-package com.drip.dripapplication.presentation.profile
+package com.drip.dripapplication.presentation.profile.viewModel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -33,7 +33,7 @@ class ProfileViewModel(private val useCase: GetUserInfoUseCase) : ViewModel() {
                         _loadingState.value = true
                     }
                     is ResultWrapper.Error -> {
-                        _errorMessage.value = R.string.error_from_repository
+                        _errorMessage.value = R.string.error_from_network
                         _loadingState.value = false
                     }
                     is ResultWrapper.Success -> {

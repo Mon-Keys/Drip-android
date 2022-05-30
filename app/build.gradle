@@ -12,6 +12,9 @@ plugins {
     //Navigation SafeArgs
     id "androidx.navigation.safeargs.kotlin"
 
+    //Hilt
+    id 'dagger.hilt.android.plugin'
+
 }
 
 android {
@@ -91,11 +94,20 @@ dependencies {
     implementation 'com.google.android.flexbox:flexbox:3.0.0'
 
     // Splash Screen
-    implementation "androidx.core:core-splashscreen:1.0.0-beta02"
+    implementation "androidx.core:core-splashscreen:1.0.0-rc01"
 
     // Preferences DataStore
     implementation "androidx.datastore:datastore-preferences:1.0.0"
 
+    //Room
+    def roomVersion = "2.4.2"
+    implementation "androidx.room:room-runtime:$roomVersion"
+    kapt "androidx.room:room-compiler:$roomVersion"
+
+    //Hilt
+    def hiltVersion = "2.38.1"
+    implementation "com.google.dagger:hilt-android:$hiltVersion"
+    kapt "com.google.dagger:hilt-compiler:$hiltVersion"
     //LeakCanary
     //debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.9.1'
 
