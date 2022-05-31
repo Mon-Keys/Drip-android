@@ -21,7 +21,7 @@ class LikeRepositoryImpl(
                 val matchDto = response.body!!
                 emit(ResultWrapper.Success(200, matchDto.match))
             }else{
-                emit(ResultWrapper.Success(200, true))
+                emit(ResultWrapper.Success(200, false))
                 //emit(ResultWrapper.Error(Exception("Bad response status")))
             }
         }catch (e: Exception){

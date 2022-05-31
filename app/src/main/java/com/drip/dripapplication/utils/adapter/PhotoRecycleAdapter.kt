@@ -21,6 +21,7 @@ class PhotoRecycleAdapter : RecyclerView.Adapter<PhotoRecycleAdapter.ViewHolder>
             Glide.with(itemView)
                 //.load("https://drip.monkeys.team/$photo")
                 .load(photo)
+                .centerCrop()
                 .placeholder(R.drawable.icon_baseline_image)
                 .error(R.drawable.icon_baseline_broken_image)
                 .into(itemBinding.profilePhoto)

@@ -34,6 +34,17 @@
                 app:layout_constraintRight_toRightOf="@id/photo"
                 app:layout_constraintTop_toTopOf="@id/photo"
                 app:visibilityMode="ignore"/>
+        <Constraint
+                android:id="@+id/tab_layout"
+                app:layout_constraintEnd_toEndOf="@id/photo"
+                android:layout_width="0dp"
+                android:layout_height="7dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                app:layout_constraintTop_toTopOf="@+id/photo"
+                app:layout_constraintStart_toStartOf="@id/photo"
+                android:layout_marginTop="10dp"
+                app:visibilityMode="ignore"/>
     </ConstraintSet>
 
     <ConstraintSet android:id="@+id/end">

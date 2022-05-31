@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.view.animation.LinearInterpolator
+import android.view.animation.ScaleAnimation
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.constraintlayout.motion.widget.MotionLayout
@@ -30,6 +31,7 @@ import com.drip.dripapplication.presentation.findTopNavController
 import com.drip.dripapplication.presentation.feed.viewModel.FeedViewModel
 import com.drip.dripapplication.presentation.feed.viewModel.ViewModelsFactory
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.coroutines.flow.collect
 import timber.log.Timber
 
@@ -47,8 +49,6 @@ class FeedFragment : Fragment() {
     private lateinit var viewPager: ViewPager2
 
     private val adapter = PhotoRecycleAdapter()
-
-    private var viewPagerWidth = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -70,7 +70,7 @@ class FeedFragment : Fragment() {
             viewModel.getCurrentUser()
         }
 
-        setupViewPager()
+        setupViewPagerAndIndicator()
 
         setupReactions()
 
@@ -86,7 +86,7 @@ class FeedFragment : Fragment() {
     private fun setupReactions(){
 
         //Transition listener
-        binding.feedMotionLayout.mainLayout.setTransitionListener(object : TransitionAdapter(){
+        binding.mainLayout.setTransitionListener(object : TransitionAdapter(){
             override fun onTransitionCompleted(motionLayout: MotionLayout, currentId: Int) {
                 when (currentId) {
                     R.id.toPass-> {
@@ -100,30 +100,30 @@ class FeedFragment : Fragment() {
         })
 
         //Buttons listeners
-        binding.feedMotionLayout.profileCard.like.setOnClickListener {
-            binding.feedMotionLayout.mainLayout.transitionToState(R.id.toLike)
+        binding.profileCard.like.setOnClickListener {
+            binding.mainLayout.transitionToState(R.id.toLike)
         }
 
-        binding.feedMotionLayout.profileCard.dislike.setOnClickListener {
-            binding.feedMotionLayout.mainLayout.transitionToState(R.id.toPass)
+        binding.profileCard.dislike.setOnClickListener {
+            binding.mainLayout.transitionToState(R.id.toPass)
         }
     }
 
     private fun setupExpandAnimations(){
-        binding.feedMotionLayout.profileCard.expand.setOnClickListener {
+        binding.profileCard.expand.setOnClickListener {
 
-            val progress = binding.feedMotionLayout.profileCard.root.progress
+            val progress = binding.profileCard.root.progress
 
             if (progress == 0.0f) {
-                binding.feedMotionLayout.profileCard.root.transitionToState(R.id.end)
+                binding.profileCard.root.transitionToState(R.id.end)
             }
             if (progress == 1.0f) {
-                binding.feedMotionLayout.profileCard.root.transitionToState(R.id.start)
+                binding.profileCard.root.transitionToState(R.id.start)
             }
 
-            animationDescription(binding.feedMotionLayout.profileCard.descrAndTags, progress)
+            animationDescription(binding.profileCard.descrAndTags, progress)
 
-            animationButton(binding.feedMotionLayout.profileCard.expand, progress)
+            animationButton(binding.profileCard.expand, progress)
 
         }
     }
@@ -157,8 +157,8 @@ class FeedFragment : Fragment() {
 
     }
 
-    private fun setupViewPager(){
-        viewPager = binding.feedMotionLayout.profileCard.photo
+    private fun setupViewPagerAndIndicator(){
+        viewPager = binding.profileCard.photo
 
         viewPager.adapter = adapter
 
@@ -172,15 +172,19 @@ class FeedFragment : Fragment() {
             }
         })
 
+        val tabLayout = binding.profileCard.tabLayout
+        //tabLayout.setupWithViewPager(viewPager)
+        TabLayoutMediator(tabLayout, viewPager) { _, _ ->}.attach()
+
         //ViewPager indicator (slider)
-        binding.feedMotionLayout.profileCard.viewPagerIndicator.setupWithViewPager(viewPager)
+        //binding.profileCard.viewPagerIndicator.setupWithViewPager(viewPager)
 
         //ViewPager buttons
-        binding.feedMotionLayout.profileCard.buttonNext.setOnClickListener{
+        binding.profileCard.buttonNext.setOnClickListener{
             viewPager.setCurrentItem(viewPager.currentItem + 1, true)
         }
 
-        binding.feedMotionLayout.profileCard.buttonPrev.setOnClickListener{
+        binding.profileCard.buttonPrev.setOnClickListener{
             viewPager.setCurrentItem(viewPager.currentItem - 1, true)
         }
 
@@ -194,8 +198,13 @@ class FeedFragment : Fragment() {
                 binding.loading.isInvisible = !it.isLoading
 
                 if (it.userCard != null){
+                    binding.profileCard.root.visibility = View.VISIBLE
+                    val anim = ScaleAnimation(0f,1f,0f,1f, ScaleAnimation.RELATIVE_TO_SELF, 0.5f, ScaleAnimation.RELATIVE_TO_SELF, 0.5f)
+                    anim.duration = 500
+                    binding.profileCard.root.animation = anim
+
                     val user = it.userCard
-                    binding.feedMotionLayout.profileCard.tagsLayout.removeAllViewsInLayout()
+                    binding.profileCard.tagsLayout.removeAllViewsInLayout()
 
                     adapter.userPhoto = user.images
 
@@ -207,21 +216,21 @@ class FeedFragment : Fragment() {
                         override fun onGlobalLayout() {
                             setupSlider(adapter.itemCount, viewPager.width)
                             viewPager.setCurrentItem(0, false)
-                            binding.feedMotionLayout.root.visibility = View.VISIBLE
+                            //binding.feedMotionLayout.root.visibility = View.VISIBLE
                             viewPager.viewTreeObserver.removeOnGlobalLayoutListener(this)
                         }
 
                     })
                 }else {
-                    binding.feedMotionLayout.root.visibility = View.INVISIBLE
+                    binding.profileCard.root.visibility = View.INVISIBLE
                 }
 
                 if (it.match != null){
                     val bundle = bundleOf("matchUser" to it.match)
                     findTopNavController().navigate(R.id.action_tabsFragment_to_matchFragment, bundle)
                 }else {
-                    binding.feedMotionLayout.profileCard.root.transitionToState(R.id.start)
-                    binding.feedMotionLayout.root.transitionToState(R.id.start, 1)
+                    binding.profileCard.root.transitionToState(R.id.start)
+                    binding.mainLayout.transitionToState(R.id.start, 1)
                 }
 
                 binding.errorFeedLayout.root.isInvisible = !it.isFeedLoadingError
@@ -247,26 +256,27 @@ class FeedFragment : Fragment() {
             sliderGap = sliderGap
         )
 
-        binding.feedMotionLayout.profileCard.viewPagerIndicator.apply {
-            setSliderWidth(sliderWidth)
-            setSliderGap(convertDpToPixels(7))
-            setSliderHeight(convertDpToPixels(5))
-            notifyDataChanged()
-        }
+        Timber.d("${viewPagerWidth}")
+//        binding.profileCard.viewPagerIndicator.apply {
+//            setSliderWidth(sliderWidth)
+//            setSliderGap(convertDpToPixels(7))
+//            setSliderHeight(convertDpToPixels(5))
+//            notifyDataChanged()
+//        }
 
     }
 
     private fun insertDataIntoTextView(user: User){
         val nameWithComma = "${user.name},"
-        binding.feedMotionLayout.profileCard.name.text = nameWithComma
+        binding.profileCard.name.text = nameWithComma
 
-        binding.feedMotionLayout.profileCard.age.text = user.age.toString()
-        binding.feedMotionLayout.profileCard.description.text = user.description
+        binding.profileCard.age.text = user.age.toString()
+        binding.profileCard.description.text = user.description
 
         //Tags
         for (i in user.tags) {
             val view = generateTextView(i)
-            binding.feedMotionLayout.profileCard.tagsLayout.addView(view)
+            binding.profileCard.tagsLayout.addView(view)
         }
 
 
@@ -292,14 +302,20 @@ class FeedFragment : Fragment() {
     private fun changeVPNavButtonsVisibility(position: Int, viewPagerItemsCount: Int){
         when (position) {
             0 -> {
-                binding.feedMotionLayout.profileCard.buttonPrev.visibility = View.INVISIBLE
-                if (viewPagerItemsCount == 1) binding.feedMotionLayout.profileCard.buttonNext.visibility = View.INVISIBLE
-                else binding.feedMotionLayout.profileCard.buttonNext.visibility = View.VISIBLE
+                binding.profileCard.buttonPrev.visibility = View.INVISIBLE
+                if (viewPagerItemsCount == 1) {
+                    binding.profileCard.buttonNext.visibility = View.INVISIBLE
+                    binding.profileCard.tabLayout.visibility = View.INVISIBLE
+                }
+                else {
+                    binding.profileCard.buttonNext.visibility = View.VISIBLE
+                    binding.profileCard.tabLayout.visibility = View.VISIBLE
+                }
             }
             else -> {
-                binding.feedMotionLayout.profileCard.buttonPrev.visibility = View.VISIBLE
-                if (position == viewPagerItemsCount - 1) binding.feedMotionLayout.profileCard.buttonNext.visibility = View.INVISIBLE
-                else binding.feedMotionLayout.profileCard.buttonNext.visibility = View.VISIBLE
+                binding.profileCard.buttonPrev.visibility = View.VISIBLE
+                if (position == viewPagerItemsCount - 1) binding.profileCard.buttonNext.visibility = View.INVISIBLE
+                else binding.profileCard.buttonNext.visibility = View.VISIBLE
             }
         }
     }
@@ -307,13 +323,11 @@ class FeedFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         Timber.d("onStart")
-        Timber.d("onStart width = ${viewPager.width}")
     }
 
     override fun onResume() {
         super.onResume()
         Timber.d("onResume")
-        Timber.d("onResume width = ${viewPager.width}")
     }
 
     override fun onPause() {
