@@ -8,4 +8,6 @@ interface UserRepository {
     fun getUser(): Flow<ResultWrapper<User?>>
 
     fun getFeed(): Flow<ResultWrapper<List<User>?>>
+
+    fun getLikes(): Flow<ResultWrapper<List<User>?>>
 }

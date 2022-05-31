@@ -61,4 +61,23 @@ class UserRepositoryImpl(
             emit(ResultWrapper.Error(e))
         }
     }.flowOn(Dispatchers.IO)
+
+    override fun getLikes(): Flow<ResultWrapper<List<User>?>> = flow{
+        emit(ResultWrapper.Loading)
+        delay(1000)
+        try {
+            val response = api.getLikes()
+            Timber.d("responseBody = ${response.body}")
+            if (response.status == 200 && response.body != null){
+                val usersDto = response.body.users
+                val userDomain = usersDto?.map{
+                    it.toDomainModel()
+                }
+                Timber.d("usersDomain = $userDomain")
+                emit(ResultWrapper.Success(200,userDomain))
+            }
+        }catch (e: Exception){
+            emit(ResultWrapper.Error(e))
+        }
+    }.flowOn(Dispatchers.IO)
 }

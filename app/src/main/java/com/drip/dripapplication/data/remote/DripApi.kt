@@ -21,6 +21,9 @@ interface DripApi {
     @GET("api/v1/user/cards")
     suspend fun getUsers(): ResponseWrapper<UsersListDto>
 
+    @GET("api/v1/user/likes")
+    suspend fun getLikes(): ResponseWrapper<LikedUsersListDto>
+
     @POST("api/v1/likes")
     suspend fun setReaction(@Body request: LikeRequestBody): ResponseWrapper<MatchDto>
 }
