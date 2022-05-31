@@ -16,9 +16,9 @@ import com.drip.dripapplication.data.utils.SharedPrefs
 import com.drip.dripapplication.databinding.ProfileFragmentBinding
 import com.drip.dripapplication.domain.model.User
 import com.drip.dripapplication.domain.use_case.GetUserInfoUseCase
-import com.drip.dripapplication.presentation.feed.adapter.PhotoRecycleAdapterWithDiffUtil
 import com.drip.dripapplication.presentation.findTopNavController
 import com.drip.dripapplication.presentation.profile.viewModel.ProfileViewModel
+import com.drip.dripapplication.utils.adapter.PhotoRecycleAdapter
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import timber.log.Timber
@@ -36,7 +36,7 @@ class ProfileFragment : Fragment() {
     private lateinit var viewPager: ViewPager2
 
     //Adapter
-    private lateinit var adapterWithDiffUtil: PhotoRecycleAdapterWithDiffUtil
+    private lateinit var adapterWithDiffUtil: PhotoRecycleAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -54,7 +54,7 @@ class ProfileFragment : Fragment() {
         viewModel = ProfileViewModel(GetUserInfoUseCase(appContainer.userRepository))
 
 
-        adapterWithDiffUtil = PhotoRecycleAdapterWithDiffUtil()
+        adapterWithDiffUtil = PhotoRecycleAdapter()
 
         viewPager = binding.photo
 

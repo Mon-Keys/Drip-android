@@ -219,7 +219,10 @@ class FeedFragment : Fragment() {
                 if (it.match != null){
                     val bundle = bundleOf("matchUser" to it.match)
                     findTopNavController().navigate(R.id.action_tabsFragment_to_matchFragment, bundle)
-                }else binding.feedMotionLayout.root.transitionToState(R.id.start, 1)
+                }else {
+                    binding.feedMotionLayout.profileCard.root.transitionToState(R.id.start)
+                    binding.feedMotionLayout.root.transitionToState(R.id.start, 1)
+                }
 
                 binding.errorFeedLayout.root.isInvisible = !it.isFeedLoadingError
 
@@ -236,7 +239,6 @@ class FeedFragment : Fragment() {
     }
 
     private fun setupSlider(numberOfItems: Int, viewPagerWidth: Int){
-        Timber.d("viewPagerWidth = $viewPagerWidth and $numberOfItems")
 
         val sliderGap = convertDpToPixels(7)
         val sliderWidth = calculateSliderWidth(
@@ -246,13 +248,10 @@ class FeedFragment : Fragment() {
         )
 
         binding.feedMotionLayout.profileCard.viewPagerIndicator.apply {
-            Timber.d("in Apply")
-            Timber.d("indicator = ${binding.feedMotionLayout.profileCard.viewPagerIndicator.width}")
             setSliderWidth(sliderWidth)
             setSliderGap(convertDpToPixels(7))
             setSliderHeight(convertDpToPixels(5))
             notifyDataChanged()
-
         }
 
     }

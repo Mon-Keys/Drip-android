@@ -1,7 +1,6 @@
 package com.drip.dripapplication.domain.model
 
 import com.drip.dripapplication.data.remote.model.UserDto
-import com.drip.dripapplication.utils.UserPhoto
 
 data class User(
     val id: Long,
