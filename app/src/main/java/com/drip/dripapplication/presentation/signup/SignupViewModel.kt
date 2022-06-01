@@ -9,10 +9,13 @@ import com.drip.dripapplication.domain.model.Cridential
 import com.drip.dripapplication.domain.model.SignupResponse
 import com.drip.dripapplication.domain.model.User
 import com.drip.dripapplication.domain.use_case.SignupUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class SignupViewModel(private val useCase: SignupUseCase) : ViewModel() {
+@HiltViewModel
+class SignupViewModel @Inject constructor(private val useCase: SignupUseCase) : ViewModel() {
     private val _userInfo = MutableLiveData<SignupResponse?>()
     val userInfo: LiveData<SignupResponse?> = _userInfo
 

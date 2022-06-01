@@ -1,4 +1,4 @@
-package com.drip.dripapplication.presentation
+package com.drip.dripapplication.presentation.tabs
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,7 +7,10 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.drip.dripapplication.R
 import com.drip.dripapplication.databinding.FragmentTabsBinding
+import dagger.hilt.EntryPoint
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class TabsFragment : Fragment(R.layout.fragment_tabs) {
     private lateinit var binding: FragmentTabsBinding
 

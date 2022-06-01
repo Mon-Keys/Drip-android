@@ -30,7 +30,7 @@
     </fragment>
     <fragment
             android:id="@+id/tabsFragment"
-            android:name="com.drip.dripapplication.presentation.TabsFragment"
+            android:name="com.drip.dripapplication.presentation.tabs.TabsFragment"
             android:label="fragment_tabs"
             tools:layout="@layout/fragment_tabs" >
         <action
@@ -43,13 +43,19 @@
     <fragment
             android:id="@+id/profileEditFragment"
             android:name="com.drip.dripapplication.presentation.profileEdit.ProfileEditFragment"
-            android:label="ProfileEditFragment" />
+            android:label="ProfileEditFragment" >
+        <argument
+                android:name="userFromProfile"
+                app:argType="com.drip.dripapplication.domain.model.User" />
+    </fragment>
     <fragment
             android:id="@+id/matchFragment"
             android:name="com.drip.dripapplication.presentation.match.MatchFragment"
             android:label="MatchFragment" >
         <argument
                 android:name="matchUser"
-                app:argType="com.drip.dripapplication.presentation.match.MatchUserParcelable" />
+                app:argType="com.drip.dripapplication.domain.model.MatchUserParcelable"
+                app:nullable="true"
+                android:defaultValue="@null" />
     </fragment>
 </navigation>

@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import timber.log.Timber
+import kotlin.random.Random
 
 class UserRepositoryImpl(
     private val api: DripApi
@@ -19,7 +20,7 @@ class UserRepositoryImpl(
 ) : UserRepository {
     override fun getUser(): Flow<ResultWrapper<User?>> = flow{
         emit(ResultWrapper.Loading)
-        delay(1000)
+        //delay(500)
         try {
             val response = api.getUserInfo()
             Timber.d("$response")
@@ -30,8 +31,6 @@ class UserRepositoryImpl(
 
                 emit(ResultWrapper.Success(status, userDomain))
 
-                //emit(ResultWrapper.Success(userDomain))
-
             }else{
                 TODO("Берем данные из кэша")
             }
@@ -41,24 +40,4 @@ class UserRepositoryImpl(
         }
     }
         .flowOn(Dispatchers.IO)
-
-
-    override fun getFeed(): Flow<ResultWrapper<List<User>?>> = flow{
-        emit(ResultWrapper.Loading)
-        delay(1000)
-        try {
-            val response = api.getUsers()
-            Timber.d("responseBody = ${response.body}")
-            if (response.status == 200 && response.body != null){
-                val usersDto = response.body.users
-                val userDomain = usersDto?.map{
-                    it.toDomainModel()
-                }
-                Timber.d("usersDomain = $userDomain")
-                emit(ResultWrapper.Success(200,userDomain))
-            }
-        }catch (e: Exception){
-            emit(ResultWrapper.Error(e))
-        }
-    }.flowOn(Dispatchers.IO)
 }

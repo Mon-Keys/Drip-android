@@ -1,25 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_height="match_parent"
+<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/mainLayout"
         android:layout_width="match_parent"
-        android:background="@drawable/gradient_background">
+        android:layout_height="match_parent"
+        android:background="@drawable/gradient_background"
+        app:layoutDescription="@xml/motion_swipe">
+
+    <ImageView
+            android:id="@+id/swipeLike"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/icon_baseline_favorite" />
+    <ImageView
+            android:id="@+id/swipePass"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/icon_baseline_clear" />
 
     <include layout="@layout/end_of_feed_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             android:id="@+id/endOfFeed"
             android:visibility="invisible"/>
 
-    <include layout="@layout/swipe_motion_layout"
+    <include layout="@layout/card_view"
+            android:id="@+id/profileCard"
+            android:layout_margin="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:visibility="visible" />
+
+    <include layout="@layout/error_feed_view"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/feedMotionLayout"
-            android:visibility="visible"/>
+            android:id="@+id/errorFeedLayout"
+            android:visibility="invisible"/>
 
     <ProgressBar
             android:id="@+id/loading"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:layout_gravity="center"
-            android:visibility="invisible"/>
-</FrameLayout>
+            android:visibility="invisible" />
+</androidx.constraintlayout.motion.widget.MotionLayout>

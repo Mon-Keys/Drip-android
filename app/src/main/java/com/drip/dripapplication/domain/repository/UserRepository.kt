@@ -6,6 +6,4 @@ import kotlinx.coroutines.flow.Flow
 
 interface UserRepository {
     fun getUser(): Flow<ResultWrapper<User?>>
-
-    fun getFeed(): Flow<ResultWrapper<List<User>?>>
 }

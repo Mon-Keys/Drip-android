@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navOptions
 import java.util.regex.Pattern
@@ -18,8 +19,9 @@ import com.drip.dripapplication.data.utils.SharedPrefs
 import com.drip.dripapplication.databinding.LoginFragmentBinding
 import com.drip.dripapplication.domain.model.Cridential
 import com.drip.dripapplication.domain.use_case.LoginUseCase
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class LoginFragment : Fragment() {
 
     //ViewBinding
@@ -30,7 +32,7 @@ class LoginFragment : Fragment() {
         fun newInstance() = LoginFragment()
     }
 
-    private lateinit var viewModel: LoginViewModel
+    private val viewModel: LoginViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,9 +44,6 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val appContainer = (activity?.application as App).appContainer
-
-        viewModel = LoginViewModel(LoginUseCase(appContainer.authRepository))
 
         initObservers()
 
@@ -148,7 +147,7 @@ class LoginFragment : Fragment() {
             binding.AuthError.isVisible = it in 300..500
             if (it in 200..299) {
                 //TODO: ("Сделать так, чтобы токен сохранялся в Shared pref, пока захардкодил.")
-                SharedPrefs.authToken = "d1ed78962260b12b4cd88812562fa7a7"
+                SharedPrefs.authToken = "5510f10177d7525211622901dae7bdc9"
                 findNavController().navigate(R.id.action_loginFragment_to_tabsFragment)
             }
         }

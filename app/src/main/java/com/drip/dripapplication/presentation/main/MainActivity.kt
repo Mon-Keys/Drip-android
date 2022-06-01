@@ -1,33 +1,35 @@
-package com.drip.dripapplication.presentation
+package com.drip.dripapplication.presentation.main
 
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
-import com.drip.dripapplication.utils.NetworkStateUtils
+import com.drip.dripapplication.utils.NetworkStateUtil
 import com.drip.dripapplication.R
 import com.drip.dripapplication.data.repository.PreferencesRepositoryImpl
 import com.drip.dripapplication.data.utils.SharedPrefs
+import com.drip.dripapplication.presentation.tabs.TabsFragment
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.flow.collect
+import dagger.hilt.android.AndroidEntryPoint
 
 private val Context.preferencesDataStore: DataStore<Preferences> by preferencesDataStore(name = PreferencesRepositoryImpl.DATASTORE_NAME)
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     //Network Utils
-    private var networkStateUtils: NetworkStateUtils? = null
+    private var networkStateUtils: NetworkStateUtil? = null
 
     // Должны хранить ссылку на текущий navController, так как есть корневой контроллер (для main_graph)
     // и контроллер вкладок (для tabs_graph)
@@ -71,10 +73,12 @@ class MainActivity : AppCompatActivity() {
 
         supportFragmentManager.registerFragmentLifecycleCallbacks(fragmentListener, true)
 
-        // TODO (Поставить нормальную подпись на Snackbar)
-        snackbar = Snackbar.make(findViewById(R.id.coordinatorLayout), R.string.error_from_repository, Snackbar.LENGTH_LONG)
+        snackbar =
+            Snackbar
+                .make(findViewById(R.id.coordinatorLayout), R.string.network_lost, Snackbar.LENGTH_LONG)
+                .setBackgroundTint(ContextCompat.getColor(applicationContext, R.color.red))
 
-        networkStateUtils = NetworkStateUtils(this.applicationContext, snackbar)
+        networkStateUtils = NetworkStateUtil(this.applicationContext, snackbar)
 
 
     }

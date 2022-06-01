@@ -1,7 +1,5 @@
 package com.drip.dripapplication.presentation.feed
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.drip.dripapplication.R
@@ -9,19 +7,18 @@ import com.drip.dripapplication.data.utils.ResultWrapper
 import com.drip.dripapplication.domain.model.User
 import com.drip.dripapplication.domain.use_case.GetFeedUseCase
 import com.drip.dripapplication.domain.use_case.SetReactionUseCase
-import com.drip.dripapplication.presentation.match.MatchUserParcelable
-import kotlinx.coroutines.Dispatchers
+import com.drip.dripapplication.domain.model.MatchUserParcelable
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import okhttp3.Dispatcher
 import timber.log.Timber
-import kotlin.random.Random
+import javax.inject.Inject
 
-class FeedViewModel(
+@HiltViewModel
+class FeedViewModel @Inject constructor(
     private val useCaseFeed: GetFeedUseCase,
     private val useCaseReaction: SetReactionUseCase
 ) : ViewModel() {
@@ -32,40 +29,30 @@ class FeedViewModel(
 
     private val users = mutableListOf<User>()
 
-    var a = true
-
-    val testUsers = mutableListOf<User>(
-        User(Random(1000).nextLong(), "a", 18, "fvfhvevsvreyfvh fhkfr vhgekrbv evyfer", emptyList(), emptyList()),
-        User(Random(1000).nextLong(), "b", 19, "fvfhvevsvreyfvh fhkfr vhgekrbv evyfer", emptyList(), emptyList()),
-        User(Random(1000).nextLong(), "c", 20, "fvfhvevsvreyfvh fhkfr vhgekrbv evyfer", emptyList(), emptyList()),
-        User(Random(1000).nextLong(), "d", 21, "fvfhvevsvreyfvh fhkfr vhgekrbv evyfer", emptyList(), emptyList()),
-        User(Random(1000).nextLong(), "e", 22, "fvfhvevsvreyfvh fhkfr vhgekrbv evyfer", emptyList(), emptyList()),
-    )
-
-    init {
-        Timber.d("Init")
-        getCurrentUser()
-    }
-
-
-
     private fun getUsersList(){
         viewModelScope.launch {
             useCaseFeed.execute().collect {
                 when (it){
                     is ResultWrapper.Loading -> {
-                        Timber.d("Идет загрузка")
+                        Timber.d("Идет загрузка списка пользователей")
                         _uiState.update { currentUiState->
-                            currentUiState.copy(isLoading = true, userCard = null, isEndOfList = false, match = null)
+                            currentUiState.copy(isLoading = true, userCard = null, isEndOfList = false, match = null, error = null, isFeedLoadingError = false)
                         }
                     }
                     is ResultWrapper.Error -> {
-                        Timber.d("Ошибка при загрузке данных")
+                        Timber.d("Ошибка при загрузке списка пользователей")
+                        if (users.isNotEmpty()) _uiState.update { currentUiState->
+                            currentUiState.copy(isLoading = false, error = R.string.error_from_network)
+                        }
+                        else _uiState.update { currentUiState->
+                            currentUiState.copy(isLoading = false, error = R.string.error_from_network,  isFeedLoadingError = true)
+                        }
                     }
                     is ResultWrapper.Success -> {
+                        Timber.d("Добавляем пользователей в локальный список и получаем текущего")
                         if (it.data == null){
                             _uiState.update { currentUiState ->
-                                currentUiState.copy(isEndOfList = true, isLoading = false, userCard = null, match = null)
+                                currentUiState.copy(isEndOfList = true, isLoading = false)
                             }
                         }else{
                             users.clear()
@@ -79,59 +66,49 @@ class FeedViewModel(
         }
     }
 
-    var i = 0;
-    private fun getTestUsers(){
-        users.clear()
-        if (i == 0 || i == 1) {
-            users.addAll(testUsers)
-            i++
-        }else {
-            users.addAll(emptyList())
-        }
-    }
-
-
     fun getCurrentUser(){
-        _uiState.update { currentUiState->
-            currentUiState.copy(isLoading = true, isEndOfList = false, userCard = null, match = null)
-        }
         if (users.isEmpty() || (users.isNotEmpty() && currentIndex > users.lastIndex)) {
             getUsersList()
         }else{
             _uiState.update { currentUiState->
-                currentUiState.copy(userCard = users[currentIndex], isLoading = false, isEndOfList = false, match = null)
+                currentUiState.copy(userCard = users[currentIndex], isLoading = false, error = null, match = null)
             }
         }
     }
 
     fun swipe(userId: Long, reaction:Int){
-        viewModelScope.launch(Dispatchers.IO) {
-            val result = useCaseReaction.execute(userId, reaction)
-            when (result){
-                is ResultWrapper.Error -> {
-                    //Timber.d("Ошибка при загрузке данных")
-                    //_uiState.value = FeedUIState(userCard = users[currentIndex], isLoading = false, isEndOfList = false, match = null)
-                }
-                is ResultWrapper.Success -> {
-                    Timber.d("in Success")
-                    if (result.data){
-                        val user = users[currentIndex]
-                        //_uiState.value = FeedUIState(userCard = null, isLoading = false, isEndOfList = false, match = MatchUserParcelable(user.images.first(), user.name))
-                        withContext(Dispatchers.Main){
+        viewModelScope.launch {
+            useCaseReaction.execute(userId, reaction).collect {
+                when(it){
+                    is ResultWrapper.Loading ->{
+                        Timber.d("Загрузка реакции на свайп")
+                        _uiState.update { currentUiState->
+                            currentUiState.copy(isLoading = true, userCard = null, isEndOfList = false, match = null, error = null, isFeedLoadingError = false)
+                        }
+                    }
+                    is ResultWrapper.Error -> {
+                        Timber.d("Ошибка при получении реакции")
+                        _uiState.update { currentUiState->
+                            currentUiState.copy(isLoading = false, userCard = users[currentIndex], error = R.string.error_from_network)
+                        }
+                    }
+                    is ResultWrapper.Success -> {
+                        if (it.data){
+                            Timber.d("Случился match")
+                            val user = users[currentIndex]
                             _uiState.update { currentUiState->
-                                Timber.d("in Update")
-                                currentUiState.copy(userCard = null, isLoading = false, isEndOfList = false, match = MatchUserParcelable(user.images.first(), user.name))
+                                currentUiState.copy(isLoading = false, match = MatchUserParcelable(user.images.first(), user.name))
 
                             }
                         }
+                        currentIndex += 1
+                        getCurrentUser()
+
+
                     }
-                    Timber.d("After")
-                    currentIndex += 1
-                    getCurrentUser()
-
-
                 }
             }
+
         }
 
     }

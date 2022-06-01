@@ -9,14 +9,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.drip.dripapplication.App
 import com.drip.dripapplication.R
 import com.drip.dripapplication.databinding.SignupFragmentBinding
 import com.drip.dripapplication.domain.model.Cridential
 import com.drip.dripapplication.domain.use_case.SignupUseCase
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.regex.Pattern
 
+@AndroidEntryPoint
 class SignupFragment : Fragment() {
     //ViewBinding
     private var _binding: SignupFragmentBinding? = null
@@ -26,7 +29,7 @@ class SignupFragment : Fragment() {
         fun newInstance() = SignupFragment()
     }
 
-    private lateinit var viewModel: SignupViewModel
+    private val viewModel: SignupViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,9 +41,6 @@ class SignupFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val appContainer = (activity?.application as App).appContainer
-
-        viewModel = SignupViewModel(SignupUseCase(appContainer.authRepository))
 
         initObservers()
 

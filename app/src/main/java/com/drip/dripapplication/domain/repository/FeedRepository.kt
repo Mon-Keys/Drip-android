@@ -1,8 +1,9 @@
 package com.drip.dripapplication.domain.repository
 
 import com.drip.dripapplication.data.utils.ResultWrapper
+import com.drip.dripapplication.domain.model.User
 import kotlinx.coroutines.flow.Flow
 
-interface LikeRepository{
-    suspend fun setReaction(id:Long, reaction: Int): Flow<ResultWrapper<Boolean>>
+interface FeedRepository {
+    fun getFeed(): Flow<ResultWrapper<List<User>?>>
 }
