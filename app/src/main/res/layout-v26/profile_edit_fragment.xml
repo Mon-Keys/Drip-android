@@ -1,0 +1,495 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/gradient_background">
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="@dimen/input_width"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/lg">
+
+            <ImageButton
+                    android:id="@+id/back_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="@id/header_title"
+                    app:layout_constraintBottom_toBottomOf="@id/header_title"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:background="@null"
+                    android:padding="@dimen/sm"
+                    android:src="@drawable/back_button" />
+
+            <TextView
+                    android:id="@+id/header_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/fs1"
+                    android:text="@string/settings_title" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ScrollView
+                android:id="@+id/scroll_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <LinearLayout
+                    android:id="@+id/fields"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                <EditText
+                        android:id="@+id/name"
+                        android:layout_height="@dimen/input_height"
+                        style="@style/SettingsInput"
+                        android:textSize="@dimen/fs3"
+                        android:textStyle="bold"
+                        android:inputType="textPersonName"
+                        android:hint="@string/settings_name" />
+
+                <TextView
+                        android:id="@+id/name_hint"
+                        android:layout_height="wrap_content"
+                        style="@style/SettingsInputHint"
+                        android:visibility="visible"
+                        android:text="@string/settings_name_hint" />
+
+                <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_gravity="center"
+                        style="@style/SettingsInput"
+                        android:layout_height="@dimen/input_height">
+
+                    <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_calendar"
+                            android:contentDescription="@string/email"
+                            android:layout_gravity="center"
+                            android:paddingHorizontal="10dp" />
+
+                    <EditText
+                            android:id="@+id/day"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/futura_bold"
+                            android:hint="@string/day_hint"
+                            android:textStyle="bold"
+                            android:background="@null"
+                            android:layout_gravity="center_vertical"
+                            android:paddingHorizontal="10dp"
+                            android:inputType="number"/>
+
+                    <EditText
+                            android:id="@+id/month"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/futura_bold"
+                            android:hint="@string/month_hint"
+                            android:textStyle="bold"
+                            android:background="@null"
+                            android:layout_gravity="center_vertical"
+                            android:paddingHorizontal="10dp"
+                            android:inputType="number"/>
+
+                    <EditText
+                            android:id="@+id/year"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/futura_bold"
+                            android:hint="@string/year_hint"
+                            android:textStyle="bold"
+                            android:background="@null"
+                            android:layout_gravity="center_vertical"
+                            android:paddingHorizontal="10dp"
+                            android:inputType="number"
+                            android:autoSizeMaxTextSize="@dimen/fs4"/>
+                </LinearLayout>
+
+                <TextView
+                        android:id="@+id/date_hint"
+                        android:layout_height="wrap_content"
+                        style="@style/SettingsInputHint"
+                        android:visibility="visible"
+                        android:text="@string/settings_date_hint" />
+
+                <LinearLayout
+                        android:id="@+id/gender"
+                        android:layout_height="wrap_content"
+                        style="@style/SettingsInput"
+                        android:orientation="vertical">
+
+                    <TextView
+                            android:id="@+id/gender_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/sm"
+                            style="@style/SettingsFieldHeaders"
+                            android:text="@string/settings_gender" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/gender_group"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/xs"
+                            android:orientation="horizontal">
+
+                        <RadioButton
+                                android:id="@+id/gender_man"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                style="@style/Tag"
+                                android:checked="true"
+                                android:text="@string/settings_gender_man" />
+
+                        <RadioButton
+                                android:id="@+id/gender_woman"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                style="@style/Tag"
+                                android:text="@string/settings_gender_woman" />
+
+                        <androidx.constraintlayout.helper.widget.Flow
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:flow_wrapMode="chain"
+                                app:constraint_referenced_ids="gender_man,gender_woman" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </LinearLayout>
+
+                <TextView
+                        android:id="@+id/gender_hint"
+                        android:layout_height="wrap_content"
+                        style="@style/SettingsInputHint"
+                        android:visibility="visible"
+                        android:text="@string/settings_gender_hint" />
+
+                <EditText
+                        android:id="@+id/description"
+                        android:layout_height="@dimen/input_height_description"
+                        style="@style/SettingsInput"
+                        android:gravity="top"
+                        android:paddingTop="@dimen/sm"
+                        android:textSize="@dimen/fs3"
+                        android:textStyle="bold"
+                        android:inputType="date"
+                        android:hint="@string/settings_description" />
+
+                <LinearLayout
+                        android:id="@+id/interests"
+                        android:layout_height="wrap_content"
+                        style="@style/SettingsInput"
+                        android:orientation="vertical">
+
+                    <TextView
+                            android:id="@+id/interests_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/sm"
+                            style="@style/SettingsFieldHeaders"
+                            android:text="@string/settings_interests" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/interests_group"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/xs"
+                            android:orientation="horizontal">
+
+                        <RadioButton
+                                android:id="@+id/interests1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                style="@style/Tag"
+                                android:checked="true"
+                                android:text="@string/settings_interests_rock" />
+
+                        <RadioButton
+                                android:id="@+id/interests2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                style="@style/Tag"
+                                android:text="@string/settings_interests_anime" />
+
+                        <RadioButton
+                                android:id="@+id/interests3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                style="@style/Tag"
+                                android:text="@string/settings_interests_comedy" />
+
+                        <RadioButton
+                                android:id="@+id/interests4"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                style="@style/Tag"
+                                android:checked="true"
+                                android:text="@string/settings_interests_sport" />
+
+                        <RadioButton
+                                android:id="@+id/interests5"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                style="@style/Tag"
+                                android:text="@string/settings_interests_science" />
+
+                        <RadioButton
+                                android:id="@+id/interests6"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                style="@style/Tag"
+                                android:checked="true"
+                                android:text="@string/settings_interests_football" />
+
+                        <RadioButton
+                                android:id="@+id/interests7"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                style="@style/Tag"
+                                android:text="@string/settings_interests_rap" />
+
+                        <RadioButton
+                                android:id="@+id/interests8"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                style="@style/Tag"
+                                android:text="@string/settings_interests_games" />
+
+                        <androidx.constraintlayout.helper.widget.Flow
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:flow_wrapMode="chain"
+                                app:constraint_referenced_ids="interests1,interests2,interests8,interests3,interests4,interests5,interests6,interests7" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                        android:id="@+id/partners_gender"
+                        android:layout_height="wrap_content"
+                        style="@style/SettingsInput"
+                        android:orientation="vertical">
+
+                    <TextView
+                            android:id="@+id/partners_gender_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/sm"
+                            style="@style/SettingsFieldHeaders"
+                            android:text="@string/settings_partners_gender" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/partners_gender_group"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/xs"
+                            android:orientation="horizontal">
+
+                        <RadioButton
+                                android:id="@+id/partners_gender1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                style="@style/Tag"
+                                android:text="@string/settings_partners_gender_man" />
+
+                        <RadioButton
+                                android:id="@+id/partners_gender2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                style="@style/Tag"
+                                android:checked="true"
+                                android:text="@string/settings_partners_gender_woman" />
+
+                        <RadioButton
+                                android:id="@+id/partners_gender3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                style="@style/Tag"
+                                android:text="@string/settings_partners_gender_any" />
+
+                        <androidx.constraintlayout.helper.widget.Flow
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:flow_wrapMode="chain"
+                                app:constraint_referenced_ids="partners_gender1,partners_gender2,partners_gender3" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </LinearLayout>
+
+                <TextView
+                        android:id="@+id/partners_gender_hint"
+                        android:layout_height="wrap_content"
+                        style="@style/SettingsInputHint"
+                        android:visibility="visible"
+                        android:text="@string/settings_partners_gender_hint" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/photo"
+                        android:layout_height="wrap_content"
+                        style="@style/SettingsInput"
+                        android:paddingTop="@dimen/sm"
+                        android:paddingBottom="@dimen/md">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/photo_container1"
+                            android:layout_width="@dimen/settings_photo_container"
+                            android:layout_height="@dimen/settings_photo_container">
+
+                        <ImageView
+                                android:id="@+id/photo1"
+                                android:layout_width="@dimen/settings_photo"
+                                android:layout_height="@dimen/settings_photo"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                android:src="@drawable/photo1" />
+
+                        <ImageButton
+                                android:id="@+id/photo1_delete"
+                                android:layout_width="@dimen/settings_photo_delete"
+                                android:layout_height="@dimen/settings_photo_delete"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                android:src="@drawable/delete_img" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/photo_container2"
+                            android:layout_width="@dimen/settings_photo_container"
+                            android:layout_height="@dimen/settings_photo_container">
+
+                        <ImageView
+                                android:id="@+id/photo2"
+                                android:layout_width="@dimen/settings_photo"
+                                android:layout_height="@dimen/settings_photo"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                android:src="@drawable/photo2" />
+
+                        <ImageButton
+                                android:id="@+id/photo2_delete"
+                                android:layout_width="@dimen/settings_photo_delete"
+                                android:layout_height="@dimen/settings_photo_delete"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                android:src="@drawable/delete_img" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/photo_container3"
+                            android:layout_width="@dimen/settings_photo_container"
+                            android:layout_height="@dimen/settings_photo_container">
+
+                        <ImageView
+                                android:id="@+id/photo3"
+                                android:layout_width="@dimen/settings_photo"
+                                android:layout_height="@dimen/settings_photo"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                android:src="@drawable/photo1" />
+
+                        <ImageButton
+                                android:id="@+id/photo3_delete"
+                                android:layout_width="@dimen/settings_photo_delete"
+                                android:layout_height="@dimen/settings_photo_delete"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                android:src="@drawable/delete_img" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/photo_container4"
+                            android:layout_width="@dimen/settings_photo_container"
+                            android:layout_height="@dimen/settings_photo_container">
+
+                        <ImageView
+                                android:id="@+id/photo4"
+                                android:layout_width="@dimen/settings_photo"
+                                android:layout_height="@dimen/settings_photo"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                android:src="@drawable/photo2" />
+
+                        <ImageButton
+                                android:id="@+id/photo4_delete"
+                                android:layout_width="@dimen/settings_photo_delete"
+                                android:layout_height="@dimen/settings_photo_delete"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                android:src="@drawable/delete_img" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <ImageButton
+                            android:id="@+id/photo_add"
+                            android:layout_width="@dimen/settings_photo_add"
+                            android:layout_height="@dimen/settings_photo_add"
+                            android:background="@null"
+                            android:src="@drawable/add_new_photo" />
+
+                    <androidx.constraintlayout.helper.widget.Flow
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:flow_wrapMode="chain"
+                            app:flow_horizontalBias="0"
+                            app:flow_horizontalStyle="packed"
+                            app:flow_horizontalGap="@dimen/sm"
+                            app:flow_verticalGap="@dimen/sm"
+                            app:constraint_referenced_ids="photo_container1,photo_container2,photo_container3,photo_container4,photo_add"
+                            app:layout_constraintVertical_bias="0.473" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                        android:id="@+id/photo_hint"
+                        android:layout_height="wrap_content"
+                        style="@style/SettingsInputHint"
+                        android:visibility="visible"
+                        android:text="@string/settings_photo_hint" />
+
+                <View
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp" />
+            </LinearLayout>
+        </ScrollView>
+
+    </LinearLayout>
+
+    <Button
+            android:id="@+id/save_button"
+            android:layout_width="144dp"
+            android:layout_gravity="bottom|center"
+            android:layout_marginBottom="@dimen/md"
+            style="@style/SubmitButton"
+            android:text="@string/settings_save" />
+
+</FrameLayout>

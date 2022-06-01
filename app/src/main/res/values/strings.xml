@@ -1,3 +1,60 @@
 <resources>
     <string name="app_name">Drip Application</string>
+
+    <string name="signup">Регистрация</string>
+    <string name="password">Пароль</string>
+    <string name="repeat_password">Повторите пароль</string>
+    <string name="email">Почта</string>
+    <string name="login">Вход</string>
+    <string name="main">Main</string>
+    <string name="likes">Likes</string>
+    <string name="messages">Messages</string>
+    <string name="profile">Profile</string>
+
+
+    <string name="settings_title">Настройки</string>
+    <string name="settings_name">Имя</string>
+    <string name="settings_name_hint">Введите свое настоящее имя</string>
+    <string name="settings_date">дд.мм.гггг</string>
+    <string name="settings_date_hint">Вы должны быть старше 18 лет</string>
+    <string name="settings_gender">Ваш пол</string>
+    <string name="settings_gender_man">Мужчина</string>
+    <string name="settings_gender_woman">Женщина</string>
+    <string name="settings_gender_hint">Укажите свой пол</string>
+    <string name="settings_description">Расскажите о себе</string>
+    <string name="settings_interests">Интересы</string>
+    <string name="settings_interests_rock">рок</string>
+    <string name="settings_interests_anime">аниме</string>
+    <string name="settings_interests_comedy">комедии</string>
+    <string name="settings_interests_sport">спорт</string>
+    <string name="settings_interests_science">наука</string>
+    <string name="settings_interests_football">футбол</string>
+    <string name="settings_interests_rap">рэп</string>
+    <string name="settings_interests_games">игры</string>
+    <string name="settings_partners_gender">Кого вы ищите</string>
+    <string name="settings_partners_gender_man">Мужчину</string>
+    <string name="settings_partners_gender_woman">Женщину</string>
+    <string name="settings_partners_gender_any">Все равно</string>
+    <string name="settings_partners_gender_hint">Укажите свои предпочтения</string>
+    <string name="settings_photo_hint">Добавьте хотя бы 1 фотографию</string>
+    <string name="settings_save">Сохранить</string>
+    <string name="email_hint">Введите почту в формате example@drip.com</string>
+    <string name="password_hint">Пароль должен состоять из A–Z, a–z и 0–9</string>
+    <string name="authError">Неверная почта или пароль</string>
+    <string name="password_hint2">(не менее 8 символов)</string>
+    <string name="repeat_password_hint">Пароли не совпадают</string>
+    <string name="signupError">Пользователь уже существует</string>
+    <string name="error_from_network">Error response from api, try again later</string>
+    <string name="network_lost">Network lost, check your internet connection</string>
+    <string name="day_hint">дд</string>
+    <string name="month_hint">мм</string>
+    <string name="year_hint">гггг</string>
+    <string name="alert_dialog_logout_title">Logout</string>
+    <string name="alert_dialog_logout_text">Do you really want to exit, all local application data will be deleted</string>
+    <string name="alert_dialog_logout_positive_button">Accept</string>
+    <string name="alert_dialog_logout_negative_button">Decline</string>
+    <string name="alert_dialog_logout_neutral_button">Cancel</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="match_with_name">You and %1$s like each other. Action now!</string>
+    <string name="it_s_match">It\'s match!</string>
 </resources>
