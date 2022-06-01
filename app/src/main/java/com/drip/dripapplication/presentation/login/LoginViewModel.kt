@@ -9,9 +9,12 @@ import com.drip.dripapplication.data.utils.ResultWrapper
 import com.drip.dripapplication.domain.model.User
 import com.drip.dripapplication.domain.model.Cridential
 import com.drip.dripapplication.domain.use_case.LoginUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class LoginViewModel(private val useCase: LoginUseCase) : ViewModel() {
+@HiltViewModel
+class LoginViewModel @Inject constructor(private val useCase: LoginUseCase) : ViewModel() {
     private val _userInfo = MutableLiveData<User?>()
     val userInfo: LiveData<User?> = _userInfo
 

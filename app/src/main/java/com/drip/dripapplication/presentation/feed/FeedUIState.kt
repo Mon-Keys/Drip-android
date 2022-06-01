@@ -1,7 +1,7 @@
 package com.drip.dripapplication.presentation.feed
 
 import com.drip.dripapplication.domain.model.User
-import com.drip.dripapplication.presentation.match.MatchUserParcelable
+import com.drip.dripapplication.domain.model.MatchUserParcelable
 
 data class FeedUIState(
     val userCard: User? = null,

@@ -9,19 +9,23 @@ import android.view.View
 import android.view.ViewGroup
 import android.text.InputFilter
 import androidx.core.view.isVisible
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navOptions
+import com.bumptech.glide.Glide
 import com.drip.dripapplication.App
 import com.drip.dripapplication.R
 import com.drip.dripapplication.databinding.ProfileEditFragmentBinding
+import com.drip.dripapplication.domain.model.MatchUserParcelable
 import com.drip.dripapplication.domain.use_case.EditProfileUseCase
-import com.drip.dripapplication.domain.use_case.GetProfileEditUseCase
 import com.drip.dripapplication.domain.model.User
 import com.drip.dripapplication.domain.model.UserRequest
 import com.drip.dripapplication.presentation.findTopNavController
+import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import java.util.regex.Pattern
 
+@AndroidEntryPoint
 class ProfileEditFragment : Fragment() {
 
     //ViewBinding
@@ -33,7 +37,7 @@ class ProfileEditFragment : Fragment() {
     }
 
     //ViewModel
-    private lateinit var viewModel: ProfileEditViewModel
+    private val viewModel: ProfileEditViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,12 +50,8 @@ class ProfileEditFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val appContainer = (activity?.application as App).appContainer
-
-        viewModel = ProfileEditViewModel(
-            GetProfileEditUseCase(appContainer.userRepository),
-            EditProfileUseCase(appContainer.profileRepository)
-        ) // TODO edit!!!
+        //args
+        val userData = arguments?.getParcelable<User>("userFromProfile")
 
         binding.nameHint.isVisible = false
         binding.dateHint.isVisible = false
@@ -59,6 +59,30 @@ class ProfileEditFragment : Fragment() {
         binding.day.filters += InputFilter.LengthFilter(2)
         binding.month.filters += InputFilter.LengthFilter(2)
         binding.year.filters += InputFilter.LengthFilter(4)
+
+        //Hardcode
+        binding.day.setText("01")
+        binding.month.setText("12")
+        binding.year.setText("2000")
+        binding.name.setText(userData?.name)
+        binding.description.setText(userData?.description)
+
+        Glide.with(this)
+            .load(userData?.images?.get(0))
+            .into(binding.photo1)
+
+        Glide.with(this)
+            .load(userData?.images?.get(1))
+            .into(binding.photo2)
+
+        Glide.with(this)
+            .load(userData?.images?.get(2))
+            .into(binding.photo3)
+
+        Glide.with(this)
+            .load(userData?.images?.get(3))
+            .into(binding.photo4)
+
 
         initObservers()
 
@@ -153,8 +177,8 @@ class ProfileEditFragment : Fragment() {
                 "male",
                 binding.description.getText().toString(),
                 "",
-                listOf("https://sun9-68.userapi.com/s/v1/if2/4eB6CMU1pYvI8PU4zmzg1Qieiqt5YTNFDOrUnM7uyCJNfUo1GDJzwtDsQjWzIB1IV6bXHs0xOmdP7xVRAZC6FQSl.jpg?size=2160x2160&quality=96&type=album"),
-                listOf("Fowler", "Beck", "Evans")
+                userData?.images ?: emptyList(),
+                listOf("Рок", "Спорт", "Футбол")
             )
 
             viewModel.update(user)

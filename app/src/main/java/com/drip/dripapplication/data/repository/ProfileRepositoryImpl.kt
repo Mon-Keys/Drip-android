@@ -17,7 +17,7 @@ class ProfileRepositoryImpl(
 ) : ProfileRepository {
     override fun update(user: UserRequest): Flow<ResultWrapper<User?>> = flow {
         emit(ResultWrapper.Loading)
-        delay(1000)
+        delay(500)
         try {
             val response = api.update(user.toRepModel())
             Timber.i("$response")

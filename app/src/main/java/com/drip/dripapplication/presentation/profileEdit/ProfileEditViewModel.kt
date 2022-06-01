@@ -7,13 +7,14 @@ import androidx.lifecycle.viewModelScope
 import com.drip.dripapplication.data.utils.ResultWrapper
 import com.drip.dripapplication.domain.model.User
 import com.drip.dripapplication.domain.model.UserRequest
-import com.drip.dripapplication.domain.use_case.GetProfileEditUseCase
 import com.drip.dripapplication.domain.use_case.EditProfileUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ProfileEditViewModel(
-    private val useCase: GetProfileEditUseCase,
+@HiltViewModel
+class ProfileEditViewModel @Inject constructor(
     private val editProfileUseCase: EditProfileUseCase
 ) : ViewModel() {
     private val _userInfo = MutableLiveData<User?>()

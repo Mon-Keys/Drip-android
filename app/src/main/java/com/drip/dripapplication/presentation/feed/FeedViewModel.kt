@@ -1,4 +1,4 @@
-package com.drip.dripapplication.presentation.feed.viewModel
+package com.drip.dripapplication.presentation.feed
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -7,20 +7,18 @@ import com.drip.dripapplication.data.utils.ResultWrapper
 import com.drip.dripapplication.domain.model.User
 import com.drip.dripapplication.domain.use_case.GetFeedUseCase
 import com.drip.dripapplication.domain.use_case.SetReactionUseCase
-import com.drip.dripapplication.presentation.feed.FeedUIState
-import com.drip.dripapplication.presentation.match.MatchUserParcelable
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
+import com.drip.dripapplication.domain.model.MatchUserParcelable
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import timber.log.Timber
-import kotlin.random.Random
+import javax.inject.Inject
 
-class FeedViewModel(
+@HiltViewModel
+class FeedViewModel @Inject constructor(
     private val useCaseFeed: GetFeedUseCase,
     private val useCaseReaction: SetReactionUseCase
 ) : ViewModel() {

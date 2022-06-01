@@ -8,8 +8,8 @@ import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.drip.dripapplication.R
-import com.drip.dripapplication.databinding.FeedFragmentBinding
 import com.drip.dripapplication.databinding.FragmentMatchBinding
+import com.drip.dripapplication.domain.model.MatchUserParcelable
 import com.drip.dripapplication.presentation.findTopNavController
 import timber.log.Timber
 
@@ -38,6 +38,7 @@ class MatchFragment : Fragment() {
 
         Glide.with(view)
             .load("https://drip.monkeys.team/${userData?.photo}")
+            //.load("${userData?.photo}")
             .diskCacheStrategy(DiskCacheStrategy.NONE)
             .centerCrop()
             .placeholder(R.drawable.icon_baseline_image)

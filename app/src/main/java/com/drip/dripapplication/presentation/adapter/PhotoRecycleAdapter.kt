@@ -1,4 +1,4 @@
-package com.drip.dripapplication.utils.adapter
+package com.drip.dripapplication.presentation.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -19,9 +19,8 @@ class PhotoRecycleAdapter : RecyclerView.Adapter<PhotoRecycleAdapter.ViewHolder>
         fun bind(photo: String){
             //Glide
             Glide.with(itemView)
-                //.load("https://drip.monkeys.team/$photo")
-                .load(photo)
-                .centerCrop()
+                .load("https://drip.monkeys.team/$photo")
+                //.load(photo)
                 .placeholder(R.drawable.icon_baseline_image)
                 .error(R.drawable.icon_baseline_broken_image)
                 .into(itemBinding.profilePhoto)

@@ -1,4 +1,4 @@
-package com.drip.dripapplication.presentation
+package com.drip.dripapplication.presentation.main
 
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
@@ -19,10 +19,13 @@ import com.drip.dripapplication.utils.NetworkStateUtil
 import com.drip.dripapplication.R
 import com.drip.dripapplication.data.repository.PreferencesRepositoryImpl
 import com.drip.dripapplication.data.utils.SharedPrefs
+import com.drip.dripapplication.presentation.tabs.TabsFragment
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 
 private val Context.preferencesDataStore: DataStore<Preferences> by preferencesDataStore(name = PreferencesRepositoryImpl.DATASTORE_NAME)
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     //Network Utils
