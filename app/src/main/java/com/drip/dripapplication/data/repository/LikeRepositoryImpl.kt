@@ -19,7 +19,7 @@ class LikeRepositoryImpl(
             val response = api.setReaction(LikeRequestBody(id,reaction))
             if (response.status == 200){
                 val matchDto = response.body!!
-                emit(ResultWrapper.Success(200, matchDto.match))
+                emit(ResultWrapper.Success(matchDto.match))
             }else{
                 emit(ResultWrapper.Error(Exception("Bad response status")))
             }

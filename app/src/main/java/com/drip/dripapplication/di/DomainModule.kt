@@ -28,4 +28,10 @@ class DomainModule {
 
     @Provides
     fun provideSignUpUseCase(repository: AuthRepository): SignupUseCase = SignupUseCase(repository)
+
+    @Provides
+    fun provideLogoutUseCase(repository: PreferencesRepository): LogoutUseCase = LogoutUseCase(repository)
+
+    @Provides
+    fun provideCheckSignInUseCase(repository: PreferencesRepository): CheckSignInUseCase = CheckSignInUseCase(repository)
 }

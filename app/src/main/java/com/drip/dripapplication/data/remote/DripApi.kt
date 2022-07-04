@@ -10,10 +10,10 @@ interface DripApi {
     suspend fun getUserInfo(): Response<ResponseWrapper<UserDto>>
 
     @POST("api/v1/auth/session")
-    suspend fun login(@Body cridential: CridentialDto): Response<ResponseWrapper<UserDto>>
+    suspend fun login(@Body credential: CredentialDto): ResponseWrapper<Any>
 
     @POST("api/v1/auth/profile")
-    suspend fun signup(@Body cridential: CridentialDto): Response<ResponseWrapper<SignupResponseDto>>
+    suspend fun signup(@Body cridential: CredentialDto): Response<ResponseWrapper<SignupResponseDto>>
 
     @PUT("api/v1/profile")
     suspend fun update(@Body user: UserRequestBody): Response<ResponseWrapper<UserDto>>

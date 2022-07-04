@@ -25,11 +25,10 @@ class UserRepositoryImpl(
             val response = api.getUserInfo()
             Timber.d("$response")
             if (response.isSuccessful && response.body()!=null){
-                val status = response.body()!!.status
                 val userDto = response.body()!!.body
                 val userDomain = userDto?.toDomainModel()
 
-                emit(ResultWrapper.Success(status, userDomain))
+                emit(ResultWrapper.Success(userDomain))
 
             }else{
                 TODO("Берем данные из кэша")

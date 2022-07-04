@@ -1,24 +1,17 @@
 package com.drip.dripapplication.presentation.login
 
-import android.graphics.Color
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.navOptions
-import java.util.regex.Pattern
-import com.drip.dripapplication.App
 import com.drip.dripapplication.R
-import com.drip.dripapplication.data.utils.SharedPrefs
 import com.drip.dripapplication.databinding.LoginFragmentBinding
-import com.drip.dripapplication.domain.model.Cridential
-import com.drip.dripapplication.domain.use_case.LoginUseCase
+import com.drip.dripapplication.domain.model.Credential
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -47,91 +40,22 @@ class LoginFragment : Fragment() {
 
         initObservers()
 
-        binding.EmailHint.isVisible = false
-        binding.PasswordHint.isVisible = false
-        binding.AuthError.isVisible = false
-        binding.EmailCorrect.visibility = View.INVISIBLE
-        binding.PasswordCorrect.visibility = View.INVISIBLE
-
-        //ViewPager buttons
         binding.LoginButton.setOnClickListener {
-            val isValidEmail: Boolean = Pattern.matches(
-                "^[a-zA-Z0-9.!#\$%&'*+=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*\$",
-                binding.Email.getText().toString()
-            )
-            val isValidPassword: Boolean =
-                Pattern.matches("^[a-zA-z\\d]{8,20}\$", binding.Password.getText().toString())
-
-            if (!isValidEmail || !isValidPassword) {
-                binding.EmailHint.setTextColor(Color.RED)
-                binding.PasswordHint1.setTextColor(Color.RED)
-                binding.PasswordHint2.setTextColor(Color.RED)
-                binding.EmailHint.isVisible = !isValidEmail
-                binding.PasswordHint.isVisible = !isValidPassword
-                return@setOnClickListener
-            }
-
-            viewModel.login(
-                Cridential(
-                    binding.Email.getText().toString(),
-                    binding.Password.getText().toString()
-                )
-            )
+            viewModel.login(Credential(binding.inputEmail.text.toString(), binding.inputPassword.text.toString()))
         }
 
         binding.SignupButton.setOnClickListener {
             findNavController().navigate(R.id.action_loginFragment_to_signupFragment)
         }
 
-        binding.Email.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(p0: Editable?) {}
+        binding.inputPassword.doOnTextChanged { text, _, _, _ ->
+            viewModel.validatePassword(text)
+        }
 
-            override fun beforeTextChanged(p0: CharSequence?, s: Int, start: Int, count: Int) {
-                binding.PasswordHint1.setTextColor(Color.RED)
-                binding.PasswordHint2.setTextColor(Color.RED)
-            }
+        binding.inputEmail.doOnTextChanged { text, _, _, _ ->
+            viewModel.validateEmail(text)
+        }
 
-            override fun onTextChanged(
-                string: CharSequence, start: Int, before: Int, count: Int
-            ) {
-                binding.AuthError.isVisible = false
-                val isValidEmail: Boolean = Pattern.matches(
-                    "^[a-zA-Z0-9.!#\$%&'*+=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*\$",
-                    string
-                )
-                binding.EmailHint.setTextColor(Color.GRAY)
-                binding.EmailHint.isVisible = !isValidEmail
-                if (isValidEmail) {
-                    binding.EmailCorrect.visibility = View.VISIBLE
-                } else {
-                    binding.EmailCorrect.visibility = View.INVISIBLE
-                }
-            }
-        })
-
-        binding.Password.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(p0: Editable?) {}
-
-            override fun beforeTextChanged(p0: CharSequence?, s: Int, start: Int, count: Int) {
-                binding.EmailHint.setTextColor(Color.RED)
-            }
-
-            override fun onTextChanged(
-                string: CharSequence, start: Int, before: Int, count: Int
-            ) {
-                binding.AuthError.isVisible = false
-                val isValidPassword: Boolean =
-                    Pattern.matches("^[a-zA-z\\d]{8,20}\$", string)
-                binding.PasswordHint1.setTextColor(Color.GRAY)
-                binding.PasswordHint2.setTextColor(Color.GRAY)
-                binding.PasswordHint.isVisible = !isValidPassword
-                if (isValidPassword) {
-                    binding.PasswordCorrect.visibility = View.VISIBLE
-                } else {
-                    binding.PasswordCorrect.visibility = View.INVISIBLE
-                }
-            }
-        })
     }
 
     override fun onDestroyView() {
@@ -140,16 +64,24 @@ class LoginFragment : Fragment() {
     }
 
     private fun initObservers() {
-        viewModel.loadingState.observe(viewLifecycleOwner) {
+        viewModel.loginButton.observe(viewLifecycleOwner){
+            binding.LoginButton.isEnabled = it
         }
 
-        viewModel.status.observe(viewLifecycleOwner) {
-            binding.AuthError.isVisible = it in 300..500
-            if (it in 200..299) {
-                //TODO: ("Сделать так, чтобы токен сохранялся в Shared pref, пока захардкодил.")
-                SharedPrefs.authToken = "5510f10177d7525211622901dae7bdc9"
-                findNavController().navigate(R.id.action_loginFragment_to_tabsFragment)
-            }
+        viewModel.validEmail.observe(viewLifecycleOwner){
+            binding.layoutEmail.error = it.error?.let { error -> getText(error) }
         }
+
+        viewModel.validPassword.observe(viewLifecycleOwner){
+            binding.layoutPassword.error = it.error?.let { error -> getText(error) }
+        }
+
+        viewModel.isLogin.observe(viewLifecycleOwner){
+            if (it) findNavController().navigate(R.id.action_loginFragment_to_tabsFragment)
+            else Snackbar
+                .make(binding.root, R.string.error_auth, Snackbar.LENGTH_LONG)
+                .show()
+        }
+
     }
 }

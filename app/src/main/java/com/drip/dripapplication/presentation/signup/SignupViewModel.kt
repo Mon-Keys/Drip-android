@@ -5,9 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.drip.dripapplication.data.utils.ResultWrapper
-import com.drip.dripapplication.domain.model.Cridential
+import com.drip.dripapplication.domain.model.Credential
 import com.drip.dripapplication.domain.model.SignupResponse
-import com.drip.dripapplication.domain.model.User
 import com.drip.dripapplication.domain.use_case.SignupUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
@@ -25,9 +24,9 @@ class SignupViewModel @Inject constructor(private val useCase: SignupUseCase) : 
     private val _status = MutableLiveData<Int>()
     val status: LiveData<Int> = _status
 
-    fun signup(cridential: Cridential) {
+    fun signup(credential: Credential) {
         viewModelScope.launch {
-            useCase.invoke(cridential).collect {
+            useCase.invoke(credential).collect {
                 when (it) {
                     is ResultWrapper.Loading -> {
                         println("Идет загрузка")
@@ -40,7 +39,7 @@ class SignupViewModel @Inject constructor(private val useCase: SignupUseCase) : 
                     is ResultWrapper.Success -> {
                         _loadingState.value = false
                         _userInfo.value = it.data
-                        _status.value = it.status
+                        //_status.value = it.status
                     }
                 }
             }

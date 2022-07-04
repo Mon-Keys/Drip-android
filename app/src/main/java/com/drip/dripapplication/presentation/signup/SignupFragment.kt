@@ -11,11 +11,9 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.drip.dripapplication.App
 import com.drip.dripapplication.R
 import com.drip.dripapplication.databinding.SignupFragmentBinding
-import com.drip.dripapplication.domain.model.Cridential
-import com.drip.dripapplication.domain.use_case.SignupUseCase
+import com.drip.dripapplication.domain.model.Credential
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.regex.Pattern
 
@@ -77,7 +75,7 @@ class SignupFragment : Fragment() {
             }
 
             viewModel.signup(
-                Cridential(
+                Credential(
                     binding.Email.getText().toString(),
                     binding.Password.getText().toString()
                 )
