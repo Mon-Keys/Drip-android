@@ -10,7 +10,4 @@ class LoginUseCase (private val repository: AuthRepository) {
         return repository.login(credential)
     }
 
-    suspend fun invoke1(credential: Credential): Boolean {
-        return repository.login1(credential)
-    }
 }

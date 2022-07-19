@@ -8,6 +8,4 @@ import kotlinx.coroutines.flow.Flow
 interface AuthRepository {
     fun login(credential: Credential): Flow<ResultWrapper<Boolean>>
     fun signup(credential: Credential): Flow<ResultWrapper<SignupResponse?>>
-
-    suspend fun login1(credential: Credential): Boolean
 }

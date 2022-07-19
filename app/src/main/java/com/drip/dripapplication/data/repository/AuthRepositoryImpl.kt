@@ -52,16 +52,4 @@ class AuthRepositoryImpl(
         }
     }
         .flowOn(Dispatchers.IO)
-
-    override suspend fun login1(credential: Credential): Boolean {
-        return try {
-            val response = api.login(credential.toRepModel())
-            Timber.d("$response")
-            true
-            //response.status in 200..299
-        } catch (e: Exception) {
-            Timber.e(e)
-            false
-        }
-    }
 }
