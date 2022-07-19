@@ -13,7 +13,6 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.navOptions
 import androidx.viewpager2.widget.ViewPager2
 import com.drip.dripapplication.R
-import com.drip.dripapplication.data.utils.SharedPrefs
 import com.drip.dripapplication.databinding.ProfileFragmentBinding
 import com.drip.dripapplication.domain.model.User
 import com.drip.dripapplication.presentation.findTopNavController
@@ -76,12 +75,7 @@ class ProfileFragment : Fragment() {
                 .setMessage(getString(R.string.alert_dialog_logout_text))
                 .setPositiveButton(getString(R.string.alert_dialog_logout_positive_button)
                 ) { _, _ ->
-                    SharedPrefs.authToken = ""
-                    findTopNavController().navigate(R.id.loginFragment, null, navOptions{
-                        popUpTo(R.id.tabsFragment){
-                            inclusive = true
-                        }
-                    })
+                    viewModel.logout()
                 }
                 .setNeutralButton(getString(R.string.alert_dialog_logout_neutral_button)
                 ){ dialog, _ ->
@@ -172,6 +166,21 @@ class ProfileFragment : Fragment() {
                 .make(binding.root, it, Snackbar.LENGTH_LONG)
                 .setAnchorView(R.id.bottom_nav)
                 .show()
+        }
+
+        viewModel.isLogout.observe(viewLifecycleOwner){
+            if (it) {
+                findTopNavController().navigate(R.id.loginFragment, null, navOptions{
+                    popUpTo(R.id.tabsFragment){
+                        inclusive = true
+                    }
+                })
+            }else {
+                Snackbar
+                    .make(binding.root, R.string.error_unknown, Snackbar.LENGTH_LONG)
+                    .setAnchorView(R.id.bottom_nav)
+                    .show()
+            }
         }
     }
 

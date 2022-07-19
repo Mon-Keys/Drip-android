@@ -41,7 +41,7 @@ class ProfileEditViewModel @Inject constructor(
                     is ResultWrapper.Success -> {
                         _loadingState.value = false
                         _userInfo.value = it.data
-                        _status.value = it.status
+                        //_status.value = it.status
                     }
                 }
             }

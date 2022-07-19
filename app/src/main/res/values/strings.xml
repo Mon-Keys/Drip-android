@@ -57,4 +57,11 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="match_with_name">You and %1$s like each other. Action now!</string>
     <string name="it_s_match">It\'s match!</string>
+    <string name="error_short_password">Password must be at least 8 characters long</string>
+    <string name="error_long_password">Password must be up to 20 characters long</string>
+    <string name="error_email">Invalidate email format</string>
+    <string name="email_field">Email</string>
+    <string name="password_field">Password</string>
+    <string name="error_unknown">Something went wrong. Try again later</string>
+    <string name="error_auth">Invalid email or password</string>
 </resources>

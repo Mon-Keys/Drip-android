@@ -23,10 +23,9 @@ class ProfileRepositoryImpl(
             Timber.i("$response")
             if (response.isSuccessful && response.body() != null) {
                 Timber.i("UserDto=${response.body()}")
-                val status = response.body()!!.status
                 val userDto = response.body()!!.body
                 val userDomain = userDto?.toDomainModel()
-                emit(ResultWrapper.Success(status, userDomain))
+                emit(ResultWrapper.Success(userDomain))
             } else {
                 Timber.i("status=${response.isSuccessful}")
                 TODO("Берем данные из кэша")

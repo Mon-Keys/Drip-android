@@ -9,7 +9,10 @@
     <color name="white">#FFFFFFFF</color>
     <color name="gray">#cdcdcd</color>
     <color name="blue">#9099D7EB</color>
+    <color name="red3">#90E65E5E</color>
     <color name="red">#f25f5c</color>
     <color name="red2">#ba67cc</color>
     <color name="gradient_first">#008EEE</color>
+    <color name="white_dim">#8BFFFFFF</color>
+    <color name="validate_error">#FFE41919</color>
 </resources>

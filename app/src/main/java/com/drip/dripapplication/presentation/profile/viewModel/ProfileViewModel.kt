@@ -8,6 +8,7 @@ import com.drip.dripapplication.R
 import com.drip.dripapplication.data.utils.ResultWrapper
 import com.drip.dripapplication.domain.model.User
 import com.drip.dripapplication.domain.use_case.GetUserInfoUseCase
+import com.drip.dripapplication.domain.use_case.LogoutUseCase
 import com.drip.dripapplication.utils.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
@@ -15,7 +16,10 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ProfileViewModel @Inject constructor(private val useCase: GetUserInfoUseCase) : ViewModel() {
+class ProfileViewModel @Inject constructor(
+    private val useCase: GetUserInfoUseCase,
+    private val logOutUseCase: LogoutUseCase
+    ) : ViewModel() {
     private val _userInfo = MutableLiveData<User?>()
     val userInfo: LiveData<User?> = _userInfo
 
@@ -25,6 +29,9 @@ class ProfileViewModel @Inject constructor(private val useCase: GetUserInfoUseCa
     private val _errorMessage = SingleLiveEvent<Int>()
     val errorMessage: SingleLiveEvent<Int>
         get() = _errorMessage
+
+    private val _isLogout = SingleLiveEvent<Boolean>()
+    val isLogout: SingleLiveEvent<Boolean> = _isLogout
 
     fun getUserInfo(){
         viewModelScope.launch {
@@ -43,6 +50,12 @@ class ProfileViewModel @Inject constructor(private val useCase: GetUserInfoUseCa
                     }
                 }
             }
+        }
+    }
+
+    fun logout(){
+        viewModelScope.launch {
+            _isLogout.value = logOutUseCase.invoke()
         }
     }
 

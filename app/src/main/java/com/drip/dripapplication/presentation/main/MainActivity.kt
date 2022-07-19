@@ -1,29 +1,27 @@
 package com.drip.dripapplication.presentation.main
 
-import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.drip.dripapplication.utils.NetworkStateUtil
 import com.drip.dripapplication.R
-import com.drip.dripapplication.data.repository.PreferencesRepositoryImpl
-import com.drip.dripapplication.data.utils.SharedPrefs
+import com.drip.dripapplication.domain.repository.PreferencesRepository
+import com.drip.dripapplication.presentation.profile.viewModel.ProfileViewModel
 import com.drip.dripapplication.presentation.tabs.TabsFragment
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
-private val Context.preferencesDataStore: DataStore<Preferences> by preferencesDataStore(name = PreferencesRepositoryImpl.DATASTORE_NAME)
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -36,6 +34,9 @@ class MainActivity : AppCompatActivity() {
     private var navController: NavController? = null
 
     private val topLevelDestinations = setOf(getTabsDestination(), getLoginDestination())
+
+    //ViewModel
+    private val viewModel: MainViewModel by viewModels()
 
     //Snackbar
     private var snackbar: Snackbar? = null
@@ -61,9 +62,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
-        //SharedPrefs TODO(Сделать datastore через внедрение зависимостей)
-        val isSigned = !SharedPrefs.authToken.isNullOrEmpty()
+        val isSigned = viewModel.checkLogin()
 
         // preparing root nav controller
         val navController = getRootNavController()

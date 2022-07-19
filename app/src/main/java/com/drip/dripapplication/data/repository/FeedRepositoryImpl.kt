@@ -24,7 +24,7 @@ class FeedRepositoryImpl(private val api: DripApi): FeedRepository {
                 val userDomain = usersDto?.map{
                     it.toDomainModel()
                 }
-                emit(ResultWrapper.Success(200,userDomain))
+                emit(ResultWrapper.Success(userDomain))
 
             }else{
                 emit(ResultWrapper.Error(Exception("Some bad response code or body")))

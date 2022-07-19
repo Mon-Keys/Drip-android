@@ -1,5 +1,6 @@
 package com.drip.dripapplication.di
 
+import android.content.Context
 import com.drip.dripapplication.data.remote.DripApi
 import com.drip.dripapplication.data.repository.*
 import com.drip.dripapplication.data.utils.AddTokenHeaderInterceptor
@@ -7,14 +8,12 @@ import com.drip.dripapplication.domain.repository.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import okhttp3.OkHttp
-import okhttp3.OkHttpClient
+import okhttp3.*
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
-import retrofit2.create
-import timber.log.Timber
 import javax.inject.Singleton
 
 @Module
@@ -23,15 +22,42 @@ class DataModule {
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(): OkHttpClient{
-        return OkHttpClient.Builder()
-            .addInterceptor(AddTokenHeaderInterceptor())
-            .addInterceptor(
-                HttpLoggingInterceptor {
-                    Timber.tag("Network").d(it)
+    fun provideCookieJar(repository: PreferencesRepository): CookieJar {
+        return object : CookieJar {
+            override fun loadForRequest(url: HttpUrl): List<Cookie> {
+                return emptyList()
+            }
+
+            override fun saveFromResponse(url: HttpUrl, cookies: List<Cookie>) {
+                cookies.forEach {
+                    if (it.name == "sessionId"){
+                        repository.saveToken(it.value)
+                    }
                 }
-                    .setLevel(HttpLoggingInterceptor.Level.BODY)
-            )
+            }
+
+        }
+    }
+
+    @Provides
+    @Singleton
+    fun provideLoggingInterceptor(): HttpLoggingInterceptor = HttpLoggingInterceptor().apply { setLevel(HttpLoggingInterceptor.Level.BODY) }
+
+    @Provides
+    @Singleton
+    fun provideTokenInterceptor(repository: PreferencesRepository): AddTokenHeaderInterceptor = AddTokenHeaderInterceptor(repository)
+
+    @Provides
+    @Singleton
+    fun provideOkHttpClient(
+        cookieJar: CookieJar,
+        tokenInterceptor: AddTokenHeaderInterceptor,
+        loggingInterceptor: HttpLoggingInterceptor
+    ): OkHttpClient{
+        return OkHttpClient.Builder()
+            .cookieJar(cookieJar)
+            .addInterceptor(tokenInterceptor)
+            .addInterceptor(loggingInterceptor)
             .build()
     }
 
@@ -68,4 +94,8 @@ class DataModule {
     @Provides
     @Singleton
     fun provideProfileRepository(api: DripApi): ProfileRepository = ProfileRepositoryImpl(api)
+
+    @Provides
+    @Singleton
+    fun providePreferencesRepository(@ApplicationContext context: Context): PreferencesRepository = PreferencesRepositoryImpl(context.getSharedPreferences(PreferencesRepositoryImpl.DATASTORE_NAME, Context.MODE_APPEND))
 }
